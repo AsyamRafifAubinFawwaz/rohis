@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\GalleriesController;
 use App\Http\Controllers\Admin\TaskCategoryController;
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Superadmin\ActivitiesController;
 use App\Http\Controllers\Superadmin\AnnouncementsController;
 use App\Http\Controllers\Superadmin\CategoriesController;
+use App\Http\Controllers\Superadmin\GalleriesController as SuperadminGalleriesController;
 use App\Http\Controllers\Superadmin\PostsCategoriesController;
 use App\Http\Controllers\Superadmin\PostsController as SuperadminPostsController;
 use App\Http\Controllers\Superadmin\ProfilesController;
@@ -93,7 +93,7 @@ Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(func
         Route::get('/update/{id}', [ActivitiesController::class, 'update'])->name('update');
         Route::post('/update/{id}', [ActivitiesController::class, 'doUpdate'])->name('doUpdate');
         Route::delete('/delete/{id}', [ActivitiesController::class, 'delete'])->name('delete');
-        Route::delete('/forceDelete/{id}', [ActivitiesController::class, 'forceDelete'])->name('forceDelete');
+        Route::delete('/force-delete/{id}', [ActivitiesController::class, 'forceDelete'])->name('forceDelete');
         Route::post('/restore/{id}', [ActivitiesController::class, 'restore'])->name('restore');
     });
 
@@ -122,8 +122,9 @@ Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(func
         Route::post('/create', [SuperadminPostsController::class, 'doCreate'])->name('create');
         Route::get('/update/{id}', [SuperadminPostsController::class, 'update'])->name('update');
         Route::post('/update/{id}', [SuperadminPostsController::class, 'doUpdate'])->name('doUpdate');
+        Route::get('/trash', [SuperadminPostsController::class, 'trash'])->name('trash');
         Route::delete('/delete/{id}', [SuperadminPostsController::class, 'delete'])->name('delete');
-        Route::delete('/forceDelete/{id}', [SuperadminPostsController::class, 'forceDelete'])->name('forceDelete');
+        Route::delete('/force-delete/{id}', [SuperadminPostsController::class, 'forceDelete'])->name('forceDelete');
         Route::post('/restore/{id}', [SuperadminPostsController::class, 'restore'])->name('restore');
         Route::post('/approve/{id}', [SuperadminPostsController::class, 'approve'])->name('approve');
         Route::post('/reject/{id}', [SuperadminPostsController::class, 'reject'])->name('reject');
@@ -149,11 +150,11 @@ Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(func
     });
 
     Route::prefix('galleries')->name('galleries.')->group(function () {
-        Route::get('/', [GalleriesController::class, 'index'])->name('index');
-        Route::get('/add', [GalleriesController::class, 'add'])->name('add');
-        Route::post('/create', [GalleriesController::class, 'doCreate'])->name('create');
-        Route::get('/update/{id}', [GalleriesController::class, 'update'])->name('update');
-        Route::post('/update/{id}', [GalleriesController::class, 'doUpdate'])->name('doUpdate');
-        Route::delete('/delete/{id}', [GalleriesController::class, 'delete'])->name('delete');
+        Route::get('/', [SuperadminGalleriesController::class, 'index'])->name('index');
+        Route::get('/add', [SuperadminGalleriesController::class, 'add'])->name('add');
+        Route::post('/create', [SuperadminGalleriesController::class, 'doCreate'])->name('create');
+        Route::get('/update/{id}', [SuperadminGalleriesController::class, 'update'])->name('update');
+        Route::post('/update/{id}', [SuperadminGalleriesController::class, 'doUpdate'])->name('doUpdate');
+        Route::delete('/delete/{id}', [SuperadminGalleriesController::class, 'delete'])->name('delete');
     });
 });

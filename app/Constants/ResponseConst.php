@@ -27,7 +27,8 @@ class ResponseConst
     const SUCCESS_MESSAGE_UPDATED = 'Data berhasil diperbarui';
 
     const SUCCESS_MESSAGE_DELETED = 'Data berhasil dihapus';
-
+    
+    const  SUCCESS_MESSAGE_DELETED_PERMANENTLY = 'Data berhasil dihapus permanen';
     const SUCCESS_MESSAGE_RESTORED = 'Data berhasil dikembalikan';
 
     const SUCCESS_MESSAGE_CREATED = 'Data berhasil dibuat';

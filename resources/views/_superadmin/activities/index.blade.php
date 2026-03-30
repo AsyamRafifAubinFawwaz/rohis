@@ -155,7 +155,7 @@
                         </a>
 
                         <p class="text-gray-500 dark:text-neutral-400 text-sm leading-relaxed font-normal line-clamp-3 mb-6">
-                            {{ strip_tags($activity->description) ?: 'No description available for this activity.' }}
+                            {{ $activity->description->toPlainText() ?: 'No description available for this activity.' }}
                         </p>
 
                         <!-- Footer Meta -->
@@ -206,7 +206,6 @@
             @endforelse
         </div>
 
-        <!-- Pagination -->
         @if ($activities->hasPages())
             <div class="mt-6 px-2">
                 {{ $activities->links() }}
@@ -214,7 +213,6 @@
         @endif
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div id="delete-modal" class="hs-overlay hidden size-full fixed top-0 inset-s-0 z-80 overflow-x-hidden overflow-y-auto" role="dialog" tabindex="-1">
         <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
             <div class="relative flex flex-col bg-white border border-gray-200 shadow-sm rounded-2xl dark:bg-neutral-800 dark:border-neutral-700 overflow-hidden">
@@ -259,7 +257,7 @@
             nameSpan.textContent = name;
 
             if (isPermanent) {
-                form.action = `{{ url('superadmin/activities/forceDelete') }}/${id}`;
+                form.action = `{{ url('superadmin/activities/force-delete') }}/${id}`;
                 title.textContent = 'Hapus Permanen Kegiatan';
                 desc.innerHTML = `Apakah Anda yakin ingin menghapus <b>${name}</b> secara permanen? Tindakan ini tidak dapat dibatalkan.`;
                 submitBtn.classList.replace('bg-red-600', 'bg-rose-600');

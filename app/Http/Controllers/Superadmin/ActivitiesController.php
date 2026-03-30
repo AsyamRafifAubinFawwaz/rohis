@@ -127,7 +127,7 @@ class ActivitiesController extends Controller
         $activity = Activities::withTrashed()->findOrFail($id);
         $activity->restore();
 
-        return redirect()->route('superadmin.activities.index')->with('success', ResponseConst::SUCCESS_MESSAGE_RESTORED);
+        return redirect()->route('superadmin.activities.index', ['status_data' => 'nonaktif'])->with('success', ResponseConst::SUCCESS_MESSAGE_RESTORED);
     }
 
     public function forceDelete($id)
@@ -135,6 +135,6 @@ class ActivitiesController extends Controller
         $activity = Activities::withTrashed()->findOrFail($id);
         $activity->forceDelete();
 
-        return redirect()->route('superadmin.activities.index')->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
+        return redirect()->route('superadmin.activities.index', ['status_data' => 'nonaktif'])->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
     }
 }

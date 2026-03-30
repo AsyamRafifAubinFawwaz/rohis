@@ -17,7 +17,10 @@
     <div class="relative flex flex-col h-full max-h-full">
         <!-- Sidebar Header -->
         <div class="sidebar-header px-6 pt-4 flex items-center justify-between min-h-[64px]">
-            <span class="sidebar-text text-sm font-bold text-gray-800 dark:text-neutral-200 uppercase tracking-wider">Navigation</span>
+            <div class="flex items-center gap-x-3">
+                <img src="{{ asset('favicon/logo-rohis.png') }}" class="size-8 object-contain" alt="Logo">
+                <span class="sidebar-text text-sm font-bold text-gray-800 dark:text-neutral-200 uppercase tracking-wider">ROHIS</span>
+            </div>
             <button type="button" onclick="toggleSidebarMini()" class="sidebar-toggle-btn p-1.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
                 <span class="sidebar-expand-icon">@include('partials.icons.sidebar.double_chevron_left')</span>
                 <span class="sidebar-collapse-icon hidden">@include('partials.icons.sidebar.double_chevron_right')</span>
@@ -64,6 +67,14 @@
                                 href="{{ route('superadmin.posts.index') }}">
                                 <span class="icon">@include('partials.icons.sidebar.post')</span>
                                 <span class="sidebar-text">Postingan</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a navigate
+                                class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('superadmin.gallery.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
+                                href="{{ route('superadmin.galleries.index') }}">
+                                <span class="icon">@include('partials.icons.sidebar.gallery')</span>
+                                <span class="sidebar-text">Galeri</span>
                             </a>
                         </li>
                         <li>

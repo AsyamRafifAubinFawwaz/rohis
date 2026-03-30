@@ -150,7 +150,7 @@ class PostsController extends Controller
         $post = Posts::onlyTrashed()->findOrFail($id);
         $post->restore();
 
-        return redirect()->route('superadmin.posts.index')->with('success', ResponseConst::SUCCESS_MESSAGE_RESTORED);
+        return redirect()->route('superadmin.posts.trash')->with('success', ResponseConst::SUCCESS_MESSAGE_RESTORED);
     }
 
     public function trash()
@@ -164,7 +164,7 @@ class PostsController extends Controller
         $post = Posts::onlyTrashed()->findOrFail($id);
         $post->forceDelete();
 
-        return redirect()->route('superadmin.posts.index')->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
+        return redirect()->route('superadmin.posts.index')->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED_PERMANENTLY);
     }
 
     public function approve($id)
