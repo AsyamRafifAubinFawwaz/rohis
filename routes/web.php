@@ -1,11 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\GalleriesController;
-use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\TaskCategoryController;
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Superadmin\ActivitiesController;
 use App\Http\Controllers\Superadmin\AnnouncementsController;
@@ -73,7 +71,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-
 Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('_superadmin.dashboard');
@@ -91,10 +88,13 @@ Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(func
     Route::prefix('activities')->name('activities.')->group(function () {
         Route::get('/', [ActivitiesController::class, 'index'])->name('index');
         Route::get('/add', [ActivitiesController::class, 'add'])->name('add');
+        Route::get('/detail/{id}', [ActivitiesController::class, 'detail'])->name('detail');
         Route::post('/create', [ActivitiesController::class, 'doCreate'])->name('create');
         Route::get('/update/{id}', [ActivitiesController::class, 'update'])->name('update');
         Route::post('/update/{id}', [ActivitiesController::class, 'doUpdate'])->name('doUpdate');
         Route::delete('/delete/{id}', [ActivitiesController::class, 'delete'])->name('delete');
+        Route::delete('/forceDelete/{id}', [ActivitiesController::class, 'forceDelete'])->name('forceDelete');
+        Route::post('/restore/{id}', [ActivitiesController::class, 'restore'])->name('restore');
     });
 
     Route::prefix('programs')->name('programs.')->group(function () {
