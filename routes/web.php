@@ -8,6 +8,7 @@ use App\Http\Controllers\Superadmin\ActivitiesController;
 use App\Http\Controllers\Superadmin\AnnouncementsController;
 use App\Http\Controllers\Superadmin\CategoriesController;
 use App\Http\Controllers\Superadmin\GalleriesController as SuperadminGalleriesController;
+use App\Http\Controllers\Superadmin\OrganizerController;
 use App\Http\Controllers\Superadmin\PostsCategoriesController;
 use App\Http\Controllers\Superadmin\PostsController as SuperadminPostsController;
 use App\Http\Controllers\Superadmin\ProfilesController;
@@ -154,6 +155,16 @@ Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(func
         Route::get('/update/{id}', [CategoriesController::class, 'update'])->name('update');
         Route::post('/update/{id}', [CategoriesController::class, 'do_update'])->name('do_update');
         Route::delete('/delete/{id}', [CategoriesController::class, 'delete'])->name('delete');
+    });
+    Route::prefix('organizer')->name('organizer.')->group(function () {
+        Route::get('/', [OrganizerController::class, 'index'])->name('index');
+        Route::get('/add', [OrganizerController::class, 'add'])->name('add');
+        Route::post('/create', [OrganizerController::class, 'doCreate'])->name('doCreate');
+        Route::get('/update/{id}', [OrganizerController::class, 'update'])->name('update');
+        Route::post('/update/{id}', [OrganizerController::class, 'doUpdate'])->name('doUpdate');
+        Route::delete('/delete/{id}', [OrganizerController::class, 'delete'])->name('delete');
+        Route::post('/restore/{id}', [OrganizerController::class, 'restore'])->name('restore');
+        Route::delete('/force-delete/{id}', [OrganizerController::class, 'forceDelete'])->name('forceDelete');
     });
 
     Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function () {

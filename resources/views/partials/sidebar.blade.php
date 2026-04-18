@@ -81,20 +81,21 @@
                         </li>
                         <li>
                             <a navigate
+                                class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('superadmin.organizer.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
+                                href="{{ route('superadmin.organizer.index') }}">
+                                <span class="icon">@include('partials.icons.sidebar.gallery')</span>
+                                <span class="sidebar-text">Panitia</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a navigate
                                 class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('superadmin.activities.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
                                 href="{{ route('superadmin.activities.index') }}">
                                 <span class="icon">@include('partials.icons.sidebar.clipboard-list')</span>
                                 <span class="sidebar-text">Kegiatan</span>
                             </a>
                         </li>
-                        <li>
-                            <a navigate
-                                class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('superadmin.categories.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
-                                href="{{ route('superadmin.categories.index') }}">
-                                <span class="icon">@include('partials.icons.sidebar.data_master')</span>
-                                <span class="sidebar-text">Kategori</span>
-                            </a>
-                        <li>
+                        
                             <a navigate
                                 class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('superadmin.users.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
                                 href="{{ route('superadmin.users.index') }}">
@@ -119,7 +120,7 @@
                         </button>
 
                         <div id="projects-accordion-child"
-                            class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 {{ request()->routeIs('admin.users.*') || request()->routeIs('admin.task_categories.*') || request()->routeIs('superadmin.announcements.*') || request()->routeIs('superadmin.programs.*') ? 'block' : 'hidden' }}"
+                            class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 {{ request()->routeIs('admin.users.*') || request()->routeIs('admin.task_categories.*') || request()->routeIs('superadmin.announcements.*') || request()->routeIs('superadmin.categories.*') || request()->routeIs('superadmin.programs.*') ? 'block' : 'hidden' }}"
                             role="region" aria-labelledby="projects-accordion">
                             <ul class="ps-8 pt-1 space-y-1">
                                 @if (Auth::user()->access_type == UserConst::ADMIN)
@@ -145,6 +146,11 @@
                                             class="flex items-center gap-x-3.5  py-2 px-3 text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 {{ request()->routeIs('superadmin.announcements.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-neutral-200' }}"
                                             href="{{ route('superadmin.announcements.index') }}">
                                             Pengumuman
+                                        </a>
+                                        <a navigate
+                                            class="flex items-center gap-x-3.5  py-2 px-3 text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 {{ request()->routeIs('superadmin.categories.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-neutral-200' }}"
+                                            href="{{ route('superadmin.categories.index') }}">
+                                            Kategori
                                         </a>
                                     </li>
                                     <li>
