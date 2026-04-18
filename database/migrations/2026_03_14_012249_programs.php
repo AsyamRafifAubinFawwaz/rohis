@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->enum('status', [
                 'active',
-                'finished'
+                'finished',
             ])->default('active');
 
             $table->foreignId('created_by')

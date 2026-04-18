@@ -16,7 +16,7 @@
         <div>
             <div class="inline-flex gap-x-2">
                 <a navigate
-                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none font-bolder"
+                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-brand text-white hover:bg-brand-dark focus:outline-hidden focus:bg-brand-dark disabled:opacity-50 disabled:pointer-events-none font-bolder shadow-md shadow-brand/20 active:scale-95 transition-all text-center"
                     href="{{ route('superadmin.posts.add') }}">
                     @include('_superadmin._layout.icons.add')
                     Tambah Data
@@ -193,17 +193,20 @@
                                             <div class="px-6 py-3">
                                                 @if ($d->status == 'published')
                                                     <span
-                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500">Published</span>
+                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-800/30 dark:text-emerald-400">Published</span>
                                                 @elseif($d->status == 'pending')
                                                     <span
-                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800/30 dark:text-blue-500">Pending
+                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-400">Pending
                                                         Review</span>
                                                 @elseif($d->status == 'rejected')
                                                     <span
-                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-500">Rejected</span>
+                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-400">Rejected</span>
+                                                @elseif($d->status == 'draft')
+                                                    <span
+                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-neutral-700 dark:text-neutral-400">Draft</span>
                                                 @else
                                                     <span
-                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-white">{{ ucfirst($d->status) }}</span>
+                                                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-neutral-700 dark:text-neutral-400">{{ ucfirst($d->status) }}</span>
                                                 @endif
                                             </div>
                                         </td>
@@ -218,15 +221,14 @@
                                                 <!-- Action buttons (Consistent with Category style) -->
                                                 @if ($d->trashed())
                                                     <!-- Restore -->
-                                                    <form action="{{ route('superadmin.posts.restore', $d->id) }}"
-                                                        method="POST" class="inline" navigate-form>
-                                                        @csrf
-                                                        <button type="submit"
-                                                            class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none focus:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:bg-blue-800/30 dark:hover:bg-blue-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
-                                                            title="Pulihkan (Restore)">
-                                                            @include('_admin._layout.icons.reset')
-                                                        </button>
-                                                    </form>
+                                                    <button type="button"
+                                                        class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none focus:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:bg-blue-800/30 dark:hover:bg-blue-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
+                                                        title="Pulihkan (Restore)"
+                                                        data-hs-overlay="#action-confirm-modal"
+                                                        onclick="setActionData('restore', '{{ $d->id }}', '{{ addslashes($d->title) }}')"
+                                                    >
+                                                        @include('_admin._layout.icons.reset')
+                                                    </button>
 
                                                     <!-- Permanent Delete -->
                                                     <button type="button"
@@ -254,41 +256,38 @@
 
                                                     <!-- Approve -->
                                                     @if ($d->status != 'published')
-                                                        <form action="{{ route('superadmin.posts.approve', $d->id) }}"
-                                                            method="POST" class="inline" navigate-form>
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-emerald-100 text-emerald-800 hover:bg-emerald-200 focus:outline-none focus:bg-emerald-200 disabled:opacity-50 disabled:pointer-events-none dark:text-emerald-400 dark:bg-emerald-800/30 dark:hover:bg-emerald-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
-                                                                title="Setujui (Publish)">
-                                                                @include('_admin._layout.icons.check_circle')
-                                                            </button>
-                                                        </form>
+                                                        <button type="button"
+                                                            class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-emerald-100 text-emerald-800 hover:bg-emerald-200 focus:outline-none focus:bg-emerald-200 disabled:opacity-50 disabled:pointer-events-none dark:text-emerald-400 dark:bg-emerald-800/30 dark:hover:bg-emerald-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
+                                                            title="Setujui (Publish)"
+                                                            data-hs-overlay="#action-confirm-modal"
+                                                            onclick="setActionData('approve', '{{ $d->id }}', '{{ addslashes($d->title) }}')"
+                                                        >
+                                                            @include('_admin._layout.icons.check_circle')
+                                                        </button>
                                                     @endif
 
                                                     <!-- Reject -->
                                                     @if ($d->status == 'pending')
-                                                        <form action="{{ route('superadmin.posts.reject', $d->id) }}"
-                                                            method="POST" class="inline" navigate-form>
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-red-100 text-red-800 hover:bg-red-200 focus:outline-none focus:bg-red-200 disabled:opacity-50 disabled:pointer-events-none dark:text-red-400 dark:bg-red-800/30 dark:hover:bg-red-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
-                                                                title="Tolak">
-                                                                @include('_admin._layout.icons.x_circle')
-                                                            </button>
-                                                        </form>
+                                                        <button type="button"
+                                                            class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-red-100 text-red-800 hover:bg-red-200 focus:outline-none focus:bg-red-200 disabled:opacity-50 disabled:pointer-events-none dark:text-red-400 dark:bg-red-800/30 dark:hover:bg-red-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
+                                                            title="Tolak"
+                                                            data-hs-overlay="#action-confirm-modal"
+                                                            onclick="setActionData('reject', '{{ $d->id }}', '{{ addslashes($d->title) }}')"
+                                                        >
+                                                            @include('_admin._layout.icons.x_circle')
+                                                        </button>
                                                     @endif
 
                                                     <!-- Draft -->
                                                     @if ($d->status == 'published')
-                                                        <form action="{{ route('superadmin.posts.draft', $d->id) }}"
-                                                            method="POST" class="inline" navigate-form>
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-amber-100 text-amber-800 hover:bg-amber-200 focus:outline-none focus:bg-amber-200 disabled:opacity-50 disabled:pointer-events-none dark:text-amber-400 dark:bg-amber-800/30 dark:hover:bg-amber-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
-                                                                title="Simpan Sebagai Draft">
-                                                                @include('_admin._layout.icons.sun')
-                                                            </button>
-                                                        </form>
+                                                        <button type="button"
+                                                            class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-amber-100 text-amber-800 hover:bg-amber-200 focus:outline-none focus:bg-amber-200 disabled:opacity-50 disabled:pointer-events-none dark:text-amber-400 dark:bg-amber-800/30 dark:hover:bg-amber-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
+                                                            title="Simpan Sebagai Draft"
+                                                            data-hs-overlay="#action-confirm-modal"
+                                                            onclick="setActionData('draft', '{{ $d->id }}', '{{ addslashes($d->title) }}')"
+                                                        >
+                                                            @include('_admin._layout.icons.sun')
+                                                        </button>
                                                     @endif
 
                                                     <!-- Delete -->
@@ -366,7 +365,7 @@
                             data-hs-overlay="#delete-modal">
                             Batal
                         </button>
-                        <form id="delete-form" method="POST" class="inline">
+                        <form id="delete-form" method="POST" class="inline" navigate-form>
                             @csrf
                             @method('DELETE')
                             <button type="submit"
@@ -380,10 +379,54 @@
         </div>
     </div>
 
+    <!-- Action Confirmation Modal -->
+    <div id="action-confirm-modal" class="hs-overlay hidden size-full fixed top-0 start-0 z-80 overflow-x-hidden overflow-y-auto"
+        role="dialog" tabindex="-1" aria-labelledby="action-confirm-label">
+        <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+            <div class="relative flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
+                <div class="absolute top-2 end-2">
+                    <button type="button"
+                        class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
+                        aria-label="Close" data-hs-overlay="#action-confirm-modal">
+                        <span class="sr-only">Close</span>
+                        @include('_admin._layout.icons.close_modal')
+                    </button>
+                </div>
+
+                <div class="p-4 sm:p-10 text-center overflow-y-auto">
+                    <span id="action-confirm-icon"
+                        class="mb-4 inline-flex justify-center items-center size-14 rounded-full border-4 border-blue-50 bg-blue-100 text-blue-500 dark:bg-blue-700 dark:border-blue-600 dark:text-blue-100">
+                        @include('_admin._layout.icons.warning_modal')
+                    </span>
+
+                    <h3 id="action-confirm-label" class="mb-2 text-xl font-bold text-gray-800 dark:text-neutral-200">
+                        Konfirmasi Aksi
+                    </h3>
+                    <p id="action-confirm-desc" class="text-gray-500 dark:text-neutral-500"></p>
+
+                    <div class="mt-6 flex justify-center gap-x-4">
+                        <button type="button"
+                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                            data-hs-overlay="#action-confirm-modal">
+                            Batal
+                        </button>
+                        <form id="action-confirm-form" method="POST" class="inline" navigate-form>
+                            @csrf
+                            <button id="action-confirm-btn" type="submit"
+                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-brand text-white hover:bg-brand-dark focus:outline-none disabled:opacity-50 disabled:pointer-events-none cursor-pointer transition-all active:scale-95 shadow-md shadow-brand/20">
+                                Ya, Lanjutkan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function setStatusData(value) {
             const input = document.getElementById('status_data_input');
-            if (input.value === value) return; // Don't reload if same
+            if (input.value === value) return;
 
             input.value = value;
             const aktifBtn = document.getElementById('status_data_aktif');
@@ -401,15 +444,11 @@
                 aktifBtn.classList.add('text-gray-500', 'dark:text-neutral-400');
             }
 
-            // Reliable form submission for SPA interceptors
             const form = document.getElementById('filter-form');
             if (typeof form.requestSubmit === 'function') {
                 form.requestSubmit();
             } else {
-                form.dispatchEvent(new Event('submit', {
-                    cancelable: true,
-                    bubbles: true
-                }));
+                form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
             }
         }
 
@@ -432,6 +471,63 @@
                 submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
                 form.action = '{{ url('superadmin/posts/delete') }}/' + id;
             }
+        }
+
+        function setActionData(type, id, title) {
+            const form    = document.getElementById('action-confirm-form');
+            const label   = document.getElementById('action-confirm-label');
+            const desc    = document.getElementById('action-confirm-desc');
+            const btn     = document.getElementById('action-confirm-btn');
+            const icon    = document.getElementById('action-confirm-icon');
+
+            const configs = {
+                approve: {
+                    label  : 'Setujui & Publish',
+                    desc   : `Apakah Anda yakin ingin mem-publish postingan <strong class="text-gray-800 dark:text-neutral-200">${title}</strong>? Postingan akan langsung tampil ke publik.`,
+                    btnText: 'Ya, Publish',
+                    btnClass: ['bg-emerald-600', 'hover:bg-emerald-700', 'shadow-emerald-500/20'],
+                    iconClass: ['border-emerald-50', 'bg-emerald-100', 'text-emerald-500', 'dark:bg-emerald-700', 'dark:border-emerald-600', 'dark:text-emerald-100'],
+                    url    : '{{ url('superadmin/posts/approve') }}/' + id,
+                },
+                reject: {
+                    label  : 'Tolak Postingan',
+                    desc   : `Apakah Anda yakin ingin menolak postingan <strong class="text-gray-800 dark:text-neutral-200">${title}</strong>?`,
+                    btnText: 'Ya, Tolak',
+                    btnClass: ['bg-red-600', 'hover:bg-red-700', 'shadow-red-500/20'],
+                    iconClass: ['border-red-50', 'bg-red-100', 'text-red-500', 'dark:bg-red-700', 'dark:border-red-600', 'dark:text-red-100'],
+                    url    : '{{ url('superadmin/posts/reject') }}/' + id,
+                },
+                draft: {
+                    label  : 'Simpan sebagai Draft',
+                    desc   : `Postingan <strong class="text-gray-800 dark:text-neutral-200">${title}</strong> akan ditarik dari publik dan disimpan sebagai draft.`,
+                    btnText: 'Ya, Jadikan Draft',
+                    btnClass: ['bg-amber-500', 'hover:bg-amber-600', 'shadow-amber-500/20'],
+                    iconClass: ['border-amber-50', 'bg-amber-100', 'text-amber-500', 'dark:bg-amber-700', 'dark:border-amber-600', 'dark:text-amber-100'],
+                    url    : '{{ url('superadmin/posts/draft') }}/' + id,
+                },
+                restore: {
+                    label  : 'Pulihkan Postingan',
+                    desc   : `Postingan <strong class="text-gray-800 dark:text-neutral-200">${title}</strong> akan dipulihkan dari sampah dengan status <em>draft</em>.`,
+                    btnText: 'Ya, Pulihkan',
+                    btnClass: ['bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/20'],
+                    iconClass: ['border-blue-50', 'bg-blue-100', 'text-blue-500', 'dark:bg-blue-700', 'dark:border-blue-600', 'dark:text-blue-100'],
+                    url    : '{{ url('superadmin/posts/restore') }}/' + id,
+                },
+            };
+
+            const cfg = configs[type];
+            if (!cfg) { return; }
+
+            label.textContent    = cfg.label;
+            desc.innerHTML       = cfg.desc;
+            btn.textContent      = cfg.btnText;
+            form.action          = cfg.url;
+
+            // Reset & apply button classes
+            btn.className = 'py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none cursor-pointer transition-all active:scale-95 shadow-md ' + cfg.btnClass.join(' ');
+
+            // Reset & apply icon classes
+            icon.className = 'mb-4 inline-flex justify-center items-center size-14 rounded-full border-4 ' + cfg.iconClass.join(' ');
         }
     </script>
 @endsection

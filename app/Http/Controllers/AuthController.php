@@ -13,6 +13,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return $this->redirectByRole(Auth::user());
         }
+
         return view('_admin.auth.login');
     }
 

@@ -20,7 +20,7 @@ class PostsController extends Controller
 
         $data = Posts::query()
             ->when($keywords, function ($query, $keywords) {
-                return $query->where('title', 'like', '%' . $keywords . '%');
+                return $query->where('title', 'like', '%'.$keywords.'%');
             })
             ->when($status, function ($query, $status) {
                 return $query->where('status', $status);
@@ -31,6 +31,7 @@ class PostsController extends Controller
                 } elseif ($status_data == 'nonaktif') {
                     return $query->trash();
                 }
+
                 return $query;
             })
             ->when($category_id, function ($query, $category_id) {
@@ -59,6 +60,7 @@ class PostsController extends Controller
     {
         $categories = Categories::all();
         $page = ['title' => 'Postingan'];
+
         return view('_superadmin.post.add', compact('page', 'categories'));
     }
 
@@ -97,6 +99,7 @@ class PostsController extends Controller
     {
         $post = Posts::withTrashed()->findOrFail($id);
         $page = ['title' => 'Detail Postingan'];
+
         return view('_superadmin.post.detail', compact('post', 'page'));
     }
 
@@ -105,15 +108,16 @@ class PostsController extends Controller
         $post = Posts::with('categories')->findOrFail($id);
         $categories = Categories::all();
         $page = ['title' => 'Postingan'];
+
         return view('_superadmin.post.update', compact('post', 'page', 'categories'));
     }
 
     public function doUpdate(Request $request, Posts $post)
     {
         $data = $request->validate([
-            'title'     => 'required|string|max:255',
-            'slug'      => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
-            'content'   => 'required|string',
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:posts,slug,'.$post->id,
+            'content' => 'required|string',
             'thumbnail' => 'nullable|image|max:2048',
             'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:categories,id',
@@ -140,9 +144,14 @@ class PostsController extends Controller
     public function delete($id)
     {
         $post = Posts::findOrFail($id);
+        $post->update([
+            'status' => 'draft',
+            'approved_by' => null,
+            'approved_at' => null,
+        ]);
         $post->delete();
 
-        return redirect()->route('superadmin.posts.index')->with(ResponseConst::SUCCESS_MESSAGE_DELETED);
+        return redirect()->route('superadmin.posts.index')->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
     }
 
     public function restore($id)
@@ -150,12 +159,13 @@ class PostsController extends Controller
         $post = Posts::onlyTrashed()->findOrFail($id);
         $post->restore();
 
-        return redirect()->route('superadmin.posts.trash')->with('success', ResponseConst::SUCCESS_MESSAGE_RESTORED);
+        return redirect()->route('superadmin.posts.index')->with('success', ResponseConst::SUCCESS_MESSAGE_RESTORED);
     }
 
     public function trash()
     {
         $posts = Posts::onlyTrashed()->get();
+
         return view('_superadmin.post.trash', compact('posts'));
     }
 

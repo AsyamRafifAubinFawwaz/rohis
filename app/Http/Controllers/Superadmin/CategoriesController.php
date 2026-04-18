@@ -18,13 +18,13 @@ class CategoriesController extends Controller
         $keywords = $request->keywords;
         $data = Categories::query()
             ->when($keywords, function ($query, $keywords) {
-                return $query->where('name', 'like', '%' . $keywords . '%');
+                return $query->where('name', 'like', '%'.$keywords.'%');
             })
             ->latest()
             ->paginate(10);
 
         $page = [
-            'title' => 'Kategori'
+            'title' => 'Kategori',
         ];
 
         return view('_superadmin.categories.index', compact('data', 'keywords', 'page'));
@@ -62,7 +62,7 @@ class CategoriesController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:categories,slug,' . $id,
+            'slug' => 'nullable|string|max:255|unique:categories,slug,'.$id,
         ]);
 
         if (empty($data['slug'])) {

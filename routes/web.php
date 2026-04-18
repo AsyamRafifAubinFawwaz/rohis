@@ -12,6 +12,7 @@ use App\Http\Controllers\Superadmin\PostsCategoriesController;
 use App\Http\Controllers\Superadmin\PostsController as SuperadminPostsController;
 use App\Http\Controllers\Superadmin\ProfilesController;
 use App\Http\Controllers\Superadmin\ProgramsController;
+use App\Http\Controllers\Superadmin\UserController as SuperadminUserController;
 use Illuminate\Support\Benchmark;
 use Illuminate\Support\Facades\Route;
 
@@ -80,9 +81,12 @@ Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(func
         Route::get('/', [AnnouncementsController::class, 'index'])->name('index');
         Route::get('/add', [AnnouncementsController::class, 'add'])->name('add');
         Route::post('/create', [AnnouncementsController::class, 'doCreate'])->name('create');
+        Route::get('/detail/{id}', [AnnouncementsController::class, 'detail'])->name('detail');
         Route::get('/update/{id}', [AnnouncementsController::class, 'update'])->name('update');
         Route::post('/update/{id}', [AnnouncementsController::class, 'doUpdate'])->name('doUpdate');
         Route::delete('/delete/{id}', [AnnouncementsController::class, 'delete'])->name('delete');
+        Route::delete('/force-delete/{id}', [AnnouncementsController::class, 'forceDelete'])->name('forceDelete');
+        Route::post('/restore/{id}', [AnnouncementsController::class, 'restore'])->name('restore');
     });
 
     Route::prefix('activities')->name('activities.')->group(function () {
@@ -100,10 +104,13 @@ Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(func
     Route::prefix('programs')->name('programs.')->group(function () {
         Route::get('/', [ProgramsController::class, 'index'])->name('index');
         Route::get('/add', [ProgramsController::class, 'add'])->name('add');
+        Route::get('/detail/{id}', [ProgramsController::class, 'detail'])->name('detail');
         Route::post('/create', [ProgramsController::class, 'doCreate'])->name('create');
         Route::get('/update/{id}', [ProgramsController::class, 'update'])->name('update');
         Route::post('/update/{id}', [ProgramsController::class, 'doUpdate'])->name('doUpdate');
         Route::delete('/delete/{id}', [ProgramsController::class, 'delete'])->name('delete');
+        Route::delete('/force-delete/{id}', [ProgramsController::class, 'forceDelete'])->name('forceDelete');
+        Route::post('/restore/{id}', [ProgramsController::class, 'restore'])->name('restore');
     });
 
     Route::prefix('posts-categories')->name('posts_categories.')->group(function () {
@@ -149,12 +156,25 @@ Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(func
         Route::delete('/delete/{id}', [CategoriesController::class, 'delete'])->name('delete');
     });
 
-    Route::prefix('galleries')->name('galleries.')->group(function () {
+    Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function () {
         Route::get('/', [SuperadminGalleriesController::class, 'index'])->name('index');
         Route::get('/add', [SuperadminGalleriesController::class, 'add'])->name('add');
-        Route::post('/create', [SuperadminGalleriesController::class, 'doCreate'])->name('create');
+        Route::post('/add', [SuperadminGalleriesController::class, 'doCreate'])->name('doCreate');
         Route::get('/update/{id}', [SuperadminGalleriesController::class, 'update'])->name('update');
         Route::post('/update/{id}', [SuperadminGalleriesController::class, 'doUpdate'])->name('doUpdate');
         Route::delete('/delete/{id}', [SuperadminGalleriesController::class, 'delete'])->name('delete');
+        Route::post('/restore/{id}', [SuperadminGalleriesController::class, 'restore'])->name('restore');
+        Route::delete('/force-delete/{id}', [SuperadminGalleriesController::class, 'forceDelete'])->name('forceDelete');
+    });
+
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [SuperadminUserController::class, 'index'])->name('index');
+        Route::get('/add', [SuperadminUserController::class, 'add'])->name('add');
+        Route::post('/create', [SuperadminUserController::class, 'doCreate'])->name('create');
+        Route::get('/detail/{id}', [SuperadminUserController::class, 'detail'])->name('detail');
+        Route::get('/update/{id}', [SuperadminUserController::class, 'update'])->name('update');
+        Route::post('/update/{id}', [SuperadminUserController::class, 'doUpdate'])->name('doUpdate');
+        Route::delete('/delete/{id}', [SuperadminUserController::class, 'delete'])->name('delete');
+        Route::post('/reset-password/{id}', [SuperadminUserController::class, 'resetPassword'])->name('resetPassword');
     });
 });

@@ -27,5 +27,4 @@ class DatabaseConst
     const ANNOUNCEMENT = 'announcements';
 
     const PROFILE = 'profiles';
-
-    }
+}

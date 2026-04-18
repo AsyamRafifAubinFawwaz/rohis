@@ -13,12 +13,36 @@ class GalleriesController extends Controller
     /**
      * Superadmin dapat mengelola semua gallery dari semua user
      */
-    public function index()
+    public function index(Request $request)
     {
-        $page = ['title' => 'Galeri Foto'];
-        $galleries = Galleries::with(['activity', 'creator'])->latest()->paginate(12);
+        $keywords = $request->keywords;
+        $activity_id = $request->activity_id;
+        $status_data = $request->status_data ?? 'aktif';
 
-        return view('_superadmin.gallery.index', compact('galleries', 'page'));
+        $galleries = Galleries::query()
+            ->when($keywords, function ($query, $keywords) {
+                return $query->where('title', 'like', '%'.$keywords.'%');
+            })
+            ->when($activity_id, function ($query, $activity_id) {
+                return $query->where('activity_id', $activity_id);
+            })
+            ->when($status_data, function ($query, $status_data) {
+                if ($status_data == 'aktif') {
+                    return $query->whereNull('deleted_at');
+                } elseif ($status_data == 'nonaktif') {
+                    return $query->onlyTrashed();
+                }
+
+                return $query;
+            })
+            ->with(['activity', 'creator'])
+            ->latest()
+            ->paginate(12);
+
+        $activities = Activities::latest()->get();
+        $page = ['title' => 'Galeri Foto'];
+
+        return view('_superadmin.gallery.index', compact('galleries', 'page', 'activities', 'keywords', 'activity_id', 'status_data'));
     }
 
     public function add()
@@ -80,5 +104,21 @@ class GalleriesController extends Controller
         $gallery->delete();
 
         return redirect()->back()->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
+    }
+
+    public function restore($id)
+    {
+        $gallery = Galleries::withTrashed()->findOrFail($id);
+        $gallery->restore();
+
+        return redirect()->route('superadmin.galleries.index', ['status_data' => 'nonaktif'])->with('success', ResponseConst::SUCCESS_MESSAGE_RESTORED);
+    }
+
+    public function forceDelete($id)
+    {
+        $gallery = Galleries::withTrashed()->findOrFail($id);
+        $gallery->forceDelete();
+
+        return redirect()->route('superadmin.galleries.index', ['status_data' => 'nonaktif'])->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
     }
 }

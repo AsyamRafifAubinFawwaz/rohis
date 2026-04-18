@@ -54,10 +54,11 @@ class PostsCategoriesController extends Controller
 
         // return back()->with(ResponseConst::SUCCESS_MESSAGE_UPDATED);
     }
+
     public function delete(Request $request)
     {
-      $postsCategory = PostsCategories::findOrFail($request->id);
-      $postsCategory->delete();
+        $postsCategory = PostsCategories::findOrFail($request->id);
+        $postsCategory->delete();
 
         // return back()->with(ResponseConst::SUCCESS_MESSAGE_DELETED);
     }

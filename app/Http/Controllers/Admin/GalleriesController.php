@@ -15,12 +15,11 @@ class GalleriesController extends Controller
     public function index()
     {
         $galleries = auth()->user()->galleries()->latest()->get();
+
         return view('admin.galleries.index', compact('galleries'));
     }
 
-    public function add(){
-
-    }
+    public function add() {}
 
     public function doCreate(Request $request)
     {
@@ -40,8 +39,5 @@ class GalleriesController extends Controller
         return redirect()->route('admin.galleries.index')->with(ResponseConst::SUCCESS_MESSAGE_CREATED);
     }
 
-    public function delete($id)
-    {
-        
-    }
+    public function delete($id) {}
 }

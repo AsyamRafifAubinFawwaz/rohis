@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->enum('status', [
                 'upcoming',
-                'done'
+                'done',
             ])->default('upcoming');
 
             $table->foreignId('created_by')
@@ -31,7 +31,7 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-    });
+        });
     }
 
     /**
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-          Schema::dropIfExists('activities');
+        Schema::dropIfExists('activities');
     }
 };

@@ -25,7 +25,7 @@ class TaskController extends Controller
         protected TaskUsecase $usecase,
         protected TaskCategoryUsecase $categoryUsecase
     ) {
-        $this->baseRedirect = 'admin/' . $this->page['route'];
+        $this->baseRedirect = 'admin/'.$this->page['route'];
     }
 
     public function index(Request $request): View|Response

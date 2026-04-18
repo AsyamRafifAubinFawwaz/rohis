@@ -72,17 +72,24 @@
                         <label for="category_ids" class="block text-sm font-medium mb-2 dark:text-white">Kategori <span
                                 class="text-red-500">*</span></label>
                         <select id="category_ids" name="category_ids[]" multiple
-                            class="py-3 px-4 block w-full {{ $errors->has('category_ids') ? 'border-red-500' : 'border-gray-200' }} rounded-lg text-sm focus:border-brand focus:ring-brand disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 shadow-sm min-h-[120px]"
+                            data-hs-select='{
+                                "placeholder": "Pilih kategori...",
+                                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 flex-wrap text-nowrap w-full cursor-pointer bg-white border border-gray-200 text-gray-800 rounded-lg text-start text-sm hover:bg-gray-50 focus:outline-hidden dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800",
+                                "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:bg-neutral-900 dark:border-neutral-700 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500",
+                                "optionClasses": "hs-selected:bg-brand/10 dark:hs-selected:bg-brand/20 py-2 px-4 w-full text-sm text-gray-800 dark:text-neutral-200 cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-lg focus:outline-hidden",
+                                "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-brand\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+                                "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-400 dark:text-neutral-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+                            }'
+                            class="hidden"
                             required>
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->id }}"
                                     {{ in_array($cat->id, old('category_ids', [])) ? 'selected' : '' }}>
-                                    {{ $cat->name }}</option>
+                                    {{ $cat->name }}
+                                </option>
                             @endforeach
                         </select>
-                        <p class="text-[10px] text-gray-400 dark:text-neutral-500 mt-1 italic">
-                            * Tahan Ctrl (Windows) atau Cmd (Mac) untuk memilih lebih dari satu kategori.
-                        </p>
                         @error('category_ids')
                             <p class="text-xs text-red-600 mt-2" id="category_ids-error">{{ $message }}</p>
                         @enderror

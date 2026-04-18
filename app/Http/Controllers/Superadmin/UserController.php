@@ -3,171 +3,132 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Constants\ResponseConst;
+use App\Constants\UserConst;
 use App\Http\Controllers\Controller;
-use App\Usecase\UserUsecase;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    protected array $page = [
-        'route' => 'user',
-        'title' => 'Pengguna Aplikasi',
-    ];
+    public function index(Request $request)
+    {
+        $keywords = $request->keywords;
+        $access_type = $request->access_type;
+        $status_data = $request->status_data ?? 'aktif';
 
-    protected string $baseRedirect;
+        $data = User::query()
+            ->when($keywords, function ($query, $keywords) {
+                return $query->where(function($q) use ($keywords) {
+                    $q->where('name', 'like', '%' . $keywords . '%')
+                      ->orWhere('email', 'like', '%' . $keywords . '%');
+                });
+            })
+            ->when($access_type, function ($query, $access_type) {
+                return $query->where('access_type', $access_type);
+            })
+            ->when($status_data, function ($query, $status_data) {
+                if ($status_data == 'aktif') {
+                    return $query->whereNull('deleted_at');
+                } elseif ($status_data == 'nonaktif') {
+                    return $query->onlyTrashed();
+                }
+                return $query;
+            })
+            ->latest()
+            ->paginate(10);
 
-    public function __construct(
-        protected UserUsecase $usecase
-    ) {
-        $this->baseRedirect = 'admin/' . $this->page['route'];
+        $roles = UserConst::getAccessTypes();
+        $page = ['title' => 'Manajemen Akun'];
+
+        return view('_superadmin.users.index', compact('data', 'keywords', 'access_type', 'status_data', 'roles', 'page'));
     }
 
-    public function index(Request $request): View|Response
+    public function add()
     {
-        $data = $this->usecase->getAll([
-            'keywords' => $request->get('keywords'),
-            'access_type' => $request->get('access_type'),
+        $roles = UserConst::getAccessTypes();
+        $page = ['title' => 'Tambah Akun'];
+        return view('_superadmin.users.add', compact('roles', 'page'));
+    }
+
+    public function doCreate(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'access_type' => ['required', Rule::in([UserConst::SUPERADMIN, UserConst::ADMIN])],
         ]);
-        $data = $data['data']['list'] ?? [];
 
-        return view('_admin.users.index', [
-            'data' => $data,
-            'page' => $this->page,
-            'keywords' => $request->get('keywords'),
-            'access_type' => $request->get('access_type'),
+        $data['password'] = Hash::make($data['password']);
+        $data['is_active'] = true;
+        $data['created_by'] = auth()->id();
+
+        User::create($data);
+
+        return redirect()->route('superadmin.users.index')->with('success', ResponseConst::SUCCESS_MESSAGE_CREATED);
+    }
+
+    public function detail($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        $page = ['title' => 'Detail Akun'];
+        return view('_superadmin.users.detail', compact('user', 'page'));
+    }
+
+    public function update($id)
+    {
+        $user = User::findOrFail($id);
+        $roles = UserConst::getAccessTypes();
+        $page = ['title' => 'Edit Akun'];
+        return view('_superadmin.users.update', compact('user', 'roles', 'page'));
+    }
+
+    public function doUpdate(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'access_type' => ['required', Rule::in([UserConst::SUPERADMIN, UserConst::ADMIN])],
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
+
+        if (!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        $data['updated_by'] = auth()->id();
+        $user->update($data);
+
+        return redirect()->route('superadmin.users.index')->with('success', ResponseConst::SUCCESS_MESSAGE_UPDATED);
     }
 
-    public function add(): View|Response
+    public function delete($id)
     {
-        return view('_admin.users.add', [
-            'page' => $this->page,
+        if ($id == auth()->id()) {
+            return redirect()->back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
+        }
+
+        $user = User::findOrFail($id);
+        $user->update(['deleted_by' => auth()->id()]);
+        $user->delete();
+
+        return redirect()->route('superadmin.users.index')->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
+    }
+
+    public function resetPassword($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update([
+            'password' => Hash::make('password123'), // Default password or logic as needed
+            'updated_by' => auth()->id()
         ]);
-    }
 
-    public function doCreate(Request $request): RedirectResponse
-    {
-        $process = $this->usecase->create(
-            data: $request,
-        );
-
-        if ($process['success']) {
-            return redirect()
-                ->route('admin.users.index')
-                ->with('success', ResponseConst::SUCCESS_MESSAGE_CREATED);
-        } else {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', $process['message'] ?? ResponseConst::DEFAULT_ERROR_MESSAGE);
-        }
-    }
-
-    public function detail(int $id): View|RedirectResponse|Response
-    {
-        $data = $this->usecase->getByID($id);
-
-        if (empty($data['data'])) {
-            return redirect()
-                ->intended($this->baseRedirect)
-                ->with('error', ResponseConst::DEFAULT_ERROR_MESSAGE);
-        }
-        $data = $data['data'] ?? [];
-
-        return view('_admin.users.detail', [
-            'data' => (object) $data,
-            'page' => $this->page,
-        ]);
-    }
-
-    public function update(int $id): View|RedirectResponse|Response
-    {
-        $data = $this->usecase->getByID($id);
-
-        if (empty($data['data'])) {
-            return redirect()
-                ->intended($this->baseRedirect)
-                ->with('error', ResponseConst::DEFAULT_ERROR_MESSAGE);
-        }
-        $data = $data['data'] ?? [];
-
-        return view('_admin.users.update', [
-            'data' => (object) $data,
-            'userId' => $id,
-            'page' => $this->page,
-        ]);
-    }
-
-    public function doUpdate(int $id, Request $request): RedirectResponse
-    {
-        $process = $this->usecase->update(
-            data: $request,
-            id: $id,
-        );
-
-        if ($process['success']) {
-            return redirect()
-                ->route('admin.users.index')
-                ->with('success', ResponseConst::SUCCESS_MESSAGE_UPDATED);
-        } else {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('success', ResponseConst::DEFAULT_ERROR_MESSAGE);
-        }
-    }
-
-    public function delete(int $id): RedirectResponse
-    {
-        $process = $this->usecase->delete(id: $id);
-
-        if ($process['success']) {
-            return redirect()
-                ->route('admin.users.index')
-                ->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
-        } else {
-            return redirect()
-                ->route('admin.users.index')
-                ->with('error', $process['message'] ?? ResponseConst::DEFAULT_ERROR_MESSAGE);
-        }
-    }
-
-    public function resetPassword(int $id): RedirectResponse
-    {
-        $resetProcess = $this->usecase->resetPassword(id: $id);
-
-        if ($resetProcess['success']) {
-            return redirect()
-                ->route('admin.users.index')
-                ->with('success', 'Password berhasil direset menjadi default');
-        } else {
-            return redirect()
-                ->route('admin.users.index')
-                ->with('error', $resetProcess['message'] ?? ResponseConst::DEFAULT_ERROR_MESSAGE);
-        }
-    }
-
-    public function changePassword(): View
-    {
-        return view('_admin.profile.change_password');
-    }
-
-    public function doChangePassword(Request $request): RedirectResponse
-    {
-        $process = $this->usecase->changePassword($request->all());
-
-        if ($process['success']) {
-            return redirect()
-                ->back()
-                ->with('success', 'Password berhasil diubah.');
-        } else {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', $process['message'] ?? ResponseConst::DEFAULT_ERROR_MESSAGE);
-        }
+        return redirect()->route('superadmin.users.index')->with('success', 'Password berhasil direset menjadi "password123"');
     }
 }

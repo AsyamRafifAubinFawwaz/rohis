@@ -70,7 +70,6 @@ class ActivitiesController extends Controller
             'location' => 'nullable|string|max:255',
             'event_date' => 'nullable|date',
             'poster' => 'nullable|image|max:2048',
-            'status' => 'required|in:upcoming,ongoing,done',
         ]);
 
         if ($request->hasFile('poster')) {
@@ -100,7 +99,6 @@ class ActivitiesController extends Controller
             'location' => 'required|string|max:255',
             'event_date' => 'required|date',
             'poster' => 'nullable|image|max:2048',
-            'status' => 'required|in:upcoming,ongoing,done',
         ]);
 
         $activity = Activities::findOrFail($id);

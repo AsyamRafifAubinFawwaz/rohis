@@ -5,6 +5,7 @@ namespace App\Usecase;
 use App\Constants\DatabaseConst;
 use App\Constants\ResponseConst;
 use App\Http\Presenter\Response;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +18,12 @@ class TaskUsecase extends Usecase
     public function getAll(array $filterData = []): array
     {
         try {
-            $query = DB::table(DatabaseConst::TASK . ' as t')
-                ->leftJoin(DatabaseConst::TASK_CATEGORY . ' as tc', 't.task_category_id', '=', 'tc.id')
+            $query = DB::table(DatabaseConst::TASK.' as t')
+                ->leftJoin(DatabaseConst::TASK_CATEGORY.' as tc', 't.task_category_id', '=', 'tc.id')
                 ->select('t.*', 'tc.name as category_name')
                 ->whereNull('t.deleted_at')
                 ->when($filterData['keywords'] ?? false, function ($query, $keywords) {
-                    return $query->where('t.title', 'like', '%' . $keywords . '%');
+                    return $query->where('t.title', 'like', '%'.$keywords.'%');
                 })
                 ->when($filterData['status'] ?? false, function ($query, $status) {
                     return $query->where('t.status', $status);
@@ -44,7 +45,7 @@ class TaskUsecase extends Usecase
 
             // Manually cast dates for the collection
             $data->getCollection()->transform(function ($item) {
-                $item->task_date = \Carbon\Carbon::parse($item->task_date);
+                $item->task_date = Carbon::parse($item->task_date);
 
                 return $item;
             });
@@ -70,8 +71,8 @@ class TaskUsecase extends Usecase
     public function getByID(int $id): array
     {
         try {
-            $data = DB::table(DatabaseConst::TASK . ' as t')
-                ->leftJoin(DatabaseConst::TASK_CATEGORY . ' as tc', 't.task_category_id', '=', 'tc.id')
+            $data = DB::table(DatabaseConst::TASK.' as t')
+                ->leftJoin(DatabaseConst::TASK_CATEGORY.' as tc', 't.task_category_id', '=', 'tc.id')
                 ->select('t.*', 'tc.name as task_category_name')
                 ->where('t.id', $id)
                 ->whereNull('t.deleted_at')
@@ -82,7 +83,7 @@ class TaskUsecase extends Usecase
             }
 
             // Parse types manually since we are not using Eloquent Casts
-            $data->task_date = \Carbon\Carbon::parse($data->task_date);
+            $data->task_date = Carbon::parse($data->task_date);
 
             return Response::buildSuccess(
                 data: collect($data)->toArray()
@@ -201,7 +202,7 @@ class TaskUsecase extends Usecase
             return Response::buildSuccess(
                 message: ResponseConst::SUCCESS_MESSAGE_DELETED
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
 
             Log::error(

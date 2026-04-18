@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Programs extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'name',
         'description',
+        'image',
         'start_date',
         'end_date',
-        'status',
-        'created_by'
+        'created_by',
     ];
 
     public function creator()

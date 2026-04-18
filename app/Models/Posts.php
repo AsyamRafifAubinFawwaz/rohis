@@ -10,7 +10,7 @@ use Tonysm\RichTextLaravel\Models\Traits\HasRichText;
 
 class Posts extends Model
 {
-    use SoftDeletes, HasRichText;
+    use HasRichText, SoftDeletes;
 
     protected $richTextAttributes = [
         'content',

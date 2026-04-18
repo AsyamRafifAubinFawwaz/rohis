@@ -10,10 +10,7 @@ class ActivitiesController extends Controller
     /**
      * Admin hanya dapat mengelola aktivitas milik sendiri
      */
-    public function index()
-    {
-        
-    }
+    public function index() {}
 
     public function add()
     {

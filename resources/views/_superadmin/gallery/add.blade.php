@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <form navigate-form action="{{ route('superadmin.galleries.create') }}" method="POST"
+            <form navigate-form action="{{ route('superadmin.galleries.doCreate') }}" method="POST"
                 enctype="multipart/form-data" class="p-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

@@ -67,25 +67,21 @@
                                 @enderror
                             </div>
 
-                            <!-- Status -->
+                            <!-- Status (otomatis dari tanggal) -->
                             <div>
-                                <label for="status" class="block text-sm font-medium mb-2 dark:text-white">Status <span
-                                        class="text-red-500">*</span></label>
-                                <select id="status" name="status"
-                                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white @error('status') border-red-500 @enderror"
-                                    required>
-                                    <option value="upcoming"
-                                        {{ old('status', $activity->status) == 'upcoming' ? 'selected' : '' }}>Upcoming
-                                    </option>
-                                    <option value="ongoing"
-                                        {{ old('status', $activity->status) == 'ongoing' ? 'selected' : '' }}>Ongoing
-                                    </option>
-                                    <option value="done"
-                                        {{ old('status', $activity->status) == 'done' ? 'selected' : '' }}>Done</option>
-                                </select>
-                                @error('status')
-                                    <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
-                                @enderror
+                                <label class="block text-sm font-medium mb-2 dark:text-white">Status</label>
+                                @php
+                                    $statusClasses = [
+                                        'upcoming' => 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800',
+                                        'ongoing'  => 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800',
+                                        'done'     => 'bg-gray-50 text-gray-600 border-gray-200 dark:bg-neutral-700 dark:text-neutral-400 dark:border-neutral-600',
+                                    ];
+                                    $currentClass = $statusClasses[$activity->status] ?? $statusClasses['upcoming'];
+                                @endphp
+                                <div class="py-3 px-4 flex items-center gap-2 border rounded-lg {{ $currentClass }} text-sm font-semibold">
+                                    <span class="uppercase tracking-wider">{{ $activity->status }}</span>
+                                    <span class="font-normal opacity-70 text-xs">— dihitung otomatis dari tanggal</span>
+                                </div>
                             </div>
                         </div>
 

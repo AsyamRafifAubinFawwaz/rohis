@@ -18,7 +18,7 @@ return new class extends Migration
                 'about',
                 'vision',
                 'mission',
-                'structure'
+                'structure',
             ]);
 
             $table->longText('content');

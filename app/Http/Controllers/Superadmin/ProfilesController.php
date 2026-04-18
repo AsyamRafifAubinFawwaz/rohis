@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ProfilesController extends Controller
 {
-     public function index(): void
+    public function index(): void
     {
         // $profiles = Profiles::all();
         // return view('superadmin.profiles.index', compact('profiles'));
@@ -48,6 +48,4 @@ class ProfilesController extends Controller
 
         // return back()->with(ResponseConst::SUCCESS_MESSAGE_UPDATED);
     }
-
-  
 }

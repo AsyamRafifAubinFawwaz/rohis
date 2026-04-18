@@ -13,10 +13,9 @@ class PostsController extends Controller
     public function index()
     {
         $posts = auth()->user()->posts()->latest()->get();
+
         return view('admin.posts.index', compact('posts'));
     }
-
-
 
     public function doCreate(Request $request)
     {
