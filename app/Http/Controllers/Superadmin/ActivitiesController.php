@@ -64,13 +64,26 @@ class ActivitiesController extends Controller
 
     public function doCreate(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'location' => 'nullable|string|max:255',
-            'event_date' => 'nullable|date',
+            'start_date' => 'nullable|date_format:Y-m-d',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_date' => 'nullable|date_format:Y-m-d',
+            'end_time' => 'nullable|date_format:H:i',
             'poster' => 'nullable|image|max:2048',
         ]);
+
+        $data = $request->only(['title', 'description', 'location']);
+
+        if ($request->start_date) {
+            $data['event_start'] = $request->start_date.' '.($request->start_time ?? '00:00').':00';
+        }
+
+        if ($request->end_date) {
+            $data['event_end'] = $request->end_date.' '.($request->end_time ?? '23:59').':00';
+        }
 
         if ($request->hasFile('poster')) {
             $data['poster'] = $request->file('poster')->store('posters', 'public');
@@ -93,15 +106,22 @@ class ActivitiesController extends Controller
 
     public function doUpdate(Request $request, $id)
     {
-        $data = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'location' => 'required|string|max:255',
-            'event_date' => 'required|date',
+            'start_date' => 'required|date_format:Y-m-d',
+            'start_time' => 'required|date_format:H:i',
+            'end_date' => 'required|date_format:Y-m-d',
+            'end_time' => 'required|date_format:H:i',
             'poster' => 'nullable|image|max:2048',
         ]);
 
         $activity = Activities::findOrFail($id);
+
+        $data = $request->only(['title', 'description', 'location']);
+        $data['event_start'] = $request->start_date.' '.$request->start_time.':00';
+        $data['event_end'] = $request->end_date.' '.$request->end_time.':00';
 
         if ($request->hasFile('poster')) {
             $data['poster'] = $request->file('poster')->store('posters', 'public');

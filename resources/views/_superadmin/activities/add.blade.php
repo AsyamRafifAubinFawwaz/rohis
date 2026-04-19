@@ -52,34 +52,69 @@
                             @enderror
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <!-- Tanggal -->
-                            <div>
-                                <label for="event_date" class="block text-sm font-medium mb-2 dark:text-white">Tanggal <span
-                                        class="text-red-500">*</span></label>
-                                <input type="date" id="event_date" name="event_date" value="{{ old('event_date') }}"
-                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white @error('event_date') border-red-500 @enderror"
-                                    required>
-                                @error('event_date')
-                                    <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
-                                @enderror
+                        <div class="space-y-3">
+                            <label class="block text-sm font-medium dark:text-white">
+                                Tanggal & Waktu Kegiatan <span class="text-red-500">*</span>
+                            </label>
+
+                            {{-- Date Range --}}
+                            <div class="flex items-center gap-2">
+                                {{-- Start Date --}}
+                                <div class="relative flex-1">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-400 dark:text-neutral-500">
+                                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
+                                    </div>
+                                    <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}"
+                                        class="ps-10 pe-3 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('start_date') border-red-500 @enderror"
+                                        required>
+                                </div>
+
+                                <span class="text-gray-400 dark:text-neutral-500 font-medium text-sm shrink-0">—</span>
+
+                                {{-- End Date --}}
+                                <div class="relative flex-1">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-400 dark:text-neutral-500">
+                                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
+                                    </div>
+                                    <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}"
+                                        class="ps-10 pe-3 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('end_date') border-red-500 @enderror"
+                                        required>
+                                </div>
                             </div>
 
-                            <!-- Status -->
-                            <div>
-                                <label for="status" class="block text-sm font-medium mb-2 dark:text-white">Status <span
-                                        class="text-red-500">*</span></label>
-                                <select id="status" name="status"
-                                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white @error('status') border-red-500 @enderror"
-                                    required>
-                                    <option value="upcoming" {{ old('status') == 'upcoming' ? 'selected' : '' }}>Upcoming</option>
-                                    <option value="ongoing" {{ old('status') == 'ongoing' ? 'selected' : '' }}>Ongoing</option>
-                                    <option value="done" {{ old('status') == 'done' ? 'selected' : '' }}>Done</option>
-                                </select>
-                                @error('status')
-                                    <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
-                                @enderror
+                            {{-- Time Range --}}
+                            <div class="flex items-center gap-2">
+                                {{-- Start Time --}}
+                                <div class="relative flex-1">
+                                    <div class="absolute inset-y-0 end-0 flex items-center pe-3.5 pointer-events-none text-gray-400 dark:text-neutral-500">
+                                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                                    </div>
+                                    <input type="time" id="start_time" name="start_time" value="{{ old('start_time', '08:00') }}"
+                                        class="pe-10 ps-3 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('start_time') border-red-500 @enderror"
+                                        required>
+                                </div>
+
+                                <span class="text-gray-400 dark:text-neutral-500 font-medium text-sm shrink-0">—</span>
+
+                                {{-- End Time --}}
+                                <div class="relative flex-1">
+                                    <div class="absolute inset-y-0 end-0 flex items-center pe-3.5 pointer-events-none text-gray-400 dark:text-neutral-500">
+                                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                                    </div>
+                                    <input type="time" id="end_time" name="end_time" value="{{ old('end_time', '17:00') }}"
+                                        class="pe-10 ps-3 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('end_time') border-red-500 @enderror"
+                                        required>
+                                </div>
                             </div>
+
+                            @error('start_date') <p class="text-xs text-red-600">{{ $message }}</p> @enderror
+                            @error('start_time') <p class="text-xs text-red-600">{{ $message }}</p> @enderror
+                            @error('end_date') <p class="text-xs text-red-600">{{ $message }}</p> @enderror
+                            @error('end_time') <p class="text-xs text-red-600">{{ $message }}</p> @enderror
+
+                            <p class="text-xs text-gray-400 dark:text-neutral-500">
+                                Status akan otomatis berubah: <span class="font-medium text-blue-500">Upcoming</span> → <span class="font-medium text-emerald-500">Ongoing</span> → <span class="font-medium text-gray-500">Done</span>
+                            </p>
                         </div>
 
                         <!-- Deskripsi -->

@@ -19,31 +19,41 @@ class Activities extends Model
         'title',
         'description',
         'location',
-        'event_date',
+        'event_start',
+        'event_end',
         'poster',
         'created_by',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'event_start' => 'datetime',
+            'event_end' => 'datetime',
+        ];
+    }
+
     /**
-     * Hitung status otomatis berdasarkan event_date.
-     * - upcoming : tanggal belum tiba
-     * - ongoing  : hari H pelaksanaan
-     * - done     : tanggal sudah lewat
+     * Hitung status otomatis berdasarkan event_start dan event_end.
+     * - upcoming : sekarang < event_start
+     * - ongoing  : event_start ≤ sekarang ≤ event_end
+     * - done     : sekarang > event_end
      */
     public function getStatusAttribute(): string
     {
-        if (! $this->event_date) {
+        if (! $this->event_start) {
             return 'upcoming';
         }
 
-        $today = Carbon::today();
-        $eventDate = Carbon::parse($this->event_date)->startOfDay();
+        $now = Carbon::now();
+        $start = Carbon::parse($this->event_start);
+        $end = $this->event_end ? Carbon::parse($this->event_end) : $start->copy()->addDay();
 
-        if ($today->lt($eventDate)) {
+        if ($now->lt($start)) {
             return 'upcoming';
         }
 
-        if ($today->eq($eventDate)) {
+        if ($now->lte($end)) {
             return 'ongoing';
         }
 

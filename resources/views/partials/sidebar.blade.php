@@ -83,7 +83,7 @@
                             <a navigate
                                 class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('superadmin.organizer.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
                                 href="{{ route('superadmin.organizer.index') }}">
-                                <span class="icon">@include('partials.icons.sidebar.gallery')</span>
+                                <span class="icon">@include('partials.icons.sidebar.user-group')</span>
                                 <span class="sidebar-text">Panitia</span>
                             </a>
                         </li>
