@@ -402,10 +402,12 @@ $(document).ready(function () {
         var $form = $(this);
         console.log("SPA Form Submit:", $form.attr("action"));
 
-        // Find submit button & Set Loading State
+        // Hanya tampilkan loading pada tombol untuk form non-GET (POST/DELETE/PUT)
+        // Form GET (filter/search) cukup pakai NProgress bar di atas
         var $btn = $form.find('button[type="submit"]');
         var originalHtml = $btn.html();
-        if ($btn.length) {
+        var isGetForm = ($form.attr("method") || "GET").toUpperCase() === "GET";
+        if ($btn.length && !isGetForm) {
             $btn.prop("disabled", true).html(
                 '<span class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent rounded-full" role="status" aria-label="loading"></span> Loading...',
             );

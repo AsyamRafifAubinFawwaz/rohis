@@ -264,7 +264,12 @@
             const el = document.getElementById('access_type');
             if (el) {
                 el.addEventListener('change', function () {
-                    document.getElementById('filter-form').submit();
+                    const form = document.getElementById('filter-form');
+                    if (typeof form.requestSubmit === 'function') {
+                        form.requestSubmit();
+                    } else {
+                        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                    }
                 });
             }
         });

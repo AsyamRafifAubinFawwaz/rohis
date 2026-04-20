@@ -267,14 +267,45 @@
             const el = document.getElementById('status');
             if (el) {
                 el.addEventListener('change', function () {
-                    document.getElementById('filter-form').submit();
+                    const form = document.getElementById('filter-form');
+                    if (typeof form.requestSubmit === 'function') {
+                        form.requestSubmit();
+                    } else {
+                        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                    }
                 });
             }
         });
 
         function setStatusData(status) {
-            document.getElementById('status_data_input').value = status;
-            document.getElementById('filter-form').submit();
+            const input   = document.getElementById('status_data_input');
+            if (input.value === status) return;
+
+            input.value = status;
+
+            const aktifBtn  = document.getElementById('status_data_aktif');
+            const sampahBtn = document.getElementById('status_data_nonaktif');
+            const brandOn   = ['bg-brand', 'text-white', 'shadow-sm'];
+            const brandOff  = ['text-gray-500', 'hover:text-gray-700', 'dark:text-neutral-400', 'dark:hover:text-neutral-300'];
+
+            if (status === 'aktif') {
+                aktifBtn.classList.add(...brandOn);
+                aktifBtn.classList.remove(...brandOff);
+                sampahBtn.classList.remove(...brandOn);
+                sampahBtn.classList.add(...brandOff);
+            } else {
+                sampahBtn.classList.add(...brandOn);
+                sampahBtn.classList.remove(...brandOff);
+                aktifBtn.classList.remove(...brandOn);
+                aktifBtn.classList.add(...brandOff);
+            }
+
+            const form = document.getElementById('filter-form');
+            if (typeof form.requestSubmit === 'function') {
+                form.requestSubmit();
+            } else {
+                form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            }
         }
 
         function setDeleteData(id, name, isPermanent) {
