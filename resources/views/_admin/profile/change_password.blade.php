@@ -1,4 +1,4 @@
-@extends('_admin._layout.app')
+@extends(Auth::user()->access_type == \App\Constants\UserConst::SUPERADMIN ? '_superadmin._layout.app' : '_admin._layout.app')
 
 @section('title', 'Ubah Password')
 

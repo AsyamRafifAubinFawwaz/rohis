@@ -261,6 +261,64 @@ class UserUsecase extends Usecase
         }
     }
 
+    public function changeEmail(array $data): array
+    {
+        $userID = Auth::user()?->id;
+
+        $validator = Validator::make($data, [
+            'current_password' => ['required', 'current_password'],
+            'email' => ['required', 'email', 'unique:users,email,'.$userID],
+        ]);
+
+        $customAttributes = [
+            'current_password' => 'Password Saat Ini',
+            'email' => 'Email Baru',
+        ];
+        $validator->setAttributeNames($customAttributes);
+        $validator->validate();
+
+        DB::beginTransaction();
+
+        try {
+            $locked = DB::table(DatabaseConst::USER)
+                ->where('id', $userID)
+                ->whereNull('deleted_at')
+                ->lockForUpdate()
+                ->first(['id']);
+
+            if (! $locked) {
+                DB::rollback();
+
+                throw new Exception('FAILED LOCKED DATA');
+            }
+
+            DB::table(DatabaseConst::USER)
+                ->where('id', $userID)
+                ->update([
+                    'email' => $data['email'],
+                    'updated_by' => $userID,
+                    'updated_at' => now(),
+                ]);
+
+            DB::commit();
+
+            return Response::buildSuccess(
+                message: ResponseConst::SUCCESS_MESSAGE_UPDATED
+            );
+        } catch (Exception $e) {
+            DB::rollback();
+
+            Log::error(
+                message: $e->getMessage(),
+                context: [
+                    'method' => __METHOD__,
+                ]
+            );
+
+            return Response::buildErrorService($e->getMessage());
+        }
+    }
+
     public function resetPassword(int $id): array
     {
         $defaultPassword = self::DEFAULT_PASSWORD;

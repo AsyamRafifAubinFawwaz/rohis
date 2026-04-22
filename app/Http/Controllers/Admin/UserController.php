@@ -170,4 +170,25 @@ class UserController extends Controller
                 ->with('error', $process['message'] ?? ResponseConst::DEFAULT_ERROR_MESSAGE);
         }
     }
+
+    public function changeEmail(): View
+    {
+        return view('_admin.profile.change_email');
+    }
+
+    public function doChangeEmail(Request $request): RedirectResponse
+    {
+        $process = $this->usecase->changeEmail($request->all());
+
+        if ($process['success']) {
+            return redirect()
+                ->back()
+                ->with('success', 'Email berhasil diubah.');
+        } else {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', $process['message'] ?? ResponseConst::DEFAULT_ERROR_MESSAGE);
+        }
+    }
 }

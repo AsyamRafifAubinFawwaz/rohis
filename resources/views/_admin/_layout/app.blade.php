@@ -115,6 +115,17 @@
                             <div class="mt-2 py-2 first:pt-0 last:pb-0">
                                 <a navigate
                                     class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700 dark:focus:text-neutral-300"
+                                    href="{{ route('admin.profile.change_email') }}">
+                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5C2 7 4 5 6.5 5H18c2.2 0 4 1.8 4 4v8Z"></path>
+                                        <polyline points="15,9 18,9 18,11"></polyline>
+                                        <path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2"></path>
+                                        <line x1="6" y1="10" x2="6" y2="10"></line>
+                                    </svg>
+                                    Ubah Email
+                                </a>
+                                <a navigate
+                                    class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700 dark:focus:text-neutral-300"
                                     href="{{ route('admin.profile.change_password') }}">
                                     <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>

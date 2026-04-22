@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Superadmin\ActivitiesController;
 use App\Http\Controllers\Superadmin\AnnouncementsController;
 use App\Http\Controllers\Superadmin\CategoriesController;
+use App\Http\Controllers\Superadmin\DashboardController;
 use App\Http\Controllers\Superadmin\GalleriesController as SuperadminGalleriesController;
 use App\Http\Controllers\Superadmin\OrganizerController;
 use App\Http\Controllers\Superadmin\PostsCategoriesController;
@@ -70,13 +71,13 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('/change-password', [UserController::class, 'changePassword'])->name('change_password');
         Route::post('/change-password', [UserController::class, 'doChangePassword'])->name('do_change_password');
+        Route::get('/change-email', [UserController::class, 'changeEmail'])->name('change_email');
+        Route::post('/change-email', [UserController::class, 'doChangeEmail'])->name('do_change_email');
     });
 });
 
 Route::middleware('auth')->prefix('superadmin')->name('superadmin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('_superadmin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('announcements')->name('announcements.')->group(function () {
         Route::get('/', [AnnouncementsController::class, 'index'])->name('index');
