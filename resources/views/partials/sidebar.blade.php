@@ -17,10 +17,10 @@
     <div class="relative flex flex-col h-full max-h-full">
         <!-- Sidebar Header -->
         <div class="sidebar-header px-6 pt-4 flex items-center justify-between min-h-[64px]">
-            <div class="flex items-center gap-x-3">
+            <div class="sidebar-text flex items-center gap-x-3 transition-all duration-300">
                 <img src="{{ asset('favicon/logo-rohis.png') }}" class="size-8 object-contain" alt="Logo">
                 <span
-                    class="sidebar-text text-sm font-bold text-gray-800 dark:text-neutral-200 uppercase tracking-wider">ROHIS</span>
+                    class="text-sm font-bold text-gray-800 dark:text-neutral-200 uppercase tracking-wider">ROHIS</span>
             </div>
             <button type="button" onclick="toggleSidebarMini()"
                 class="sidebar-toggle-btn p-1.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
@@ -54,10 +54,18 @@
                     @if (Auth::user()->access_type == UserConst::ADMIN)
                         <li>
                             <a navigate
-                                class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('admin.tasks.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
-                                href="{{ route('admin.tasks.index') }}">
-                                <span class="icon">@include('partials.icons.sidebar.task')</span>
-                                <span class="sidebar-text">Manajemen Tugas</span>
+                                class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('admin.posts.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
+                                href="{{ route('admin.posts.index') }}">
+                                <span class="icon">@include('partials.icons.sidebar.post')</span>
+                                <span class="sidebar-text">Postingan</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a navigate
+                                class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('admin.galleries.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
+                                href="{{ route('admin.galleries.index') }}">
+                                <span class="icon">@include('partials.icons.sidebar.gallery')</span>
+                                <span class="sidebar-text">Gallery</span>
                             </a>
                         </li>
                     @endif
@@ -95,7 +103,7 @@
                                 <span class="sidebar-text">Kegiatan</span>
                             </a>
                         </li>
-                        
+                        <li>
                             <a navigate
                                 class="nav-link flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('superadmin.users.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-white' }} text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 font-semibold"
                                 href="{{ route('superadmin.users.index') }}">
@@ -147,6 +155,8 @@
                                             href="{{ route('superadmin.announcements.index') }}">
                                             Pengumuman
                                         </a>
+                                    </li>
+                                    <li>
                                         <a navigate
                                             class="flex items-center gap-x-3.5  py-2 px-3 text-sm rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 {{ request()->routeIs('superadmin.categories.*') ? 'bg-brand-light text-brand dark:bg-neutral-700 dark:text-brand-light' : 'text-gray-800 dark:text-neutral-200' }}"
                                             href="{{ route('superadmin.categories.index') }}">
@@ -191,3 +201,59 @@
     </div>
 </aside>
 <!-- End Sidebar -->
+
+<script>
+    (function() {
+        const sidebar = document.getElementById('hs-application-sidebar');
+        if (!sidebar) return;
+
+        // Function to close all floating menus
+        const closeAllMiniDropdowns = () => {
+            document.querySelectorAll('.mini-dropdown-open').forEach(el => {
+                el.classList.remove('mini-dropdown-open');
+                el.style.position = '';
+                el.style.top = '';
+                el.style.left = '';
+                el.style.display = '';
+            });
+        };
+
+        sidebar.addEventListener('click', (e) => {
+            const toggle = e.target.closest('.hs-accordion-toggle');
+            if (toggle && document.documentElement.classList.contains('sidebar-mini')) {
+                // Prevent Preline accordion from firing
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+
+                const accordion = toggle.closest('.hs-accordion');
+                const content = accordion.querySelector('.hs-accordion-content');
+
+                if (content.classList.contains('mini-dropdown-open')) {
+                    closeAllMiniDropdowns();
+                } else {
+                    closeAllMiniDropdowns();
+                    content.classList.add('mini-dropdown-open');
+
+                    const rect = toggle.getBoundingClientRect();
+                    content.style.position = 'fixed';
+                    content.style.top = rect.top + 'px';
+                    content.style.left = (rect.left + 70) + 'px';
+                    content.style.display = 'block';
+                }
+            }
+        }, true); // Use capture phase to intercept before Preline
+
+        document.addEventListener('mousedown', (e) => {
+            if (!e.target.closest('.hs-accordion') && !e.target.closest('.mini-dropdown-open')) {
+                closeAllMiniDropdowns();
+            }
+        });
+
+        window.addEventListener('popstate', closeAllMiniDropdowns);
+
+        $(document).on('click', 'a[navigate]', function() {
+            closeAllMiniDropdowns();
+        });
+    })();
+</script>

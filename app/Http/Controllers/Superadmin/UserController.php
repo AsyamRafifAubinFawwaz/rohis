@@ -20,9 +20,9 @@ class UserController extends Controller
 
         $data = User::query()
             ->when($keywords, function ($query, $keywords) {
-                return $query->where(function($q) use ($keywords) {
-                    $q->where('name', 'like', '%' . $keywords . '%')
-                      ->orWhere('email', 'like', '%' . $keywords . '%');
+                return $query->where(function ($q) use ($keywords) {
+                    $q->where('name', 'like', '%'.$keywords.'%')
+                        ->orWhere('email', 'like', '%'.$keywords.'%');
                 });
             })
             ->when($access_type, function ($query, $access_type) {
@@ -34,6 +34,7 @@ class UserController extends Controller
                 } elseif ($status_data == 'nonaktif') {
                     return $query->onlyTrashed();
                 }
+
                 return $query;
             })
             ->latest()
@@ -49,6 +50,7 @@ class UserController extends Controller
     {
         $roles = UserConst::getAccessTypes();
         $page = ['title' => 'Tambah Akun'];
+
         return view('_superadmin.users.add', compact('roles', 'page'));
     }
 
@@ -74,6 +76,7 @@ class UserController extends Controller
     {
         $user = User::withTrashed()->findOrFail($id);
         $page = ['title' => 'Detail Akun'];
+
         return view('_superadmin.users.detail', compact('user', 'page'));
     }
 
@@ -82,6 +85,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $roles = UserConst::getAccessTypes();
         $page = ['title' => 'Edit Akun'];
+
         return view('_superadmin.users.update', compact('user', 'roles', 'page'));
     }
 
@@ -96,7 +100,7 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);
@@ -126,7 +130,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update([
             'password' => Hash::make('password123'), // Default password or logic as needed
-            'updated_by' => auth()->id()
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->route('superadmin.users.index')->with('success', 'Password berhasil direset menjadi "password123"');

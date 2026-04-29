@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\GalleriesController;
+use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\TaskCategoryController;
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
@@ -47,6 +49,27 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::post('/update/{id}', [UserController::class, 'doUpdate'])->name('doUpdate');
         Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('delete');
         Route::post('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('resetPassword');
+    });
+
+    Route::prefix('posts')->name('posts.')->group(function () {
+        Route::get('/', [PostsController::class, 'index'])->name('index');
+        Route::get('/add', [PostsController::class, 'add'])->name('add');
+        Route::post('/create', [PostsController::class, 'doCreate'])->name('create');
+        Route::get('/detail/{id}', [PostsController::class, 'detail'])->name('detail');
+        Route::get('/update/{id}', [PostsController::class, 'update'])->name('update');
+        Route::post('/update/{id}', [PostsController::class, 'doUpdate'])->name('doUpdate');
+        Route::delete('/delete/{id}', [PostsController::class, 'delete'])->name('delete');
+    });
+
+    Route::prefix('galleries')->name('galleries.')->group(function () {
+        Route::get('/', [GalleriesController::class, 'index'])->name('index');
+        Route::get('/add', [GalleriesController::class, 'add'])->name('add');
+        Route::post('/create', [GalleriesController::class, 'doCreate'])->name('doCreate');
+        Route::get('/update/{id}', [GalleriesController::class, 'update'])->name('update');
+        Route::post('/update/{id}', [GalleriesController::class, 'doUpdate'])->name('doUpdate');
+        Route::delete('/delete/{id}', [GalleriesController::class, 'delete'])->name('delete');
+        Route::post('/restore/{id}', [GalleriesController::class, 'restore'])->name('restore');
+        Route::delete('/force-delete/{id}', [GalleriesController::class, 'forceDelete'])->name('forceDelete');
     });
 
     Route::prefix('task-categories')->name('task_categories.')->group(function () {

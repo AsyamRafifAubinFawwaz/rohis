@@ -118,7 +118,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        (function() {
             // Slug generation
             function createSlug(text) {
                 return text.toString().toLowerCase()
@@ -137,6 +137,6 @@
                     slugInput.value = createSlug(this.value);
                 });
             }
-        });
+        })();
     </script>
 @endsection

@@ -19,13 +19,13 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-        public function boot(): void
-        {
-            Blaze::optimize()->in(
-                resource_path('views/components'),
-                fold: true,
-            );
-        }
+    public function boot(): void
+    {
+        Blaze::optimize()->in(
+            resource_path('views/components'),
+            fold: true,
+        );
+    }
 }
 
 // if (! $this->app->environment('local')) {
