@@ -63,9 +63,17 @@
                         <div>
                             <label for="periode" class="block text-sm font-medium mb-2 dark:text-white">Periode <span
                                     class="text-red-500">*</span></label>
-                            <input type="text" id="periode" name="periode" value="{{ old('periode', now()->year) }}"
-                                class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600 @error('periode') border-red-500 @enderror"
-                                required placeholder="Contoh: 2025 atau 2025/2026">
+                            <select id="periode" name="periode"
+                                class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:focus:ring-neutral-600 @error('periode') border-red-500 @enderror"
+                                required>
+                                <option value="" disabled {{ old('periode') ? '' : 'selected' }}>Pilih periode...</option>
+                                @foreach ($periodeOptions as $option)
+                                    <option value="{{ $option['value'] }}"
+                                        {{ old('periode', now()->year . '-' . (now()->year + 1)) === $option['value'] ? 'selected' : '' }}>
+                                        {{ $option['label'] }}
+                                    </option>
+                                @endforeach
+                            </select>
                             @error('periode')
                                 <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
                             @enderror

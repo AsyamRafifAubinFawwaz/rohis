@@ -16,8 +16,9 @@ class OrganizerController extends Controller
     {
         $keywords = $request->keywords;
         $status_data = $request->status_data ?? 'aktif';
-        $currentYear = (string) now()->year;
-        $periode = $request->periode ?? $currentYear;
+        $currentYear = (int) now()->year;
+        $defaultPeriode = $currentYear.'-'.($currentYear + 1);
+        $periode = $request->periode ?? $defaultPeriode;
 
         // Ambil semua periode unik dari database (termasuk yang terhapus)
         $periodeList = organizer::withTrashed()
@@ -25,10 +26,14 @@ class OrganizerController extends Controller
             ->orderBy('periode', 'desc')
             ->pluck('periode');
 
-        // Pastikan tahun sekarang ada di list meskipun belum ada data
-        if (! $periodeList->contains($currentYear)) {
-            $periodeList = $periodeList->prepend($currentYear);
+        // Pastikan default periode ada di list meskipun belum ada data
+        if (! $periodeList->contains($defaultPeriode)) {
+            $periodeList = $periodeList->prepend($defaultPeriode);
         }
+
+        // Tambahkan periode dari generated options yang belum ada di database
+        $generatedOptions = collect($this->generatePeriodeOptions())->pluck('value');
+        $periodeList = $periodeList->merge($generatedOptions)->unique()->sortDesc()->values();
 
         $organizers = organizer::query()
             ->when($keywords, function ($query, $keywords) {
@@ -56,6 +61,7 @@ class OrganizerController extends Controller
             'status_data',
             'periode',
             'periodeList',
+            'defaultPeriode',
             'page'
         ));
     }
@@ -64,8 +70,9 @@ class OrganizerController extends Controller
     {
         $page = ['title' => 'Struktur Organisasi'];
         $jabatanList = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Anggota'];
+        $periodeOptions = $this->generatePeriodeOptions();
 
-        return view('_superadmin.organizer.add', compact('page', 'jabatanList'));
+        return view('_superadmin.organizer.add', compact('page', 'jabatanList', 'periodeOptions'));
     }
 
     public function doCreate(Request $request): RedirectResponse
@@ -91,8 +98,9 @@ class OrganizerController extends Controller
         $organizer = organizer::findOrFail($id);
         $page = ['title' => 'Struktur Organisasi'];
         $jabatanList = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Anggota'];
+        $periodeOptions = $this->generatePeriodeOptions();
 
-        return view('_superadmin.organizer.update', compact('organizer', 'page', 'jabatanList'));
+        return view('_superadmin.organizer.update', compact('organizer', 'page', 'jabatanList', 'periodeOptions'));
     }
 
     public function doUpdate(Request $request, $id): RedirectResponse
@@ -145,5 +153,36 @@ class OrganizerController extends Controller
         $organizer->forceDelete();
 
         return redirect()->route('superadmin.organizer.index', ['status_data' => 'nonaktif'])->with('success', ResponseConst::SUCCESS_MESSAGE_DELETED);
+    }
+
+    /**
+     * Generate periode options in "YYYY-YYYY" format.
+     *
+     * @return array<int, array{value: string, label: string}>
+     */
+    private function generatePeriodeOptions(): array
+    {
+        $currentYear = (int) now()->year;
+        $startYear = 2020;
+        $endYear = $currentYear + 1;
+        $options = [];
+
+        // 1-year span periods (e.g. 2025-2026)
+        for ($year = $endYear; $year >= $startYear; $year--) {
+            $options[] = [
+                'value' => $year.'-'.($year + 1),
+                'label' => $year.'-'.($year + 1).' (1 Periode)',
+            ];
+        }
+
+        // 2-year span periods (e.g. 2025-2027)
+        for ($year = $endYear; $year >= $startYear; $year--) {
+            $options[] = [
+                'value' => $year.'-'.($year + 2),
+                'label' => $year.'-'.($year + 2).' (2 Periode)',
+            ];
+        }
+
+        return $options;
     }
 }

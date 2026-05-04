@@ -79,7 +79,7 @@
                         title="Terapkan Filter">
                         @include('_admin._layout.icons.search')
                     </button>
-                    @if (!empty($keywords) || ($status_data ?? 'aktif') !== 'aktif' || $periode !== (string) now()->year)
+                    @if (!empty($keywords) || ($status_data ?? 'aktif') !== 'aktif' || $periode !== $defaultPeriode)
                         <a navigate
                             class="size-[42px] inline-flex justify-center items-center gap-x-1 text-sm font-semibold rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 focus:outline-none transition-all active:scale-95 shadow-sm"
                             href="{{ route('superadmin.organizer.index') }}" title="Reset Filter">
@@ -115,7 +115,7 @@
                 <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-bold bg-brand/10 text-brand">
                     {{ $periode }}
                 </span>
-                @if ($periode !== (string) now()->year)
+                @if ($periode !== $defaultPeriode)
                     <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold bg-amber-50 text-amber-600 dark:bg-amber-900/20">
                         Periode Lampau
                     </span>
