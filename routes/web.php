@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\TaskCategoryController;
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Superadmin\ActivitiesController;
 use App\Http\Controllers\Superadmin\AnnouncementsController;
 use App\Http\Controllers\Superadmin\CategoriesController;
@@ -20,8 +21,9 @@ use App\Http\Controllers\Superadmin\UserController as SuperadminUserController;
 use Illuminate\Support\Benchmark;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('admin.dashboard');
+// Landing Page Routes (Public)
+Route::name('landing.')->group(function () {
+    Route::get('/', [LandingController::class, 'index'])->name('index');
 });
 
 Route::get('test', function () {
