@@ -60,7 +60,7 @@
 
             <div class="flex items-center gap-x-3">
                 <!-- Logo -->
-                <a class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
+                <a class="flex-none rounded-md text-xl dark:text-white inline-block font-semibold focus:outline-hidden focus:opacity-80"
                     href="#" aria-label="Rohis">
                     Selamat Datang {{ Auth::user()->name }}
                 </a>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Superadmin;
 use App\Http\Controllers\Controller;
 use App\Models\Galleries;
 use App\Models\Posts;
+use App\Models\Profiles;
 use App\Models\Programs;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,10 +32,17 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        $latest_programs = Programs::latest()->limit(5)->get();
         $latest_galleries = Galleries::with('creator')
             ->latest()
             ->limit(8)
             ->get();
+
+        $profile_stats = Profiles::selectRaw('type, count(*) as count')
+            ->groupBy('type')
+            ->get()
+            ->pluck('count', 'type')
+            ->toArray();
 
         // Chart Data: Post Status Distribution
         $post_status_counts = Posts::selectRaw('status, count(*) as count')
@@ -54,8 +62,10 @@ class DashboardController extends Controller
             'page',
             'stats',
             'pending_posts',
+            'latest_programs',
             'latest_galleries',
-            'chart_data'
+            'chart_data',
+            'profile_stats'
         ));
     }
 

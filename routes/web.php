@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\GalleriesController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\TaskCategoryController;
@@ -24,6 +25,30 @@ use Illuminate\Support\Facades\Route;
 // Landing Page Routes (Public)
 Route::name('landing.')->group(function () {
     Route::get('/', [LandingController::class, 'index'])->name('index');
+
+    Route::prefix('artikel')->name('articles.')->group(function () {
+        Route::get('/', [LandingController::class, 'articles'])->name('index');
+        Route::get('/{slug}', [LandingController::class, 'articleDetail'])->name('detail');
+    });
+
+    Route::prefix('program')->name('programs.')->group(function () {
+        Route::get('/', [LandingController::class, 'programs'])->name('index');
+        Route::get('/{id}', [LandingController::class, 'programDetail'])->name('detail');
+    });
+
+    Route::prefix('galeri')->name('galleries.')->group(function () {
+        Route::get('/', [LandingController::class, 'galleries'])->name('index');
+    });
+
+    Route::prefix('pengumuman')->name('announcements.')->group(function () {
+        Route::get('/', [LandingController::class, 'announcements'])->name('index');
+        Route::get('/{id}', [LandingController::class, 'announcementDetail'])->name('detail');
+    });
+
+    Route::prefix('aktivitas')->name('activities.')->group(function () {
+        Route::get('/', [LandingController::class, 'activities'])->name('index');
+        Route::get('/{id}', [LandingController::class, 'activityDetail'])->name('detail');
+    });
 });
 
 Route::get('test', function () {
@@ -38,9 +63,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Admin Users Routes
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('_admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');

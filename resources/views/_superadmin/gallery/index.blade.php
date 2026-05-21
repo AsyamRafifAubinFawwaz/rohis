@@ -158,16 +158,16 @@
                                             @include('_admin._layout.icons.reset')
                                         </button>
                                     </form>
-                                    <button type="button" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all active:scale-90" 
+                                    <button type="button" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all active:scale-90 dark:bg-rose-900/30 dark:text-rose-600 dark:hover:bg-rose-100" 
                                         data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $gallery->id }}', '{{ $gallery->title }}', true)" title="Hapus Permanen">
                                         @include('_admin._layout.icons.trash')
                                     </button>
                                 @else
                                     <a navigate href="{{ route('superadmin.galleries.update', $gallery->id) }}" 
-                                        class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all active:scale-90" title="Edit">
+                                        class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all active:scale-90 dark:bg-blue-900/30 dark:text-blue-600 dark:hover:bg-blue-100" title="Edit">
                                         @include('_admin._layout.icons.pencil')
                                     </a>
-                                    <button type="button" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-all active:scale-90" 
+                                    <button type="button" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-all active:scale-90 dark:bg-red-900/30 dark:text-red-600 dark:hover:bg-red-100" 
                                         data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $gallery->id }}', '{{ $gallery->title }}', false)" title="Hapus">
                                         @include('_admin._layout.icons.trash')
                                     </button>

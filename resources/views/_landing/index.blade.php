@@ -39,19 +39,102 @@
 </section>
 
 {{-- Tentang Section --}}
-<section id="tentang" class="py-20 lg:py-28 bg-white dark:bg-neutral-950">
+<section id="tentang" class="py-20 lg:py-28 bg-white dark:bg-neutral-950 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-14" data-aos="fade-up">
-            <span class="text-brand font-semibold text-sm uppercase tracking-wider">Tentang Kami</span>
-            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mt-2">Mengenal Rohis Lebih Dekat</h2>
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <span class="text-brand font-semibold text-sm uppercase tracking-wider">Tentang Kami</span>
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mt-2 mb-6">Mengenal Rohis Lebih Dekat</h2>
+                <div class="prose prose-lg dark:prose-invert max-w-none text-gray-600 dark:text-neutral-400 leading-relaxed">
+                    @if($about)
+                        {!! $about->content !!}
+                    @else
+                        <p>Rohis (Kerohanian Islam) adalah sebuah organisasi yang berfokus pada pengembangan karakter islami siswa melalui berbagai kegiatan positif, dakwah, dan pendidikan agama Islam di lingkungan sekolah.</p>
+                    @endif
+                </div>
+            </div>
+            <div class="relative" data-aos="fade-left">
+                <div class="aspect-square rounded-3xl bg-brand/5 border border-brand/10 p-8 flex items-center justify-center">
+                    <img src="{{ asset('favicon/logo-rohis.png') }}" class="w-2/3 h-auto grayscale opacity-20 dark:invert" alt="Logo Watermark">
+                </div>
+                <div class="absolute -bottom-6 -left-6 bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-xl border border-gray-100 dark:border-neutral-800 hidden sm:block">
+                    <div class="flex items-center gap-x-4">
+                        <div class="size-12 bg-brand/10 rounded-xl flex items-center justify-center text-brand">
+                            <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-2.533-4.656c-1.38-.513-2.741-.936-4.066-1.277M15 19.128v1.97a9.156 9.156 0 0 1-6 0v-1.97M15 19.128a9.356 9.356 0 0 1-6 0M8.25 10.5a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM8.25 20.25V21M12 3v1.312m8.437 6.355a9.186 9.186 0 0 1-1.378 3.9M3.563 10.667a9.186 9.186 0 0 0 1.378 3.9M4.744 18.24l1.176-1.176m12.16 0 1.177 1.177M6.351 5.828l1.176 1.177m8.947 0 1.177-1.177"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold text-gray-900 dark:text-white">Aktif & Berbakti</p>
+                            <p class="text-xs text-gray-500 dark:text-neutral-500">Organisasi Siswa Berprestasi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-            @if($about)
-                <div class="prose prose-lg dark:prose-invert max-w-none text-center text-gray-600 dark:text-neutral-400 leading-relaxed">
-                    {!! $about->content !!}
+    </div>
+</section>
+
+{{-- Visi Misi Section --}}
+<section id="visi-misi" class="py-20 lg:py-28 bg-brand dark:bg-brand-dark relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="grid lg:grid-cols-2 gap-12">
+            <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 lg:p-12 border border-white/20 shadow-2xl" data-aos="fade-up">
+                <div class="size-14 bg-white rounded-2xl flex items-center justify-center text-brand mb-8 shadow-lg">
+                    <svg class="size-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-6">Visi Kami</h2>
+                <div class="text-white/80 prose prose-invert max-w-none">
+                    @if($vision)
+                        {!! $vision->content !!}
+                    @else
+                        <p class="text-lg italic">"Menjadi wadah pembentuk generasi muslim yang bertaqwa, cerdas, dan berakhlakul karimah."</p>
+                    @endif
+                </div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 lg:p-12 border border-white/20 shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+                <div class="size-14 bg-white rounded-2xl flex items-center justify-center text-brand mb-8 shadow-lg">
+                    <svg class="size-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-6">Misi Kami</h2>
+                <div class="text-white/80 prose prose-invert max-w-none">
+                    @if($mission)
+                        {!! $mission->content !!}
+                    @else
+                        <ul class="list-disc pl-4 space-y-2">
+                            <li>Meningkatkan pemahaman agama Islam bagi seluruh siswa.</li>
+                            <li>Menyelenggarakan kegiatan dakwah yang kreatif dan menarik.</li>
+                            <li>Menumbuhkan rasa kepedulian sosial antar sesama muslim.</li>
+                        </ul>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- Struktur Section --}}
+<section id="struktur" class="py-20 lg:py-28 bg-gray-50 dark:bg-neutral-900 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-brand font-semibold text-sm uppercase tracking-wider">Kepengurusan</span>
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mt-2">Struktur Organisasi</h2>
+            <p class="text-gray-500 dark:text-neutral-400 mt-4 max-w-2xl mx-auto">Sinergi pengurus untuk menjalankan amanah dakwah di sekolah.</p>
+        </div>
+        
+        <div class="max-w-5xl mx-auto" data-aos="zoom-in">
+            @if($structure)
+                <div class="bg-white dark:bg-neutral-800 rounded-3xl p-8 lg:p-12 shadow-xl border border-gray-100 dark:border-neutral-700">
+                    <div class="prose prose-lg dark:prose-invert max-w-none overflow-x-auto">
+                        {!! $structure->content !!}
+                    </div>
                 </div>
             @else
-                <p class="text-center text-gray-500 dark:text-neutral-500">Belum ada informasi tentang rohis.</p>
+                <div class="text-center py-12">
+                    <div class="size-20 bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 dark:text-neutral-600">
+                        <svg class="size-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" /></svg>
+                    </div>
+                    <p class="text-gray-400">Informasi struktur organisasi belum diunggah.</p>
+                </div>
             @endif
         </div>
     </div>
