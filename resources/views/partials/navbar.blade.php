@@ -1,13 +1,13 @@
 {{-- Landing Page Navbar --}}
 <nav id="landing-navbar"
     class="fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-transparent">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-screen px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 lg:h-20">
 
             {{-- Logo --}}
             <a href="{{ route('landing.index') }}" class="flex items-center gap-x-3 shrink-0" id="navbar-logo">
                 <img src="{{ asset('favicon/logo-rohis.png') }}" class="size-9 lg:size-10 object-contain" alt="Logo Rohis">
-                <span class="text-lg font-bold text-gray-900 dark:text-white tracking-wide uppercase">Rohis</span>
+                <span id="logo-text" class="text-lg font-bold text-white dark:text-gray-900 tracking-wide uppercase">Rohiskalaber</span>
             </a>
 
             {{-- Desktop Navigation --}}
@@ -96,7 +96,7 @@
                     Galeri
                 </a>
 
-                {{-- Pengumuman --}}
+                <!-- {{-- Pengumuman --}}
                 <a href="{{ route('landing.index') }}#pengumuman"
                     class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200
                            {{ request()->is('pengumuman*') ? 'text-brand bg-brand/10' : 'text-gray-700 dark:text-neutral-300 hover:text-brand hover:bg-brand/5' }}">
@@ -108,7 +108,7 @@
                     class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200
                            {{ request()->is('aktivitas*') ? 'text-brand bg-brand/10' : 'text-gray-700 dark:text-neutral-300 hover:text-brand hover:bg-brand/5' }}">
                     Aktivitas
-                </a>
+                </a> -->
             </div>
 
             {{-- Mobile Menu Toggle --}}

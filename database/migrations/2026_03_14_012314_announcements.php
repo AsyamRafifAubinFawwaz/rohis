@@ -16,7 +16,6 @@ return new class extends Migration
 
             $table->string('title');
             $table->text('content');
-
             $table->date('expires_at')->nullable();
 
             $table->foreignId('created_by')

@@ -53,9 +53,11 @@
     <script>
         (function() {
             const navbar = document.getElementById('landing-navbar');
+            const logoText = document.getElementById('logo-text')
             if (!navbar) return;
 
             const handleScroll = () => {
+                // 1. Logika background navbar tetap sama (berlaku di semua device)
                 if (window.scrollY > 50) {
                     navbar.classList.add('bg-white/80', 'dark:bg-neutral-900/80', 'backdrop-blur-xl', 'shadow-sm');
                     navbar.classList.remove('bg-transparent');
@@ -63,9 +65,25 @@
                     navbar.classList.remove('bg-white/80', 'dark:bg-neutral-900/80', 'backdrop-blur-xl', 'shadow-sm');
                     navbar.classList.add('bg-transparent');
                 }
+
+                // 2. Logika WARNA TEKS LOGO (Khusus Desktop yang berubah saat di-scroll)
+                if (window.innerWidth >= 1024) { 
+                    if (window.scrollY > 50) {
+                        logoText.classList.add('text-gray-900');
+                        logoText.classList.remove('text-white');
+                    } else {
+                        logoText.classList.add('text-white');
+                        logoText.classList.remove('text-gray-900');
+                    }
+                } else {
+                    // Jika di HP atau Tablet, kunci teksnya tetap gelap dari awal tanpa terpengaruh scroll
+                    logoText.classList.add('text-gray-900');
+                    logoText.classList.remove('text-white');
+                }
             };
 
             window.addEventListener('scroll', handleScroll, { passive: true });
+            window.addEventListener('resize', handleScroll, { passive: true }); // Agar responsif saat ganti orientasi layar
             handleScroll();
         })();
 
