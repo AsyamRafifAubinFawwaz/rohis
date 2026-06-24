@@ -33,7 +33,7 @@
                     {{ $totalPosts }}
                 </h3>
                 <a href="{{ route('admin.posts.index') }}"
-                    class="mt-2 inline-flex items-center gap-x-1 text-xs text-blue-600 dark:text-blue-400 hover:underline">
+                    class="mt-2 inline-flex items-center gap-x-1 text-xs text-emerald-600 dark:text-emerald-400 hover:underline">
                     Lihat semua
                     <svg class="size-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="2" stroke="currentColor">
@@ -64,7 +64,7 @@
                     {{ $pendingPosts }}
                 </h3>
                 <a href="{{ route('admin.posts.index', ['status' => 'pending']) }}"
-                    class="mt-2 inline-flex items-center gap-x-1 text-xs text-amber-600 dark:text-amber-400 hover:underline">
+                    class="mt-2 inline-flex items-center gap-x-1 text-xs text-emerald-600 dark:text-emerald-400 hover:underline">
                     Lihat pending
                     <svg class="size-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="2" stroke="currentColor">
@@ -126,7 +126,7 @@
                     {{ $totalGalleries }}
                 </h3>
                 <a href="{{ route('admin.galleries.index') }}"
-                    class="mt-2 inline-flex items-center gap-x-1 text-xs text-violet-600 dark:text-violet-400 hover:underline">
+                    class="mt-2 inline-flex items-center gap-x-1 text-xs text-emerald-600 dark:text-emerald-400 hover:underline">
                     Lihat galeri
                     <svg class="size-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="2" stroke="currentColor">
@@ -146,7 +146,7 @@
             </div>
             <div class="flex flex-wrap gap-3">
                 <a href="{{ route('admin.posts.add') }}"
-                    class="inline-flex items-center gap-x-2 py-2.5 px-5 bg-white text-green-700 dark:text-green-700 font-semibold text-sm rounded-lg hover:bg-blue-50 transition-colors duration-150 shadow-sm">
+                    class="inline-flex items-center gap-x-2 py-2.5 px-5 bg-white text-emerald-700 font-semibold text-sm rounded-lg hover:bg-emerald-50 transition-colors duration-150 shadow-sm">
                     <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -175,7 +175,7 @@
                     <p class="text-xs text-gray-500 dark:text-neutral-400 mt-0.5">5 postingan terakhir yang kamu buat</p>
                 </div>
                 <a href="{{ route('admin.posts.index') }}"
-                    class="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                    class="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
                     Lihat semua →
                 </a>
             </div>
@@ -189,7 +189,7 @@
                     </svg>
                     <p class="text-sm text-gray-500 dark:text-neutral-400">Belum ada postingan.</p>
                     <a href="{{ route('admin.posts.add') }}"
-                        class="mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium">Buat postingan
+                        class="mt-3 text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium">Buat postingan
                         pertama →</a>
                 </div>
             @else
@@ -268,7 +268,7 @@
                             {{-- Actions --}}
                             <div class="shrink-0 flex items-center gap-2">
                                 <a href="{{ route('admin.posts.detail', $post->id) }}"
-                                    class="text-xs text-gray-500 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                    class="text-xs text-gray-500 dark:text-neutral-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
                                     <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -278,7 +278,7 @@
                                     </svg>
                                 </a>
                                 <a href="{{ route('admin.posts.update', $post->id) }}"
-                                    class="text-xs text-gray-500 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                    class="text-xs text-gray-500 dark:text-neutral-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
                                     <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -301,7 +301,7 @@
                     <p class="text-xs text-gray-500 dark:text-neutral-400 mt-0.5">6 foto terakhir yang kamu upload</p>
                 </div>
                 <a href="{{ route('admin.galleries.index') }}"
-                    class="text-xs text-violet-600 dark:text-violet-400 hover:underline font-medium">
+                    class="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
                     Lihat semua →
                 </a>
             </div>
@@ -315,7 +315,7 @@
                     </svg>
                     <p class="text-sm text-gray-500 dark:text-neutral-400">Belum ada foto di galeri.</p>
                     <a href="{{ route('admin.galleries.add') }}"
-                        class="mt-3 text-sm text-violet-600 dark:text-violet-400 hover:underline font-medium">Upload foto
+                        class="mt-3 text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium">Upload foto
                         pertama →</a>
                 </div>
             @else
@@ -338,7 +338,7 @@
                 </div>
                 <div class="px-4 pb-4">
                     <a href="{{ route('admin.galleries.add') }}"
-                        class="block w-full text-center py-2 rounded-lg border-2 border-dashed border-gray-200 dark:border-neutral-700 text-sm text-gray-400 dark:text-neutral-500 hover:border-violet-400 hover:text-violet-500 dark:hover:border-violet-500 dark:hover:text-violet-400 transition-colors duration-150">
+                        class="block w-full text-center py-2 rounded-lg border-2 border-dashed border-gray-200 dark:border-neutral-700 text-sm text-gray-400 dark:text-neutral-500 hover:border-emerald-400 hover:text-emerald-600 dark:hover:border-emerald-500 dark:hover:text-emerald-400 transition-colors duration-150">
                         + Upload foto baru
                     </a>
                 </div>

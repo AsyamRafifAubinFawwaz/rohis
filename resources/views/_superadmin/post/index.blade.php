@@ -25,16 +25,14 @@
         </div>
     </div>
     <div class="flex flex-col">
-        <div class="overflow-x-auto">
-            <div class="min-w-full inline-block align-middle">
-                <div class="overflow-hidden">
-
-                    <div class="px-2 pt-4">
+        
+        <!-- Filter Form -->
+        <div class="pt-4 mb-2">
                         <form id="filter-form" action="{{ route('superadmin.posts.index') }}" method="GET" navigate-form
-                            class="flex flex-col md:flex-row items-end gap-x-4 gap-y-3">
+                            class="grid grid-cols-2 md:flex md:flex-row md:items-end gap-3">
 
-                            <!-- Search -->
-                            <div class="w-full md:w-80">
+                            <!-- Search (full width on mobile, fixed on desktop) -->
+                            <div class="col-span-2 md:col-span-1 md:w-80">
                                 <label for="keywords"
                                     class="block text-xs font-bold uppercase text-gray-500 mb-1.5 dark:text-neutral-500">
                                     Cari Data...
@@ -56,7 +54,7 @@
                             </div>
 
                             <!-- Status Dropdown -->
-                            <div class="w-full md:w-48">
+                            <div class="md:w-48">
                                 <label for="status"
                                     class="block text-xs font-bold uppercase text-gray-500 mb-1.5 dark:text-neutral-500">
                                     Status
@@ -82,7 +80,7 @@
                             </div>
 
                             <!-- Kategori Dropdown -->
-                            <div class="w-full md:w-56">
+                            <div class="md:w-56">
                                 <label for="category_id"
                                     class="block text-xs font-bold uppercase text-gray-500 mb-1.5 dark:text-neutral-500">
                                     Kategori
@@ -108,21 +106,8 @@
                                 </select>
                             </div>
 
-                            <!-- Action Buttons -->
-                            <div class="flex gap-2 pb-0.5">
-                                <button type="submit"
-                                    class="size-[42px] inline-flex justify-center items-center gap-x-1 text-sm font-semibold rounded-xl border border-transparent bg-brand text-white hover:bg-brand-dark disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-brand-dark transition-all cursor-pointer shadow-md shadow-brand/20"
-                                    title="Terapkan Filter">
-                                    @include('_admin._layout.icons.search')
-                                </button>
-                                @if (!empty($keywords) || !empty($status) || !empty($category_id) || ($status_data ?? 'aktif') !== 'aktif')
-                                    <a class="size-[42px] inline-flex justify-center items-center gap-x-1 text-sm font-semibold rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none focus:outline-none transition-all cursor-pointer shadow-sm"
-                                        href="{{ route('superadmin.posts.index') }}" title="Reset Filter">
-                                        @include('_admin._layout.icons.reset')
-                                    </a>
-                                @endif
-                            </div>
-                            <div class="w-full md:w-auto">
+                            <!-- Status Data -->
+                            <div class="md:w-auto">
                                 <label class="block text-xs font-bold uppercase text-gray-500 mb-1.5 dark:text-neutral-500">
                                     Status Data
                                 </label>
@@ -130,22 +115,44 @@
                                     <input type="hidden" name="status_data" id="status_data_input"
                                         value="{{ $status_data ?? '' }}">
                                     <button type="button" onclick="setStatusData('aktif')" id="status_data_aktif"
-                                        class="py-2 px-6 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent transition-all {{ ($status_data ?? '') == 'aktif' ? 'bg-brand text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-300' }}">
+                                        class="py-2 px-4 sm:px-6 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent transition-all {{ ($status_data ?? '') == 'aktif' ? 'bg-brand text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-300' }}">
                                         Aktif
                                     </button>
                                     <button type="button" onclick="setStatusData('nonaktif')" id="status_data_nonaktif"
-                                        class="py-2 px-6 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent transition-all {{ ($status_data ?? '') == 'nonaktif' ? 'bg-brand text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-300' }}">
+                                        class="py-2 px-4 sm:px-6 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent transition-all {{ ($status_data ?? '') == 'nonaktif' ? 'bg-brand text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-300' }}">
                                         Nonaktif
                                     </button>
                                 </div>
                             </div>
 
+                            <!-- Action Buttons -->
+                            <div class="flex items-end gap-2 md:w-auto">
+                                <button type="submit"
+                                    class="py-2.5 px-5 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-xl border border-transparent bg-brand text-white hover:bg-brand-dark disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-brand-dark transition-all cursor-pointer shadow-md shadow-brand/20"
+                                    title="Terapkan Filter">
+                                    @include('_admin._layout.icons.search')
+                                    Cari
+                                </button>
+                                @if (!empty($keywords) || !empty($status) || !empty($category_id) || ($status_data ?? 'aktif') !== 'aktif')
+                                    <a class="py-2.5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none focus:outline-none transition-all cursor-pointer shadow-sm"
+                                        href="{{ route('superadmin.posts.index') }}" title="Reset Filter">
+                                        @include('_admin._layout.icons.reset')
+                                    </a>
+                                @endif
+                            </div>
+
                         </form>
 
                     </div>
+        </div>
 
-                    <div
-                        class="mx-0 my-4 overflow-x-auto border border-gray-200 rounded-lg dark:border-neutral-700 shadow-sm">
+        <!-- Table Container -->
+        <div class="overflow-x-auto">
+            <div class="min-w-full inline-block align-middle">
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-neutral-800 dark:border-neutral-700">
+                    
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200 dark:divide-neutral-700">
                             <thead class="bg-gray-50 dark:bg-neutral-700">
                                 <tr>

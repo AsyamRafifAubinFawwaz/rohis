@@ -164,16 +164,20 @@ $(document).ready(function () {
         }
 
         // Close Sidebar on Mobile if it's open
+        var sidebarEl = document.querySelector("#hs-application-sidebar");
         try {
-            if (window.HSOverlay) {
-                HSOverlay.close(
-                    document.querySelector("#hs-application-sidebar"),
-                );
+            if (window.HSOverlay && sidebarEl) {
+                HSOverlay.close(sidebarEl);
             }
         } catch (error) {
             // Ignore errors if overlay library isn't fully loaded or element invalid
             console.log("Sidebar Close Debug:", error);
         }
+
+        // Force-remove any overlay backdrop and body lock immediately
+        cleanupModalBackdrops();
+        // Also cleanup after HSOverlay's transition animation completes
+        setTimeout(cleanupModalBackdrops, 350);
 
         loadPage(url);
     });
@@ -188,6 +192,8 @@ $(document).ready(function () {
                 if (!handleSpaResponse(data, url)) {
                     window.location.href = url;
                 }
+                // Cleanup any leftover overlay backdrops after SPA navigation
+                cleanupModalBackdrops();
                 NProgress.done();
             },
             error: function (xhr, status, error) {
@@ -297,6 +303,9 @@ $(document).ready(function () {
                     window.HSStaticMethods.autoInit();
                 }
 
+                // Cleanup any leftover overlay backdrops after popstate navigation
+                cleanupModalBackdrops();
+
                 NProgress.done();
                 spaNavigating = false;
             },
@@ -309,8 +318,20 @@ $(document).ready(function () {
 
     // Helper to cleanup any leftover modal backdrops or body classes
     function cleanupModalBackdrops() {
+        // Remove Preline overlay backdrops (the black overlay)
         $(".hs-overlay-backdrop").remove();
+        $("[data-hs-overlay-backdrop-template]").remove();
+        // Preline sets overflow-hidden on both body AND html — remove from both
         $("body").removeClass("overflow-hidden");
+        $("html").removeClass("overflow-hidden");
+        // Also remove any inline overflow styles Preline may have set
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+        // Reset the sidebar's open state classes (mobile only)
+        var sidebar = $("#hs-application-sidebar");
+        if (sidebar.length) {
+            sidebar.removeClass("open opened");
+        }
     }
 
     // Handle page restored from bfcache (browser back-forward cache)

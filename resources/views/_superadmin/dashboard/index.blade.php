@@ -19,7 +19,6 @@
             </div>
         </div>
 
-        <!-- Quick Actions Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
             <a navigate href="{{ route('superadmin.posts.add') }}" class="p-3 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl hover:border-brand transition-all group text-center shadow-xs">
                 <div class="size-10 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
@@ -209,9 +208,9 @@
                                     @if(isset($profile_stats[$type]) && $profile_stats[$type] > 0)
                                         <span class="size-2 rounded-full bg-emerald-500"></span>
                                     @else
-                                        <span class="size-2 rounded-full bg-gray-300 dark:bg-neutral-600"></span>
+                                        <span class="size-2 rounded-full bg-gray-300 dark:bg-white"></span>
                                     @endif
-                                    <span class="text-sm text-gray-700 dark:text-neutral-300">{{ $label }}</span>
+                                    <span class="text-sm text-gray-700 dark:text-white">{{ $label }}</span>
                                 </div>
                                 <span class="text-xs font-medium {{ isset($profile_stats[$type]) && $profile_stats[$type] > 0 ? 'text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full dark:bg-emerald-900/20 dark:text-emerald-400' : 'text-gray-400' }}">
                                     {{ isset($profile_stats[$type]) && $profile_stats[$type] > 0 ? 'Sudah Ada' : 'Belum Ada' }}
