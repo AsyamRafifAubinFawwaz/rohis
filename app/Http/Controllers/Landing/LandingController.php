@@ -9,6 +9,8 @@ use App\Models\Galleries;
 use App\Models\Posts;
 use App\Models\Profiles;
 use App\Models\Programs;
+use App\Models\organizer;
+use Illuminate\Http\Request;
 
 class LandingController extends Controller
 {
@@ -50,6 +52,7 @@ class LandingController extends Controller
             ->get();
 
         $activities = Activities::query()
+            ->with('galleries')
             ->whereNotNull('event_start')
             ->where('event_start', '>=', now())
             ->orderBy('event_start')
@@ -69,18 +72,50 @@ class LandingController extends Controller
         ));
     }
 
-    public function articles()
+    public function articles(\Illuminate\Http\Request $request)
     {
-        $articles = Posts::where('status', 'published')->latest()->paginate(12);
+        $query = Posts::where('status', 'published')->with('categories');
 
-        return view('_landing.articles.index', compact('articles'));
+        if ($request->filled('category') && $request->category !== 'all') {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('slug', $request->category);
+            });
+        }
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('content', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('sort') && $request->sort === 'oldest') {
+            $query->oldest();
+        } else {
+            $query->latest();
+        }
+
+        $articles = $query->paginate(12)->withQueryString();
+        $categories = \App\Models\Categories::all();
+
+        return view('_landing.articles.index', compact('articles', 'categories'));
     }
 
     public function articleDetail($slug)
     {
         $article = Posts::where('slug', $slug)->where('status', 'published')->firstOrFail();
 
-        return view('_landing.articles.detail', compact('article'));
+        $otherArticles = Posts::where('status', 'published')
+            ->where('id', '!=', $article->id)
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        $categories = \App\Models\Categories::withCount(['posts' => function($q) {
+            $q->where('status', 'published');
+        }])->get();
+
+        return view('_landing.articles.detail', compact('article', 'otherArticles', 'categories'));
     }
 
     public function programs()
@@ -106,7 +141,13 @@ class LandingController extends Controller
 
     public function announcements()
     {
-        $announcements = Announcements::latest()->paginate(15);
+        $announcements = Announcements::query()
+            ->where(function ($q) {
+                $q->whereNull('expires_at')
+                    ->orWhere('expires_at', '>=', now());
+            })
+            ->latest()
+            ->paginate(15);
 
         return view('_landing.announcements.index', compact('announcements'));
     }
@@ -120,15 +161,66 @@ class LandingController extends Controller
 
     public function activities()
     {
-        $activities = Activities::orderBy('event_start', 'desc')->paginate(12);
+        $activities = Activities::with('galleries')->orderBy('event_start', 'desc')->paginate(12);
 
         return view('_landing.activities.index', compact('activities'));
     }
 
     public function activityDetail($id)
     {
-        $activity = Activities::findOrFail($id);
+        $activity = Activities::with('galleries')->findOrFail($id);
 
         return view('_landing.activities.detail', compact('activity'));
+    }
+
+    public function visionMission()
+    {
+        $profiles = Profiles::all()->keyBy('type');
+        $vision = $profiles->get('vision');
+        $mission = $profiles->get('mission');
+
+        return view('_landing.profiles.vision-mission', compact('vision', 'mission'));
+    }
+
+    public function organizers(Request $request)
+    {
+        $query = organizer::query();
+
+        $latestPeriod = organizer::max('periode');
+        $selectedPeriode = $request->has('periode') ? $request->periode : $latestPeriod;
+
+        if ($selectedPeriode && $selectedPeriode !== 'all') {
+            $query->where('periode', $selectedPeriode);
+        }
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('jabatan', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Custom order by jabatan hierarchy
+        $query->orderByRaw("CASE 
+            WHEN jabatan LIKE '%Pembina%' THEN 1 
+            WHEN jabatan LIKE '%Ketua%' THEN 2 
+            WHEN jabatan LIKE '%Wakil%' THEN 3 
+            WHEN jabatan LIKE '%Sekretaris%' THEN 4 
+            WHEN jabatan LIKE '%Bendahara%' THEN 5 
+            ELSE 6 
+        END");
+
+        // Default sorting
+        if ($request->filled('sort') && $request->sort === 'oldest') {
+            $query->oldest('id'); 
+        } else {
+            $query->latest('id');
+        }
+
+        $organizers = $query->paginate(12)->withQueryString();
+        
+        $periods = organizer::select('periode')->distinct()->whereNotNull('periode')->pluck('periode')->sortDesc();
+
+        return view('_landing.organizers.index', compact('organizers', 'periods', 'selectedPeriode'));
     }
 }

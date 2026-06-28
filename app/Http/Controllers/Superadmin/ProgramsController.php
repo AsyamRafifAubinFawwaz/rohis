@@ -6,12 +6,15 @@ use App\Constants\ResponseConst;
 use App\Http\Controllers\Controller;
 use App\Models\Programs;
 use Illuminate\Http\RedirectResponse;
+use App\Traits\UploadsImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProgramsController extends Controller
 {
+    use UploadsImage;
+
     /**
      * Display a listing of the programs.
      */
@@ -73,12 +76,10 @@ class ProgramsController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('programs', 'public');
+            $data['image'] = $this->uploadAsWebp($request->file('image'), 'programs');
         }
 
         $data['created_by'] = auth()->id();
@@ -108,8 +109,6 @@ class ProgramsController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
         $program = Programs::findOrFail($id);
@@ -118,7 +117,7 @@ class ProgramsController extends Controller
             if ($program->image) {
                 Storage::disk('public')->delete($program->image);
             }
-            $data['image'] = $request->file('image')->store('programs', 'public');
+            $data['image'] = $this->uploadAsWebp($request->file('image'), 'programs');
         }
 
         $program->update($data);

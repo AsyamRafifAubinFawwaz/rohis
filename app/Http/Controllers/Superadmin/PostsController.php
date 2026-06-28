@@ -6,11 +6,14 @@ use App\Constants\ResponseConst;
 use App\Http\Controllers\Controller;
 use App\Models\Categories;
 use App\Models\Posts;
+use App\Traits\UploadsImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostsController extends Controller
 {
+    use UploadsImage;
+
     public function index(Request $request)
     {
         $keywords = $request->keywords;
@@ -82,7 +85,7 @@ class PostsController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
-            $data['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
+            $data['thumbnail'] = $this->uploadAsWebp($request->file('thumbnail'), 'thumbnails');
         }
 
         $data['user_id'] = auth()->id();
@@ -112,8 +115,10 @@ class PostsController extends Controller
         return view('_superadmin.post.update', compact('post', 'page', 'categories'));
     }
 
-    public function doUpdate(Request $request, Posts $post)
+    public function doUpdate(Request $request, $id)
     {
+        $post = Posts::findOrFail($id);
+
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug,'.$post->id,
@@ -126,7 +131,7 @@ class PostsController extends Controller
         $data['slug'] = Str::slug($data['slug'] ?? $data['title']);
 
         if ($request->hasFile('thumbnail')) {
-            $data['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
+            $data['thumbnail'] = $this->uploadAsWebp($request->file('thumbnail'), 'thumbnails');
         }
 
         $post->update($data);

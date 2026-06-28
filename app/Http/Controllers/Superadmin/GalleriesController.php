@@ -6,10 +6,13 @@ use App\Constants\ResponseConst;
 use App\Http\Controllers\Controller;
 use App\Models\Activities;
 use App\Models\Galleries;
+use App\Traits\UploadsImage;
 use Illuminate\Http\Request;
 
 class GalleriesController extends Controller
 {
+    use UploadsImage;
+
     /**
      * Superadmin dapat mengelola semua gallery dari semua user
      */
@@ -62,7 +65,7 @@ class GalleriesController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('galleries', 'public');
+            $data['image'] = $this->uploadAsWebp($request->file('image'), 'galleries');
         }
         $data['uploaded_by'] = auth()->id();
         Galleries::create($data);
@@ -90,7 +93,7 @@ class GalleriesController extends Controller
         $gallery = Galleries::findOrFail($id);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('galleries', 'public');
+            $data['image'] = $this->uploadAsWebp($request->file('image'), 'galleries');
         }
 
         $gallery->update($data);

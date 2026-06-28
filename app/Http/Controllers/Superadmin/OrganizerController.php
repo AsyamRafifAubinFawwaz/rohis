@@ -6,12 +6,15 @@ use App\Constants\ResponseConst;
 use App\Http\Controllers\Controller;
 use App\Models\organizer;
 use Illuminate\Http\RedirectResponse;
+use App\Traits\UploadsImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class OrganizerController extends Controller
 {
+    use UploadsImage;
+
     public function index(Request $request): View
     {
         $keywords = $request->keywords;
@@ -85,7 +88,7 @@ class OrganizerController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('organizers', 'public');
+            $data['image'] = $this->uploadAsWebp($request->file('image'), 'organizers');
         }
 
         organizer::create($data);
@@ -118,7 +121,7 @@ class OrganizerController extends Controller
             if ($organizer->image) {
                 Storage::disk('public')->delete($organizer->image);
             }
-            $data['image'] = $request->file('image')->store('organizers', 'public');
+            $data['image'] = $this->uploadAsWebp($request->file('image'), 'organizers');
         }
 
         $organizer->update($data);

@@ -67,7 +67,8 @@
                 }
 
                 // 2. Logika WARNA TEKS LOGO (Khusus Desktop yang berubah saat di-scroll)
-                if (window.innerWidth >= 1024) { 
+                const isHome = {{ request()->routeIs('landing.index') ? 'true' : 'false' }};
+                if (isHome && window.innerWidth >= 1024) { 
                     if (window.scrollY > 50) {
                         logoText.classList.add('text-gray-900');
                         logoText.classList.remove('text-white');
@@ -75,8 +76,11 @@
                         logoText.classList.add('text-white');
                         logoText.classList.remove('text-gray-900');
                     }
+                } else if (!isHome) {
+                    logoText.classList.add('text-gray-900');
+                    logoText.classList.remove('text-white');
                 } else {
-                    // Jika di HP atau Tablet, kunci teksnya tetap gelap dari awal tanpa terpengaruh scroll
+                    // Jika di HP atau Tablet di Beranda, kunci teksnya tetap gelap dari awal
                     logoText.classList.add('text-gray-900');
                     logoText.classList.remove('text-white');
                 }

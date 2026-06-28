@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Superadmin;
 use App\Constants\ResponseConst;
 use App\Http\Controllers\Controller;
 use App\Models\Announcements;
+use App\Traits\UploadsImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AnnouncementsController extends Controller
 {
+    use UploadsImage;
+
     public function index(Request $request)
     {
         $keywords = $request->keywords;
@@ -62,7 +65,7 @@ class AnnouncementsController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('announcements', 'public');
+            $data['image'] = $this->uploadAsWebp($request->file('image'), 'announcements');
         }
 
         $data['created_by'] = auth()->id();
@@ -96,7 +99,7 @@ class AnnouncementsController extends Controller
             if ($announcement->image) {
                 Storage::disk('public')->delete($announcement->image);
             }
-            $data['image'] = $request->file('image')->store('announcements', 'public');
+            $data['image'] = $this->uploadAsWebp($request->file('image'), 'announcements');
         }
 
         $announcement->update($data);

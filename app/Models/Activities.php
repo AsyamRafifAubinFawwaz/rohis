@@ -64,4 +64,9 @@ class Activities extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function galleries()
+    {
+        return $this->hasMany(Galleries::class, 'activity_id');
+    }
 }

@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Superadmin;
 use App\Constants\ResponseConst;
 use App\Http\Controllers\Controller;
 use App\Models\Activities;
+use App\Traits\UploadsImage;
 use Illuminate\Http\Request;
 
 class ActivitiesController extends Controller
 {
+    use UploadsImage;
+
     public function index(Request $request)
     {
         $keywords = $request->keywords;
@@ -86,7 +89,7 @@ class ActivitiesController extends Controller
         }
 
         if ($request->hasFile('poster')) {
-            $data['poster'] = $request->file('poster')->store('posters', 'public');
+            $data['poster'] = $this->uploadAsWebp($request->file('poster'), 'posters');
         }
 
         $data['created_by'] = auth()->id();
@@ -124,7 +127,7 @@ class ActivitiesController extends Controller
         $data['event_end'] = $request->end_date.' '.$request->end_time.':00';
 
         if ($request->hasFile('poster')) {
-            $data['poster'] = $request->file('poster')->store('posters', 'public');
+            $data['poster'] = $this->uploadAsWebp($request->file('poster'), 'posters');
         }
 
         $activity->update($data);

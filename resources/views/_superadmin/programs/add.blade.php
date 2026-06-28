@@ -51,33 +51,7 @@
                             @enderror
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Start Date -->
-                            <div>
-                                <label for="start_date" class="block text-sm font-bold text-gray-700 dark:text-neutral-200 mb-2 uppercase tracking-wide">
-                                    Tanggal Mulai <span class="text-red-500">*</span>
-                                </label>
-                                <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}"
-                                    class="py-3 px-4 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300"
-                                    required>
-                                @error('start_date')
-                                    <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
-                                @enderror
-                            </div>
 
-                            <!-- End Date -->
-                            <div>
-                                <label for="end_date" class="block text-sm font-bold text-gray-700 dark:text-neutral-200 mb-2 uppercase tracking-wide">
-                                    Tanggal Selesai <span class="text-red-500">*</span>
-                                </label>
-                                <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}"
-                                    class="py-3 px-4 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300"
-                                    required>
-                                @error('end_date')
-                                    <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
 
                         <!-- Status -->
                       

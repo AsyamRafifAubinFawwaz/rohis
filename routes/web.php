@@ -49,6 +49,14 @@ Route::name('landing.')->group(function () {
         Route::get('/', [LandingController::class, 'activities'])->name('index');
         Route::get('/{id}', [LandingController::class, 'activityDetail'])->name('detail');
     });
+
+    Route::prefix('struktur-organisasi')->name('organizers.')->group(function () {
+        Route::get('/', [LandingController::class, 'organizers'])->name('index');
+    });
+
+    Route::prefix('profil')->name('profiles.')->group(function () {
+        Route::get('/visi-misi', [LandingController::class, 'visionMission'])->name('vision-mission');
+    });
 });
 
 Route::get('test', function () {
