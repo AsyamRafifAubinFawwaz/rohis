@@ -55,7 +55,7 @@ COPY --from=frontend-builder --chown=www-data:www-data /build/public/build ./pub
 
 # 6. Jalankan optimasi Laravel dengan dummy key agar tidak gagal
 RUN APP_ENV=local APP_KEY=base64:dGhpcy1pcy1hLWR1bW15LWtleS1mb3RetWlkaW5nLW9ubHk= DB_DATABASE=:memory: \
-    php artisan storage:link \
+    php artisan storage:link --force \
     && php artisan optimize:clear \
     && php artisan optimize
 
