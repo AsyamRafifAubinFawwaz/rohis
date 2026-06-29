@@ -16,8 +16,7 @@ RUN bun run build
 FROM php:8.3-cli AS runner
 WORKDIR /app
 
-# 1. Install dependensi OS (Disederhanakan agar terhindar dari Exit Code 100)
-# Menggunakan package -dev standar, Debian akan otomatis menarik runtime yang benar.
+# 1. Install dependensi OS (Disederhanakan agar stabil di Debian Bookworm)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip git curl \
     libzip-dev \
@@ -29,33 +28,31 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && pecl install redis && docker-php-ext-enable redis \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Ambil Composer
+# 2. Ambil Composer resmi
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 3. Copy file composer
+# 3. Copy file composer untuk caching layer
 COPY composer.json composer.lock* ./
 
-# 4. Install dependensi PHP
+# 4. Install dependensi PHP (Bypass memory limit mencegah OOM)
 RUN COMPOSER_MEMORY_LIMIT=-1 composer install --optimize-autoloader --no-dev --prefer-dist --no-scripts \
     && rm -rf ~/.composer/cache
 
-# 5. Copy seluruh kode aplikasi
+# 5. Copy seluruh kode aplikasi Laravel ke dalam container
 COPY --chown=www-data:www-data . /app
 
-# 6. Copy hasil kompilasi aset dari STAGE 1
+# 6. Copy hasil kompilasi aset (Vite) dari STAGE 1
 COPY --from=frontend-builder --chown=www-data:www-data /build/public/build ./public/build
 
-# 7. Optimasi Laravel dengan key dummy
-RUN APP_ENV=local APP_KEY=base64:dGhpcy1pcy1hLWR1bW15LWtleS1mb3RetWlkaW5nLW9ubHk= \
-    php artisan storage:link \
-    && php artisan optimize:clear \
-    && php artisan optimize
-
-# 8. Set permission
+# 7. Set permission untuk folder storage dan cache
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
 # Buka port 8000
 EXPOSE 8000
 
-# 9. Jalankan aplikasi
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# 8. Jalankan optimasi Laravel dan jalankan aplikasi saat container start
+# Perintah ini dipindah ke CMD agar tidak memicu error koneksi database saat proses build image.
+CMD sh -c "php artisan storage:link || true \
+    && php artisan optimize:clear \
+    && php artisan optimize \
+    && php artisan serve --host=0.0.0.0 --port=8000"
