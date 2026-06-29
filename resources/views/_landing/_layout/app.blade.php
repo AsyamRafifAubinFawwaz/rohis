@@ -49,48 +49,8 @@
         });
     </script>
 
-    {{-- Navbar scroll script --}}
+    {{-- Navbar scroll script removed as it is no longer needed with the floating pill design --}}
     <script>
-        (function() {
-            const navbar = document.getElementById('landing-navbar');
-            const logoText = document.getElementById('logo-text')
-            if (!navbar) return;
-
-            const handleScroll = () => {
-                // 1. Logika background navbar tetap sama (berlaku di semua device)
-                if (window.scrollY > 50) {
-                    navbar.classList.add('bg-white/80', 'dark:bg-neutral-900/80', 'backdrop-blur-xl', 'shadow-sm');
-                    navbar.classList.remove('bg-transparent');
-                } else {
-                    navbar.classList.remove('bg-white/80', 'dark:bg-neutral-900/80', 'backdrop-blur-xl', 'shadow-sm');
-                    navbar.classList.add('bg-transparent');
-                }
-
-                // 2. Logika WARNA TEKS LOGO (Khusus Desktop yang berubah saat di-scroll)
-                const isHome = {{ request()->routeIs('landing.index') ? 'true' : 'false' }};
-                if (isHome && window.innerWidth >= 1024) { 
-                    if (window.scrollY > 50) {
-                        logoText.classList.add('text-gray-900');
-                        logoText.classList.remove('text-white');
-                    } else {
-                        logoText.classList.add('text-white');
-                        logoText.classList.remove('text-gray-900');
-                    }
-                } else if (!isHome) {
-                    logoText.classList.add('text-gray-900');
-                    logoText.classList.remove('text-white');
-                } else {
-                    // Jika di HP atau Tablet di Beranda, kunci teksnya tetap gelap dari awal
-                    logoText.classList.add('text-gray-900');
-                    logoText.classList.remove('text-white');
-                }
-            };
-
-            window.addEventListener('scroll', handleScroll, { passive: true });
-            window.addEventListener('resize', handleScroll, { passive: true }); // Agar responsif saat ganti orientasi layar
-            handleScroll();
-        })();
-
         // Mobile menu toggle
         (function() {
             const toggle = document.getElementById('mobile-menu-toggle');

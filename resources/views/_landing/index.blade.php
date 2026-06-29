@@ -534,12 +534,12 @@
                         <div
                             class="relative bg-white dark:bg-neutral-800 rounded-3xl overflow-hidden border border-emerald-100/30 dark:border-neutral-800 transition-all duration-300 hover:shadow-[0_30px_60px_-15px_rgba(6,78,59,0.18)] hover:-translate-y-1.5 h-full">
                             @if (isset($activity->poster) && $activity->poster)
-                                <div class="aspect-[16/10] overflow-hidden bg-neutral-200">
+                                <div class="aspect-[4/3] overflow-hidden bg-neutral-200">
                                     <img src="{{ asset('storage/' . $activity->poster) }}" alt="{{ $activity->title }}"
                                         class="w-full h-full object-cover transition-transform duration-500">
                                 </div>
                             @else
-                                <div class="aspect-[16/10] overflow-hidden relative bg-emerald-800">
+                                <div class="aspect-[4/3] overflow-hidden relative bg-emerald-800">
                                     <svg class="absolute right-4 bottom-0 w-28 h-28 opacity-15" viewBox="0 0 200 200"
                                         fill="none">
                                         <path d="M20,200 L20,90 Q20,10 100,10 Q180,10 180,90 L180,200" stroke="white"
