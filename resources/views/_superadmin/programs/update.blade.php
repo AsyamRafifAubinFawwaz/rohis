@@ -10,7 +10,12 @@
                 <div class="flex items-center">
                     <a navigate href="{{ route('superadmin.programs.index') }}"
                         class="size-10 inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-hidden dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 transition-all active:scale-90">
-                        @include('_admin._layout.icons.back')
+                       <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="m12 19-7-7 7-7" />
+                        <path d="M19 12H5" />
+                    </svg>
                     </a>
                     <div class="ms-3">
                         <h2 class="text-xl font-bold text-gray-800 dark:text-neutral-200">

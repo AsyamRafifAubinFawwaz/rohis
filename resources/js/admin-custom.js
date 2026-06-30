@@ -148,6 +148,13 @@ $(document).ready(function () {
                 dateFormat: "Y-m-d",
                 allowInput: true,
             });
+            window.flatpickr(".timepicker", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                allowInput: true
+            });
         }
 
         return true;

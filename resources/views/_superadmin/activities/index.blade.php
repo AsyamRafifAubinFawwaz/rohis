@@ -40,10 +40,7 @@
                     <div class="relative">
                         <input type="text" name="keywords" id="keywords" value="{{ $keywords ?? '' }}"
                             class="py-2.5 px-4 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600 shadow-sm"
-                            placeholder="Cari Judul atau Lokasi...">
-                        <div class="absolute inset-y-0 inset-e-0 flex items-center pointer-events-none pe-4">
-                            @include('_admin._layout.icons.search')
-                        </div>
+                            placeholder="Cari...">
                     </div>
                 </div>
 
@@ -207,10 +204,10 @@
                                     </button>
                                 @else
                                     <a navigate href="{{ route('superadmin.activities.update', $activity->id) }}" 
-                                        class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all active:scale-90" title="Edit">
+                                        class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all active:scale-90 dark:text-blue-400 dark:bg-blue-50" title="Edit">
                                         @include('_admin._layout.icons.pencil')
                                     </a>
-                                    <button type="button" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-all active:scale-90" 
+                                    <button type="button" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-all active:scale-90 dark:text-red-400 dark:bg-red-50" 
                                         data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $activity->id }}', '{{ $activity->title }}', false)" title="Hapus">
                                         @include('_admin._layout.icons.trash')
                                     </button>

@@ -62,26 +62,20 @@
                             <div class="flex items-center gap-2">
                                 {{-- Start Date --}}
                                 <div class="relative flex-1">
-                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-400 dark:text-neutral-500">
-                                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
-                                    </div>
-                                    <input type="date" id="start_date" name="start_date"
+                                    <input type="text" id="start_date" name="start_date"
                                         value="{{ old('start_date', $activity->event_start?->format('Y-m-d')) }}"
-                                        class="ps-10 pe-3 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('start_date') border-red-500 @enderror"
-                                        required>
+                                        class="datepicker px-4 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('start_date') border-red-500 @enderror"
+                                        required placeholder="Pilih Tanggal">
                                 </div>
 
                                 <span class="text-gray-400 dark:text-neutral-500 font-medium text-sm shrink-0">—</span>
 
                                 {{-- End Date --}}
                                 <div class="relative flex-1">
-                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-400 dark:text-neutral-500">
-                                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
-                                    </div>
-                                    <input type="date" id="end_date" name="end_date"
+                                    <input type="text" id="end_date" name="end_date"
                                         value="{{ old('end_date', $activity->event_end?->format('Y-m-d')) }}"
-                                        class="ps-10 pe-3 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('end_date') border-red-500 @enderror"
-                                        required>
+                                        class="datepicker px-4 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('end_date') border-red-500 @enderror"
+                                        required placeholder="Pilih Tanggal">
                                 </div>
                             </div>
 
@@ -89,26 +83,20 @@
                             <div class="flex items-center gap-2">
                                 {{-- Start Time --}}
                                 <div class="relative flex-1">
-                                    <div class="absolute inset-y-0 end-0 flex items-center pe-3.5 pointer-events-none text-gray-400 dark:text-neutral-500">
-                                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                                    </div>
-                                    <input type="time" id="start_time" name="start_time"
+                                    <input type="text" id="start_time" name="start_time"
                                         value="{{ old('start_time', $activity->event_start?->format('H:i') ?? '08:00') }}"
-                                        class="pe-10 ps-3 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('start_time') border-red-500 @enderror"
-                                        required>
+                                        class="timepicker px-4 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('start_time') border-red-500 @enderror"
+                                        required placeholder="Pilih Waktu">
                                 </div>
 
                                 <span class="text-gray-400 dark:text-neutral-500 font-medium text-sm shrink-0">—</span>
 
                                 {{-- End Time --}}
                                 <div class="relative flex-1">
-                                    <div class="absolute inset-y-0 end-0 flex items-center pe-3.5 pointer-events-none text-gray-400 dark:text-neutral-500">
-                                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                                    </div>
-                                    <input type="time" id="end_time" name="end_time"
+                                    <input type="text" id="end_time" name="end_time"
                                         value="{{ old('end_time', $activity->event_end?->format('H:i') ?? '17:00') }}"
-                                        class="pe-10 ps-3 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('end_time') border-red-500 @enderror"
-                                        required>
+                                        class="timepicker px-4 py-2.5 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:focus:ring-neutral-600 shadow-sm @error('end_time') border-red-500 @enderror"
+                                        required placeholder="Pilih Waktu">
                                 </div>
                             </div>
 

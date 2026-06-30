@@ -26,12 +26,10 @@
     </div>
 
     <div class="flex flex-col gap-6 mt-4">
-        <!-- Filter Form -->
         <div class="px-2 pt-4">
             <form id="filter-form" action="{{ route('superadmin.announcements.index') }}" method="GET" navigate-form
                 class="flex flex-col lg:flex-row items-end gap-x-4 gap-y-4">
 
-                <!-- Search -->
                 <div class="w-full lg:w-80">
                     <label for="keywords"
                         class="block text-xs font-bold uppercase text-gray-500 mb-1.5 dark:text-neutral-500">
@@ -41,13 +39,8 @@
                         <input type="text" name="keywords" id="keywords" value="{{ $keywords ?? '' }}"
                             class="py-2.5 px-4 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600 shadow-sm"
                             placeholder="Cari Judul Pengumuman...">
-                        <div class="absolute inset-y-0 inset-e-0 flex items-center pointer-events-none pe-4">
-                            @include('_admin._layout.icons.search')
-                        </div>
                     </div>
                 </div>
-
-                <!-- Action Buttons -->
                 <div class="flex gap-2">
                     <button type="submit"
                         class="size-[42px] inline-flex justify-center items-center gap-x-1 text-sm font-semibold rounded-xl border border-transparent bg-brand text-white hover:bg-brand-dark focus:outline-none transition-all active:scale-95 shadow-md shadow-brand/20 cursor-pointer"

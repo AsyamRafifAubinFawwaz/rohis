@@ -177,3 +177,20 @@
         display: none !important;
     }
 }
+
+/* Trix Editor Dark Mode Fix */
+.dark .trix-content {
+    color: #e5e7eb !important;
+}
+.dark .trix-content a {
+    color: #60a5fa !important;
+}
+.dark .trix-content pre {
+    background-color: #374151 !important;
+    color: #f3f4f6 !important;
+}
+
+/* Time/Date inputs dark mode native icon fix */
+.dark input[type="time"], .dark input[type="date"] {
+    color-scheme: dark;
+}

@@ -16,4 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
         dateFormat: "Y-m-d",
         allowInput: true
     });
+    flatpickr(".timepicker", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+        allowInput: true
+    });
 });

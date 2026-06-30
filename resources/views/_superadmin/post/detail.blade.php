@@ -96,7 +96,7 @@
                             </div>
                         @endif
 
-                        <div class="prose prose-neutral dark:prose-invert max-w-none">
+                        <div class="prose prose-neutral dark:prose-invert dark:text-white max-w-none">
                             {!! $post->content !!}
                         </div>
                     </div>
@@ -167,12 +167,12 @@
                                 </button>
                             @else
                                 <a href="{{ route('superadmin.posts.update', $post->id) }}" navigate
-                                    class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-xl border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none shadow-sm transition-all active:scale-95">
+                                    class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-xl border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none shadow-sm transition-all active:scale-95 dark:bg-blue-400 dark:text-blue-800">
                                     @include('_admin._layout.icons.pencil')
                                     Edit Postingan
                                 </a>
                                 <button type="button"
-                                    class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-xl border border-transparent bg-red-100 text-red-800 hover:bg-red-200 focus:outline-none cursor-pointer shadow-sm transition-all active:scale-95"
+                                    class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-xl border border-transparent bg-red-100 text-red-800 hover:bg-red-200 focus:outline-none cursor-pointer shadow-sm transition-all active:scale-95 dark:bg-red-400 dark:text-red-800"
                                     data-hs-overlay="#delete-modal">
                                     @include('_admin._layout.icons.trash')
                                     Hapus (Ke Sampah)

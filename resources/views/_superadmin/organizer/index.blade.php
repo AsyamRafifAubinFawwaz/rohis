@@ -41,9 +41,6 @@
                         <input type="text" name="keywords" id="keywords" value="{{ $keywords ?? '' }}"
                             class="py-2.5 px-4 block w-full border-gray-200 rounded-xl text-sm focus:border-brand focus:ring-brand disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600 shadow-sm"
                             placeholder="Cari nama atau jabatan...">
-                        <div class="absolute inset-y-0 inset-e-0 flex items-center pointer-events-none pe-4">
-                            @include('_admin._layout.icons.search')
-                        </div>
                     </div>
                 </div>
 
