@@ -22,7 +22,7 @@
             <!-- Misi -->
             <div class="bg-emerald-50 dark:bg-neutral-900 rounded-2xl p-10 lg:p-14 h-full flex flex-col items-center border border-emerald-100 dark:border-neutral-800 shadow-sm transition-transform hover:-translate-y-1 duration-300">
                 <div class="w-16 h-16 rounded-full bg-emerald-100/80 dark:bg-emerald-900/20 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-6">
-                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    <img src="{{ asset('favicon/misi.svg') }}" alt="Misi" class="w-8 h-8">
                 </div>
                 <h2 class="text-2xl lg:text-3xl font-bold text-neutral-900 dark:text-white mb-6">Misi</h2>
                 <div class="text-neutral-600 dark:text-neutral-400 text-sm lg:text-base leading-relaxed prose dark:prose-invert prose-p:my-2 prose-ol:pl-4 prose-ul:pl-4 max-w-none text-left w-full">

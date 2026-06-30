@@ -95,8 +95,19 @@ class LandingController extends Controller
             $query->latest();
         }
 
-        $articles = $query->paginate(12)->withQueryString();
-        $categories = \App\Models\Categories::all();
+        if ($request->ajax() || $request->has('partial')) {
+            $cacheKey = 'articles_grid_' . md5($request->fullUrl());
+            $html = \Illuminate\Support\Facades\Cache::remember($cacheKey, 60, function () use ($query) {
+                $articles = $query->paginate(12)->withQueryString();
+                return view('_landing.articles.partials.grid', compact('articles'))->render();
+            });
+            return $html;
+        }
+
+        $articles = collect();
+        $categories = \Illuminate\Support\Facades\Cache::remember('articles_categories', 3600, function () {
+            return \App\Models\Categories::all();
+        });
 
         return view('_landing.articles.index', compact('articles', 'categories'));
     }
@@ -159,10 +170,20 @@ class LandingController extends Controller
         return view('_landing.announcements.detail', compact('announcement'));
     }
 
-    public function activities()
+    public function activities(Request $request)
     {
-        $activities = Activities::with('galleries')->orderBy('event_start', 'desc')->paginate(12);
+        $query = clone Activities::with('galleries')->orderBy('event_start', 'desc');
+        
+        if ($request->ajax() || $request->has('partial')) {
+            $cacheKey = 'activities_grid_' . md5($request->fullUrl());
+            $html = \Illuminate\Support\Facades\Cache::remember($cacheKey, 60, function () use ($query) {
+                $activities = $query->paginate(12);
+                return view('_landing.activities.partials.grid', compact('activities'))->render();
+            });
+            return $html;
+        }
 
+        $activities = collect();
         return view('_landing.activities.index', compact('activities'));
     }
 

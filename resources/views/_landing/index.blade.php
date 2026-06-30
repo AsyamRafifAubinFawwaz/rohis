@@ -222,11 +222,11 @@
 
                         @if ($i % 2 === 0)
                             <div class="md:col-span-5 order-1">
-                                <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-emerald-900 relative">
+                                <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-neutral-50 dark:bg-neutral-900 relative border border-neutral-100 dark:border-neutral-800">
                                     @if (isset($program->image) && $program->image)
                                         <img src="{{ asset('storage/' . $program->image) }}"
                                             alt="{{ $program->title ?? $program->name }}"
-                                            class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500">
+                                            class="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center bg-emerald-800">
                                             <svg class="w-12 h-12 stroke-[1.25] text-emerald-300/40" fill="none"
@@ -281,11 +281,11 @@
                                 </a>
                             </div>
                             <div class="md:col-span-5 order-1 md:order-2">
-                                <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-emerald-900 relative">
+                                <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-neutral-50 dark:bg-neutral-900 relative border border-neutral-100 dark:border-neutral-800">
                                     @if (isset($program->image) && $program->image)
                                         <img src="{{ asset('storage/' . $program->image) }}"
                                             alt="{{ $program->title ?? $program->name }}"
-                                            class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500">
+                                            class="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center bg-emerald-800">
                                             <svg class="w-12 h-12 stroke-[1.25] text-emerald-300/40" fill="none"

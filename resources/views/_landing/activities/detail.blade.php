@@ -47,18 +47,22 @@
                 @endif
 
                 <div class="prose prose-base sm:prose-lg prose-emerald dark:prose-invert max-w-none prose-img:rounded-xl">
-                    {!! $activity->content !!}
+                    {!! $activity->description !!}
                 </div>
-                
-                <div class="mt-12 pt-6 border-t border-neutral-100 dark:border-neutral-800">
-                    <a href="{{ route('landing.activities.index') }}" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 transition-colors">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        Kembali ke Daftar Agenda
-                    </a>
+
+                <!-- Like Section -->
+                <div class="mt-12 pt-6 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        @include('partials.share-buttons', ['title' => $activity->title])
+                    </div>
+
+                    <button class="flex flex-col items-center gap-1 text-neutral-400 hover:text-red-500 transition-colors group">
+                        <svg class="w-7 h-7 sm:w-8 sm:h-8 fill-neutral-200 group-hover:fill-red-100 stroke-currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+                        <span class="text-xs font-bold">{{ rand(10, 500) }}</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Sidebar -->
             <div class="w-full lg:w-4/12 space-y-6 sm:space-y-8" data-aos="fade-up" data-aos-delay="100">
                 @if($activity->galleries && $activity->galleries->count() > 0)
                     <div class="bg-white dark:bg-neutral-900 rounded-xl shadow-sm border border-neutral-100 dark:border-neutral-800 p-6">

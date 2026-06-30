@@ -82,6 +82,10 @@
                     <div class="prose dark:prose-invert max-w-none text-neutral-600 dark:text-neutral-300 text-sm sm:text-base leading-relaxed overflow-hidden">
                         {!! $announcement->content !!}
                     </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-neutral-100 dark:border-neutral-800 flex justify-end">
+                        @include('partials.share-buttons', ['title' => $announcement->title, 'url' => route('landing.announcements.detail', $announcement->id)])
+                    </div>
                 </div>
             </div>
         </div>

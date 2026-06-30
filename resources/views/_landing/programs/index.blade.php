@@ -14,12 +14,12 @@
                 @foreach($programs as $program)
                     <div class="bg-white dark:bg-neutral-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-100 dark:border-neutral-800 flex flex-col h-full group">
                         
-                        <a href="{{ route('landing.programs.detail', $program->id) }}" class="block relative aspect-[4/3] bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+                        <a href="{{ route('landing.programs.detail', $program->id) }}" class="block relative aspect-[4/3] bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-100 dark:border-neutral-800 overflow-hidden">
                             @if(isset($program->image) && $program->image)
                                 @php
                                     $imgUrl = Str::startsWith($program->image, ['http://', 'https://']) ? $program->image : asset('storage/' . $program->image);
                                 @endphp
-                                <img src="{{ $imgUrl }}" alt="{{ $program->title ?? $program->name }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <img src="{{ $imgUrl }}" alt="{{ $program->title ?? $program->name }}" class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105">
                             @else
                                 <div class="w-full h-full flex flex-col items-center justify-center text-neutral-400 dark:text-neutral-600 bg-neutral-100 dark:bg-neutral-800/50">
                                     <svg class="w-12 h-12 mb-2 stroke-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>

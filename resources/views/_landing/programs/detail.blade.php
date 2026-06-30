@@ -25,12 +25,7 @@
             <div class="clear-both"></div>
         </div>
 
-        <div class="mt-16 pt-8 border-t border-neutral-100 dark:border-neutral-800 text-center">
-            <a href="{{ route('landing.programs.index') }}" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 transition-colors">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                Kembali ke Daftar Program
-            </a>
-        </div>
+     
     </div>
 </div>
 @endsection
