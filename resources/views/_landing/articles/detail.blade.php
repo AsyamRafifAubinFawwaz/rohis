@@ -34,10 +34,6 @@
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                         <span>{{ $article->created_at->translatedFormat('d F Y') }}</span>
                     </div>
-                    <div class="flex items-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                        <span>Telah Dilihat Sebanyak {{ rand(50, 500) }}</span>
-                    </div>
                 </div>
 
                 <!-- Featured Image -->
@@ -55,7 +51,7 @@
                     {!! $article->content !!}
                 </div>
 
-                <!-- Author, Share & Like Section -->
+                <!-- Share Section -->
                 <div class="mt-12 pt-6 border-t border-neutral-100 dark:border-neutral-800 flex flex-wrap items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold text-sm">
@@ -64,15 +60,8 @@
                         <span class="font-bold text-neutral-900 dark:text-white">{{ $article->user->name ?? 'Admin' }}</span>
                     </div>
                     
-                    <div class="flex items-center gap-4 sm:gap-6">
+                    <div class="flex items-center">
                         @include('partials.share-buttons', ['title' => $article->title])
-                        
-                        <div class="w-px h-8 bg-neutral-200 dark:bg-neutral-800"></div>
-
-                        <button class="flex flex-col items-center gap-1 text-neutral-400 hover:text-red-500 transition-colors group">
-                            <svg class="w-7 h-7 sm:w-8 sm:h-8 fill-neutral-200 group-hover:fill-red-100 stroke-currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
-                            <span class="text-xs font-bold">{{ rand(10, 500) }}</span>
-                        </button>
                     </div>
                 </div>
 

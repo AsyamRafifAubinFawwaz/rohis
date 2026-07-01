@@ -63,9 +63,15 @@ class PostsController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug',
             'content' => 'required|string',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'thumbnail' => 'nullable|image|max:5120',
             'category_ids' => 'required|array',
             'category_ids.*' => 'exists:categories,id',
+        ], [
+            'thumbnail.image' => 'File gambar harus berupa gambar (JPG, PNG, GIF, WebP, atau SVG).',
+            'thumbnail.max' => 'Ukuran gambar tidak boleh lebih dari 5 MB.',
+            'title.required' => 'Judul postingan wajib diisi.',
+            'content.required' => 'Konten postingan wajib diisi.',
+            'category_ids.required' => 'Pilih minimal satu kategori.',
         ]);
 
         $data['slug'] = Str::slug($data['slug'] ?? $data['title']);
@@ -109,9 +115,15 @@ class PostsController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug,'.$request->id,
             'content' => 'required|string',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'thumbnail' => 'nullable|image|max:5120',
             'category_ids' => 'required|array',
             'category_ids.*' => 'exists:categories,id',
+        ], [
+            'thumbnail.image' => 'File gambar harus berupa gambar (JPG, PNG, GIF, WebP, atau SVG).',
+            'thumbnail.max' => 'Ukuran gambar tidak boleh lebih dari 5 MB.',
+            'title.required' => 'Judul postingan wajib diisi.',
+            'content.required' => 'Konten postingan wajib diisi.',
+            'category_ids.required' => 'Pilih minimal satu kategori.',
         ]);
 
         $post = auth()->user()->posts()->findOrFail($request->id);

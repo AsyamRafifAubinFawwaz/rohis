@@ -75,7 +75,11 @@ class ActivitiesController extends Controller
             'start_time' => 'nullable|date_format:H:i',
             'end_date' => 'nullable|date_format:Y-m-d',
             'end_time' => 'nullable|date_format:H:i',
-            'poster' => 'nullable|image|max:2048',
+            'poster' => 'nullable|image|max:5120',
+        ], [
+            'poster.image' => 'File poster harus berupa gambar (JPG, PNG, GIF, WebP, atau SVG).',
+            'poster.max' => 'Ukuran poster tidak boleh lebih dari 5 MB.',
+            'title.required' => 'Judul kegiatan wajib diisi.',
         ]);
 
         $data = $request->only(['title', 'description', 'location']);
@@ -117,7 +121,17 @@ class ActivitiesController extends Controller
             'start_time' => 'required|date_format:H:i',
             'end_date' => 'required|date_format:Y-m-d',
             'end_time' => 'required|date_format:H:i',
-            'poster' => 'nullable|image|max:2048',
+            'poster' => 'nullable|image|max:5120',
+        ], [
+            'poster.image' => 'File poster harus berupa gambar (JPG, PNG, GIF, WebP, atau SVG).',
+            'poster.max' => 'Ukuran poster tidak boleh lebih dari 5 MB.',
+            'title.required' => 'Judul kegiatan wajib diisi.',
+            'description.required' => 'Deskripsi kegiatan wajib diisi.',
+            'location.required' => 'Lokasi kegiatan wajib diisi.',
+            'start_date.required' => 'Tanggal mulai wajib diisi.',
+            'start_time.required' => 'Waktu mulai wajib diisi.',
+            'end_date.required' => 'Tanggal selesai wajib diisi.',
+            'end_time.required' => 'Waktu selesai wajib diisi.',
         ]);
 
         $activity = Activities::findOrFail($id);
