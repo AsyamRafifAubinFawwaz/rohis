@@ -94,6 +94,7 @@ class AnnouncementsController extends Controller
 
         $announcement = Announcements::findOrFail($id);
 
+        unset($data['image']);
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($announcement->image) {

@@ -130,7 +130,11 @@ class PostsController extends Controller
         $data['status'] = 'pending';
         $data['slug'] = Str::slug($data['slug'] ?? $data['title']);
 
+        unset($data['thumbnail']);
         if ($request->hasFile('thumbnail')) {
+            if ($post->thumbnail) {
+                Storage::disk('public')->delete($post->thumbnail);
+            }
             $data['thumbnail'] = $this->uploadAsWebp($request->file('thumbnail'), 'thumbnails');
         }
 

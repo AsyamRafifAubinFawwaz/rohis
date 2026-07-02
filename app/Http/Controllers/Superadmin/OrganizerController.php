@@ -129,6 +129,7 @@ class OrganizerController extends Controller
 
         $organizer = organizer::findOrFail($id);
 
+        unset($data['image']);
         if ($request->hasFile('image')) {
             if ($organizer->image) {
                 Storage::disk('public')->delete($organizer->image);

@@ -113,6 +113,7 @@ class ProgramsController extends Controller
 
         $program = Programs::findOrFail($id);
 
+        unset($data['image']);
         if ($request->hasFile('image')) {
             if ($program->image) {
                 Storage::disk('public')->delete($program->image);

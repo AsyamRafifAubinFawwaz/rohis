@@ -8,6 +8,7 @@ use App\Models\Categories;
 use App\Models\Posts;
 use App\Traits\UploadsImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostsController extends Controller
@@ -140,7 +141,11 @@ class PostsController extends Controller
 
         $data['slug'] = Str::slug($data['slug'] ?? $data['title']);
 
+        unset($data['thumbnail']);
         if ($request->hasFile('thumbnail')) {
+            if ($post->thumbnail) {
+                Storage::disk('public')->delete($post->thumbnail);
+            }
             $data['thumbnail'] = $this->uploadAsWebp($request->file('thumbnail'), 'thumbnails');
         }
 
