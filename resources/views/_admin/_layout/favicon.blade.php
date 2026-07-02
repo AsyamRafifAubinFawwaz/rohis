@@ -2,5 +2,5 @@
 <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/logo-rohis.png') }}" />
 <link rel="shortcut icon" href="{{ asset('favicon/logo-rohis.png') }}" />
 <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/logo-rohis.png') }}" />
-<meta name="apple-mobile-web-app-title" content="Laravel Starter Kit" />
+<meta name="apple-mobile-web-app-title" content="Rohiskalaber" />
 <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}" />

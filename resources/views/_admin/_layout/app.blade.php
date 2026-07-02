@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ env('APP_ENV') == 'local' ? '[LOCAL] ' : '' }}Laravel Starter Kit - @yield('title')</title>
+    <title>{{ env('APP_ENV') == 'local' ? '[LOCAL] ' : '' }}Rohiskalaber - @yield('title')</title>
 
     {{-- Favicon --}}
     @include('_admin._layout.favicon')
