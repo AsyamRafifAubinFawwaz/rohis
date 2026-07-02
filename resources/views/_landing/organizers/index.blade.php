@@ -75,9 +75,20 @@
                             @if($organizer->image)
                                 <img src="{{ asset('storage/' . $organizer->image) }}" alt="{{ $organizer->name }}" class="w-full h-full object-cover">
                             @else
-                                <svg class="w-full h-full text-emerald-300 dark:text-neutral-600 p-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
+                                @php
+                                    $initials = collect(explode(' ', $organizer->name))
+                                        ->take(2)->map(fn($w) => strtoupper(substr($w,0,1)))->implode('');
+                                    $gradients = [
+                                        'from-emerald-500 to-teal-600',
+                                        'from-green-500 to-emerald-700',
+                                        'from-teal-500 to-cyan-600',
+                                        'from-emerald-600 to-green-800',
+                                    ];
+                                    $grad = $gradients[crc32($organizer->name) % count($gradients)];
+                                @endphp
+                                <div class="w-full h-full bg-gradient-to-br {{ $grad }} flex items-center justify-center">
+                                    <span class="text-white font-black text-3xl sm:text-4xl select-none tracking-tight">{{ $initials }}</span>
+                                </div>
                             @endif
                         </div>
 

@@ -10,8 +10,16 @@
                         @endphp
                         <img src="{{ $imgUrl }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                     @else
-                        <div class="w-full h-full flex items-center justify-center bg-emerald-800/5">
-                            <svg class="w-12 h-12 stroke-1 text-emerald-700/20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5L16.5 5.5M9 11l3 3L22 4" /></svg>
+                        <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-emerald-800 to-emerald-950 relative overflow-hidden">
+                            {{-- decorative circles --}}
+                            <div class="absolute -top-6 -left-6 w-28 h-28 rounded-full bg-white/5"></div>
+                            <div class="absolute -bottom-8 -right-8 w-36 h-36 rounded-full bg-white/5"></div>
+                            <div class="absolute top-4 right-6 w-10 h-10 rounded-full bg-white/5"></div>
+                            {{-- icon --}}
+                            <svg class="w-12 h-12 text-emerald-300/60 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            <span class="text-emerald-300/50 text-xs font-bold uppercase tracking-widest mt-2 relative z-10">Rohis</span>
                         </div>
                     @endif
                 </a>

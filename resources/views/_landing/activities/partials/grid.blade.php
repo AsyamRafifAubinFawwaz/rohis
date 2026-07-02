@@ -15,12 +15,14 @@
                         <img src="{{ $imgUrl }}" alt="{{ $activity->title }}"
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                     @else
-                        <div class="w-full h-full flex flex-col items-center justify-center text-neutral-400 dark:text-neutral-600 bg-neutral-100 dark:bg-neutral-800/50">
-                            <svg class="w-12 h-12 mb-2 stroke-1" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-emerald-800 to-emerald-950 relative overflow-hidden">
+                            <div class="absolute -top-6 -left-6 w-32 h-32 rounded-full bg-white/5"></div>
+                            <div class="absolute -bottom-8 -right-8 w-40 h-40 rounded-full bg-white/5"></div>
+                            <div class="absolute top-6 right-8 w-12 h-12 rounded-full bg-white/5"></div>
+                            <svg class="w-12 h-12 text-emerald-300/60 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
+                            <span class="text-emerald-300/50 text-xs font-bold uppercase tracking-widest mt-2 relative z-10">Agenda</span>
                         </div>
                     @endif
                 </a>

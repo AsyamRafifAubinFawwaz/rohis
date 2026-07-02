@@ -185,8 +185,19 @@
                                         <img src="{{ asset('storage/' . $organizer->image) }}" alt="{{ $organizer->name }}"
                                             class="size-12 rounded-xl object-cover shrink-0 border border-gray-100 dark:border-neutral-700">
                                     @else
-                                        <div class="size-12 rounded-xl bg-brand/10 text-brand flex items-center justify-center text-sm font-bold uppercase shrink-0">
-                                            {{ substr($organizer->name, 0, 1) }}
+                                        @php
+                                            $initials = collect(explode(' ', $organizer->name))
+                                                ->take(2)->map(fn($w) => strtoupper(substr($w,0,1)))->implode('');
+                                            $gradients = [
+                                                'from-emerald-500 to-teal-600',
+                                                'from-green-500 to-emerald-700',
+                                                'from-teal-500 to-cyan-600',
+                                                'from-emerald-600 to-green-800',
+                                            ];
+                                            $grad = $gradients[crc32($organizer->name) % count($gradients)];
+                                        @endphp
+                                        <div class="size-12 rounded-xl bg-gradient-to-br {{ $grad }} flex items-center justify-center text-sm font-bold text-white uppercase shrink-0">
+                                            {{ $initials }}
                                         </div>
                                     @endif
                                     <div>
