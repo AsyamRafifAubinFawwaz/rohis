@@ -42,7 +42,12 @@
                         @php
                             $mainImgUrl = Str::startsWith($article->thumbnail, ['http://', 'https://']) ? $article->thumbnail : asset('storage/' . $article->thumbnail);
                         @endphp
-                        <img src="{{ $mainImgUrl }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+                        <img src="{{ $mainImgUrl }}" alt="{{ $article->title }}" class="w-full h-full object-cover"
+                             onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
+                    </div>
+                @else
+                    <div class="w-full aspect-[16/9] mb-8 rounded-lg overflow-hidden">
+                        <img src="{{ asset('img/fallbacks/article.svg') }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
                     </div>
                 @endif
 
@@ -85,11 +90,10 @@
                                         @php
                                             $otherImgUrl = Str::startsWith($other->thumbnail, ['http://', 'https://']) ? $other->thumbnail : asset('storage/' . $other->thumbnail);
                                         @endphp
-                                        <img src="{{ $otherImgUrl }}" alt="{{ $other->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                        <img src="{{ $otherImgUrl }}" alt="{{ $other->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                                             onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
                                     @else
-                                        <div class="w-full h-full flex items-center justify-center text-neutral-400 bg-neutral-100 dark:bg-neutral-800/50">
-                                            <svg class="w-6 h-6 stroke-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                        </div>
+                                        <img src="{{ asset('img/fallbacks/article.svg') }}" alt="{{ $other->title }}" class="w-full h-full object-cover">
                                     @endif
                                 </div>
                                 <div class="flex flex-col justify-center">

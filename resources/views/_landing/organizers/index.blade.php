@@ -71,24 +71,16 @@
                             </div>
                         @endif
 
-                        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden mb-5 bg-emerald-50 dark:bg-neutral-800 border-4 {{ $isLeader ? 'border-emerald-100 dark:border-emerald-900/50' : 'border-emerald-50 dark:border-neutral-800' }} group-hover:scale-105 transition-transform duration-300">
+                        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden mb-5 border-4 {{ $isLeader ? 'border-emerald-100 dark:border-emerald-900/50' : 'border-emerald-50 dark:border-neutral-800' }} group-hover:scale-105 transition-transform duration-300">
                             @if($organizer->image)
-                                <img src="{{ asset('storage/' . $organizer->image) }}" alt="{{ $organizer->name }}" class="w-full h-full object-cover">
+                                <img src="{{ asset('storage/' . $organizer->image) }}"
+                                     alt="{{ $organizer->name }}"
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='{{ asset('img/fallbacks/avatar.svg') }}';this.onerror=null;">
                             @else
-                                @php
-                                    $initials = collect(explode(' ', $organizer->name))
-                                        ->take(2)->map(fn($w) => strtoupper(substr($w,0,1)))->implode('');
-                                    $gradients = [
-                                        'from-emerald-500 to-teal-600',
-                                        'from-green-500 to-emerald-700',
-                                        'from-teal-500 to-cyan-600',
-                                        'from-emerald-600 to-green-800',
-                                    ];
-                                    $grad = $gradients[crc32($organizer->name) % count($gradients)];
-                                @endphp
-                                <div class="w-full h-full bg-gradient-to-br {{ $grad }} flex items-center justify-center">
-                                    <span class="text-white font-black text-3xl sm:text-4xl select-none tracking-tight">{{ $initials }}</span>
-                                </div>
+                                <img src="{{ asset('img/fallbacks/avatar.svg') }}"
+                                     alt="{{ $organizer->name }}"
+                                     class="w-full h-full object-cover">
                             @endif
                         </div>
 

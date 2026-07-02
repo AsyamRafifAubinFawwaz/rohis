@@ -226,15 +226,10 @@
                                     @if (isset($program->image) && $program->image)
                                         <img src="{{ asset('storage/' . $program->image) }}"
                                             alt="{{ $program->title ?? $program->name }}"
-                                            class="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500">
+                                            class="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500"
+                                            onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
                                     @else
-                                        <div class="w-full h-full flex items-center justify-center bg-emerald-800">
-                                            <svg class="w-12 h-12 stroke-[1.25] text-emerald-300/40" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                                            </svg>
-                                        </div>
+                                        <img src="{{ asset('img/fallbacks/article.svg') }}" alt="{{ $program->title ?? $program->name }}" class="w-full h-full object-cover">
                                     @endif
                                 </div>
                             </div>
@@ -285,15 +280,10 @@
                                     @if (isset($program->image) && $program->image)
                                         <img src="{{ asset('storage/' . $program->image) }}"
                                             alt="{{ $program->title ?? $program->name }}"
-                                            class="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500">
+                                            class="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500"
+                                            onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
                                     @else
-                                        <div class="w-full h-full flex items-center justify-center bg-emerald-800">
-                                            <svg class="w-12 h-12 stroke-[1.25] text-emerald-300/40" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                                            </svg>
-                                        </div>
+                                        <img src="{{ asset('img/fallbacks/article.svg') }}" alt="{{ $program->title ?? $program->name }}" class="w-full h-full object-cover">
                                     @endif
                                 </div>
                             </div>
@@ -328,24 +318,14 @@
 
                             <a href="{{ route('landing.articles.detail', $article->slug) }}"
                                 class="block relative aspect-[4/3] bg-neutral-100 dark:bg-neutral-800 overflow-hidden group">
-                                @if ($article->thumbnail)
-                                    @php
-                                        $imgUrl = Str::startsWith($article->thumbnail, ['http://', 'https://'])
-                                            ? $article->thumbnail
-                                            : asset('storage/' . $article->thumbnail);
-                                    @endphp
-                                    <img src="{{ $imgUrl }}" alt="{{ $article->title }}"
-                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                                @else
-                                    <div
-                                        class="w-full h-full flex flex-col items-center justify-center text-neutral-400 dark:text-neutral-600 bg-neutral-100 dark:bg-neutral-800/50">
-                                        <svg class="w-12 h-12 mb-2 stroke-1" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                @endif
+                                @php
+                                    $imgUrl = $article->thumbnail 
+                                        ? (Str::startsWith($article->thumbnail, ['http://', 'https://']) ? $article->thumbnail : asset('storage/' . $article->thumbnail))
+                                        : asset('img/fallbacks/article.svg');
+                                @endphp
+                                <img src="{{ $imgUrl }}" alt="{{ $article->title }}"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
                             </a>
 
                             <div class="p-6 flex flex-col flex-1 relative">
@@ -527,15 +507,12 @@
                             @if (isset($activity->poster) && $activity->poster)
                                 <div class="aspect-[4/3] overflow-hidden bg-neutral-200">
                                     <img src="{{ asset('storage/' . $activity->poster) }}" alt="{{ $activity->title }}"
-                                        class="w-full h-full object-cover transition-transform duration-500">
+                                        class="w-full h-full object-cover transition-transform duration-500"
+                                        onerror="this.src='{{ asset('img/fallbacks/activity.svg') }}';this.onerror=null;">
                                 </div>
                             @else
-                                <div class="aspect-[4/3] overflow-hidden relative bg-emerald-800">
-                                    <svg class="absolute right-4 bottom-0 w-28 h-28 opacity-15" viewBox="0 0 200 200"
-                                        fill="none">
-                                        <path d="M20,200 L20,90 Q20,10 100,10 Q180,10 180,90 L180,200" stroke="white"
-                                            stroke-width="8" />
-                                    </svg>
+                                <div class="aspect-[4/3] overflow-hidden">
+                                    <img src="{{ asset('img/fallbacks/activity.svg') }}" alt="{{ $activity->title }}" class="w-full h-full object-cover">
                                 </div>
                             @endif
                             <div class="p-8 pt-5 space-y-4">
@@ -613,21 +590,29 @@
             @if ($galleries->count() > 0)
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4" data-aos="fade-up">
                     @foreach ($galleries->take(4) as $gal)
-                        @if ($gal->image)
-                            <div class="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group shadow-sm border border-neutral-200 dark:border-neutral-800"
-                                onclick="openGalleryModal('{{ asset('storage/' . $gal->image) }}', '{{ addslashes($gal->title) }}')">
+                        <div class="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group shadow-sm border border-neutral-200 dark:border-neutral-800"
+                            @if ($gal->image)
+                                onclick="openGalleryModal('{{ asset('storage/' . $gal->image) }}', '{{ addslashes($gal->title) }}')"
+                            @else
+                                onclick="openGalleryModal('{{ asset('img/fallbacks/gallery.svg') }}', '{{ addslashes($gal->title) }}')"
+                            @endif
+                        >
+                            @if ($gal->image)
                                 <img src="{{ asset('storage/' . $gal->image) }}" alt="{{ $gal->title }}"
-                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                <div
-                                    class="absolute inset-0 bg-neutral-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                                    </svg>
-                                </div>
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    onerror="this.src='{{ asset('img/fallbacks/gallery.svg') }}';this.onerror=null;">
+                            @else
+                                <img src="{{ asset('img/fallbacks/gallery.svg') }}" alt="{{ $gal->title }}" class="w-full h-full object-cover">
+                            @endif
+                            <div
+                                class="absolute inset-0 bg-neutral-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                                </svg>
                             </div>
-                        @endif
+                        </div>
                     @endforeach
                 </div>
 

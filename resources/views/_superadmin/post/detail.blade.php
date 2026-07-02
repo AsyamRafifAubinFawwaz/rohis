@@ -92,7 +92,12 @@
                             <div
                                 class="rounded-2xl overflow-hidden shadow-md border border-gray-100 dark:border-neutral-700">
                                 <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="Thumbnail"
-                                    class="w-full object-cover">
+                                    class="w-full object-cover"
+                                    onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
+                            </div>
+                        @else
+                            <div class="rounded-2xl overflow-hidden shadow-md border border-gray-100 dark:border-neutral-700">
+                                <img src="{{ asset('img/fallbacks/article.svg') }}" alt="Thumbnail" class="w-full object-cover h-48">
                             </div>
                         @endif
 

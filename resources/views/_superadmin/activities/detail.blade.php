@@ -80,7 +80,12 @@
                             <div
                                 class="rounded-2xl overflow-hidden shadow-xl border border-gray-100 dark:border-neutral-700 bg-gray-50 dark:bg-neutral-900">
                                 <img src="{{ asset('storage/' . $activity->poster) }}" alt="Poster Kegiatan"
-                                    class="w-full object-contain max-h-[600px]">
+                                    class="w-full object-contain max-h-[600px]"
+                                    onerror="this.src='{{ asset('img/fallbacks/activity.svg') }}';this.onerror=null;">
+                            </div>
+                        @else
+                            <div class="rounded-2xl overflow-hidden shadow-xl border border-gray-100 dark:border-neutral-700">
+                                <img src="{{ asset('img/fallbacks/activity.svg') }}" alt="Poster Kegiatan" class="w-full object-cover h-48">
                             </div>
                         @endif
 

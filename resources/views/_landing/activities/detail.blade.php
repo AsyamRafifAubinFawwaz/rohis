@@ -42,7 +42,12 @@
 
                 @if(isset($activity->poster) && $activity->poster)
                     <div class="w-full aspect-[16/9] mb-8 bg-neutral-100 rounded-lg overflow-hidden">
-                        <img src="{{ asset('storage/' . $activity->poster) }}" alt="{{ $activity->title }}" class="w-full h-full object-cover">
+                        <img src="{{ asset('storage/' . $activity->poster) }}" alt="{{ $activity->title }}" class="w-full h-full object-cover"
+                             onerror="this.src='{{ asset('img/fallbacks/activity.svg') }}';this.onerror=null;">
+                    </div>
+                @else
+                    <div class="w-full aspect-[16/9] mb-8 rounded-lg overflow-hidden">
+                        <img src="{{ asset('img/fallbacks/activity.svg') }}" alt="{{ $activity->title }}" class="w-full h-full object-cover">
                     </div>
                 @endif
 

@@ -233,9 +233,10 @@
                             <div class="flex items-center gap-x-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors">
                                 <div class="size-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 overflow-hidden shrink-0">
                                     @if($program->image)
-                                        <img src="{{ asset('storage/' . $program->image) }}" class="size-full object-cover">
+                                        <img src="{{ asset('storage/' . $program->image) }}" class="size-full object-cover"
+                                             onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
                                     @else
-                                        <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"/></svg>
+                                        <img src="{{ asset('img/fallbacks/article.svg') }}" class="size-full object-cover">
                                     @endif
                                 </div>
                                 <div class="grow min-w-0">
@@ -263,7 +264,9 @@
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
                 @forelse ($latest_galleries as $gallery)
                     <div class="group relative block overflow-hidden rounded-xl bg-gray-100 dark:bg-neutral-900 aspect-square border border-gray-200 dark:border-neutral-700">
-                        <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->title }}">
+                        <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->title }}"
+                             onerror="this.src='{{ asset('img/fallbacks/gallery.svg') }}';this.onerror=null;">
+
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2">
                             <p class="text-[10px] text-white font-medium truncate">{{ $gallery->title }}</p>
                         </div>
