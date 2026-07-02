@@ -18,7 +18,7 @@
         <!-- Sidebar Header -->
         <div class="sidebar-header px-6 pt-4 flex items-center justify-between min-h-[64px]">
             <div class="sidebar-text flex items-center gap-x-3 transition-all duration-300">
-                <img src="{{ asset('favicon/logo-rohis.png') }}" class="size-8 object-contain" alt="Logo">
+                <img src="{{ asset('favicon/logo-rohis.webp') }}" class="size-8 object-contain" alt="Logo">
                 <span
                     class="text-sm font-bold text-gray-800 dark:text-neutral-200 uppercase tracking-wider">ROHIS</span>
             </div>

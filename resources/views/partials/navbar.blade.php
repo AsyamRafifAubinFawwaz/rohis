@@ -6,7 +6,7 @@
 
         {{-- Logo --}}
         <a href="{{ route('landing.index') }}" class="flex items-center gap-x-3 shrink-0" id="navbar-logo">
-            <img src="{{ asset('favicon/logo-rohis.png') }}" class="size-9 object-contain" alt="Logo Rohis">
+            <img src="{{ asset('favicon/logo-rohis.webp') }}" class="size-9 object-contain" alt="Logo Rohis">
             <span id="logo-text" class="text-lg font-bold text-neutral-900 dark:text-white tracking-wide uppercase">Rohiskalaber</span>
         </a>
 

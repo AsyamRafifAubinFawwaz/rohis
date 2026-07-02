@@ -8,7 +8,7 @@
             {{-- Brand --}}
             <div class="lg:col-span-1">
                 <div class="flex items-center gap-x-3 mb-4">
-                    <img src="{{ asset('favicon/logo-rohis.png') }}" class="size-10 object-contain" alt="Logo Rohis">
+                    <img src="{{ asset('favicon/logo-rohis.webp') }}" class="size-10 object-contain" alt="Logo Rohis">
                     <span class="text-xl font-bold text-white uppercase tracking-wider">Rohis</span>
                 </div>
                 <p class="text-sm text-gray-400 leading-relaxed mb-6">
