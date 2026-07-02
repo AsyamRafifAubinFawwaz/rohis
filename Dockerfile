@@ -47,12 +47,13 @@ COPY --from=frontend-builder --chown=www-data:www-data /build/public/build ./pub
 # 7. Set permission untuk folder storage dan cache
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
+# BIKIN SYMLINK PAS BUILD (Aman, tidak butuh koneksi DB)
+RUN php artisan storage:link
+
 # Buka port 8000
 EXPOSE 8000
 
 # 8. Jalankan optimasi Laravel dan jalankan aplikasi saat container start
-# Perintah ini dipindah ke CMD agar tidak memicu error koneksi database saat proses build image.
-CMD sh -c "php artisan storage:link --force \
-    && php artisan optimize:clear \
+CMD sh -c "php artisan optimize:clear \
     && php artisan optimize \
     && php artisan serve --host=0.0.0.0 --port=8000"
