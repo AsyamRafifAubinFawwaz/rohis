@@ -52,7 +52,7 @@ EXPOSE 8000
 
 # 8. Jalankan optimasi Laravel dan jalankan aplikasi saat container start
 # Perintah ini dipindah ke CMD agar tidak memicu error koneksi database saat proses build image.
-CMD sh -c "php artisan storage:link || true \
+CMD sh -c "php artisan storage:link --force \
     && php artisan optimize:clear \
     && php artisan optimize \
     && php artisan serve --host=0.0.0.0 --port=8000"
