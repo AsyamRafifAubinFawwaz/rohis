@@ -120,7 +120,7 @@ class PostsController extends Controller
 
         return view('_superadmin.post.update', compact('post', 'page', 'categories'));
     }
-
+///lkansoansooa///
     public function doUpdate(Request $request, $id)
     {
         $post = Posts::findOrFail($id);
