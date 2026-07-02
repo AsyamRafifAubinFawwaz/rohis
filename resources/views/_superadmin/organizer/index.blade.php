@@ -44,8 +44,34 @@
                     </div>
                 </div>
 
+                <!-- Filter Jabatan -->
+                <div class="w-full lg:w-48">
+                    <label for="jabatan"
+                        class="block text-xs font-bold uppercase text-gray-500 mb-1.5 dark:text-neutral-500">
+                        Jabatan
+                    </label>
+                    <select id="jabatan" name="jabatan"
+                        data-hs-select='{
+                            "placeholder": "Semua Jabatan",
+                            "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                            "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2.5 ps-4 pe-9 flex gap-x-2 flex-wrap text-nowrap w-full cursor-pointer bg-white border border-gray-200 text-gray-800 rounded-xl text-start text-sm hover:bg-gray-50 focus:outline-hidden shadow-sm dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800",
+                            "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:bg-neutral-900 dark:border-neutral-700 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500",
+                            "optionClasses": "hs-selected:bg-brand/10 dark:hs-selected:bg-brand/20 py-2 px-4 w-full text-sm text-gray-800 dark:text-neutral-200 cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-lg focus:outline-hidden",
+                            "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-brand\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+                            "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-400 dark:text-neutral-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+                        }'
+                        class="hidden">
+                        <option value="">Semua Jabatan</option>
+                        @foreach ($jabatanList as $j)
+                            <option value="{{ $j }}" {{ ($jabatan ?? '') === $j ? 'selected' : '' }}>
+                                {{ $j }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- Filter Periode -->
-                <div class="w-full lg:w-56">
+                <div class="w-full lg:w-52">
                     <label for="periode"
                         class="block text-xs font-bold uppercase text-gray-500 mb-1.5 dark:text-neutral-500">
                         Periode
@@ -61,9 +87,10 @@
                             "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-400 dark:text-neutral-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
                         }'
                         class="hidden">
+                        <option value="semua" {{ (!$periode || $periode === 'semua') ? 'selected' : '' }}>Semua Periode</option>
                         @foreach ($periodeList as $p)
                             <option value="{{ $p }}" {{ $periode === $p ? 'selected' : '' }}>
-                                Periode {{ $p }}
+                                {{ $p }}
                             </option>
                         @endforeach
                     </select>
@@ -76,7 +103,7 @@
                         title="Terapkan Filter">
                         @include('_admin._layout.icons.search')
                     </button>
-                    @if (!empty($keywords) || ($status_data ?? 'aktif') !== 'aktif' || $periode !== $defaultPeriode)
+                    @if (!empty($keywords) || !empty($jabatan) || ($status_data ?? 'aktif') !== 'aktif' || $periode !== $defaultPeriode)
                         <a navigate
                             class="size-[42px] inline-flex justify-center items-center gap-x-1 text-sm font-semibold rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 focus:outline-none transition-all active:scale-95 shadow-sm"
                             href="{{ route('superadmin.organizer.index') }}" title="Reset Filter">
@@ -109,16 +136,22 @@
         <div class="px-2">
             <div class="flex items-center gap-2">
                 <span class="text-xs font-bold uppercase text-gray-400 dark:text-neutral-500">Menampilkan periode:</span>
-                <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-bold bg-brand/10 text-brand">
-                    {{ $periode }}
-                </span>
-                @if ($periode !== $defaultPeriode)
-                    <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold bg-amber-50 text-amber-600 dark:bg-amber-900/20">
-                        Periode Lampau
+                @if($periode)
+                    <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-bold bg-brand/10 text-brand">
+                        {{ $periode }}
                     </span>
+                    @if ($periode !== $defaultPeriode)
+                        <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold bg-amber-50 text-amber-600 dark:bg-amber-900/20">
+                            Periode Lampau
+                        </span>
+                    @else
+                        <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20">
+                            Periode Aktif
+                        </span>
+                    @endif
                 @else
-                    <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20">
-                        Periode Aktif
+                    <span class="inline-flex items-center gap-x-1.5 py-1 px-3 rounded-lg text-xs font-bold bg-brand/10 text-brand">
+                        Semua Periode
                     </span>
                 @endif
             </div>
@@ -332,19 +365,21 @@
             }
         }
 
-        // Auto-submit saat pilih periode dari hs-select
+        // Auto-submit saat pilih periode atau jabatan dari hs-select
         document.addEventListener('DOMContentLoaded', function () {
-            const periodeSelect = document.getElementById('periode');
-            if (periodeSelect) {
-                periodeSelect.addEventListener('change', function () {
-                    const form = document.getElementById('filter-form');
-                    if (typeof form.requestSubmit === 'function') {
-                        form.requestSubmit();
-                    } else {
-                        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-                    }
-                });
-            }
+            ['periode', 'jabatan'].forEach(function(id) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('change', function () {
+                        const form = document.getElementById('filter-form');
+                        if (typeof form.requestSubmit === 'function') {
+                            form.requestSubmit();
+                        } else {
+                            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                        }
+                    });
+                }
+            });
         });
 
         function setRestoreData(id, name) {

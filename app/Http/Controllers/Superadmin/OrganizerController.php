@@ -21,7 +21,11 @@ class OrganizerController extends Controller
         $status_data = $request->status_data ?? 'aktif';
         $currentYear = (int) now()->year;
         $defaultPeriode = $currentYear.'-'.($currentYear + 1);
-        $periode = $request->periode ?? $defaultPeriode;
+        $rawPeriode = $request->has('periode') ? $request->periode : $defaultPeriode;
+        $periode = ($rawPeriode === 'semua') ? null : $rawPeriode;
+        $jabatan = $request->jabatan;
+
+        $jabatanList = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Anggota'];
 
         // Ambil semua periode unik dari database (termasuk yang terhapus)
         $periodeList = organizer::withTrashed()
@@ -43,6 +47,9 @@ class OrganizerController extends Controller
                 return $query->where('name', 'like', '%'.$keywords.'%')
                     ->orWhere('jabatan', 'like', '%'.$keywords.'%');
             })
+            ->when($jabatan, function ($query, $jabatan) {
+                return $query->where('jabatan', $jabatan);
+            })
             ->when($status_data, function ($query, $status_data) {
                 if ($status_data === 'aktif') {
                     return $query->whereNull('deleted_at');
@@ -52,8 +59,11 @@ class OrganizerController extends Controller
 
                 return $query;
             })
-            ->where('periode', $periode)
-            ->latest()
+            ->when($periode, function ($query, $periode) {
+                return $query->where('periode', $periode);
+            })
+            ->orderByRaw("FIELD(jabatan, 'Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Anggota')")
+            ->orderBy('name')
             ->paginate(12);
 
         $page = ['title' => 'Struktur Organisasi'];
@@ -61,6 +71,8 @@ class OrganizerController extends Controller
         return view('_superadmin.organizer.index', compact(
             'organizers',
             'keywords',
+            'jabatan',
+            'jabatanList',
             'status_data',
             'periode',
             'periodeList',
