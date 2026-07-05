@@ -25,7 +25,7 @@ class OrganizerController extends Controller
         $periode        = ($rawPeriode === 'semua') ? null : $rawPeriode;
         $jabatan        = $request->jabatan;
 
-        $jabatanList = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Anggota'];
+        $jabatanList = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Media', 'Anggota'];
 
           // Ambil semua periode unik dari database (termasuk yang terhapus)
         $periodeList = organizer::withTrashed()
@@ -62,7 +62,7 @@ class OrganizerController extends Controller
             ->when($periode, function ($query, $periode) {
                 return $query->where('periode', $periode);
             })
-            ->orderByRaw("FIELD(jabatan, 'Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Koordinator Bidang', 'Media', 'Anggota')")
+            ->orderByRaw("FIELD(jabatan, 'Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Media', 'Anggota')")
             ->orderBy('name')
             ->paginate(12);
 
@@ -84,7 +84,7 @@ class OrganizerController extends Controller
     public function add(): View
     {
         $page           = ['title' => 'Struktur Organisasi'];
-        $jabatanList    = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Anggota'];
+        $jabatanList    = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Media', 'Anggota'];
         $periodeOptions = $this->generatePeriodeOptions();
 
         return view('_superadmin.organizer.add', compact('page', 'jabatanList', 'periodeOptions'));
@@ -112,7 +112,7 @@ class OrganizerController extends Controller
     {
         $organizer      = organizer::findOrFail($id);
         $page           = ['title' => 'Struktur Organisasi'];
-        $jabatanList    = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Anggota'];
+        $jabatanList    = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Media', 'Anggota'];
         $periodeOptions = $this->generatePeriodeOptions();
 
         return view('_superadmin.organizer.update', compact('organizer', 'page', 'jabatanList', 'periodeOptions'));
@@ -122,7 +122,7 @@ class OrganizerController extends Controller
     {
         $data = $request->validate([
             'name'    => ['required', 'string', 'max:255'],
-            'jabatan' => ['required', 'string', 'in:Pembina,Ketua,Wakil Ketua,Sekretaris 1,Sekretaris 2,Bendahara,Anggota'],
+            'jabatan' => ['required', 'string', 'in:Pembina,Ketua,Wakil Ketua,Sekretaris 1,Sekretaris 2,Bendahara,Media,Anggota'],
             'image'   => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'periode' => ['required', 'string', 'max:255'],
         ]);
