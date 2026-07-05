@@ -194,7 +194,7 @@
                                             {{ $organizer->name }}
                                         </span>
                                         <span class="block text-xs text-gray-500 dark:text-neutral-500 mt-1">
-                                            Ditambahkan: {{ $organizer->created_at->format('d M, Y') }}
+                                            Ditambahkan: {{ $organizer->created_at ? $organizer->created_at->format('d M, Y') : '-' }}
                                         </span>
                                     </div>
                                 </div>
@@ -365,22 +365,8 @@
             }
         }
 
-        // Auto-submit saat pilih periode atau jabatan dari hs-select
-        document.addEventListener('DOMContentLoaded', function () {
-            ['periode', 'jabatan'].forEach(function(id) {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.addEventListener('change', function () {
-                        const form = document.getElementById('filter-form');
-                        if (typeof form.requestSubmit === 'function') {
-                            form.requestSubmit();
-                        } else {
-                            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-                        }
-                    });
-                }
-            });
-        });
+        // Auto-submit saat pilih periode atau jabatan dari hs-select dimatikan sesuai permintaan
+        // Pengguna harus menekan tombol Terapkan Filter (Search) secara manual
 
         window.setRestoreData = function(id, name) {
             let form = document.getElementById('restore-form');

@@ -20,7 +20,7 @@ class OrganizerController extends Controller
         $keywords       = $request->keywords;
         $status_data    = $request->status_data ?? 'aktif';
         $currentYear    = (int) now()->year;
-        $defaultPeriode = $currentYear . '-' . ($currentYear + 1);
+        $defaultPeriode = $currentYear . '/' . ($currentYear + 1);
         $rawPeriode     = $request->has('periode') ? $request->periode : $defaultPeriode;
         $periode        = ($rawPeriode === 'semua') ? null : $rawPeriode;
         $jabatan        = $request->jabatan;
@@ -183,19 +183,19 @@ class OrganizerController extends Controller
         $endYear     = $currentYear + 1;
         $options     = [];
 
-          // 1-year span periods (e.g. 2025-2026)
         for ($year = $endYear; $year >= $startYear; $year--) {
+            // Opsi 1 Tahun (Standar)
+            $periode1 = $year . '/' . ($year + 1);
             $options[] = [
-                'value' => $year . '-' . ($year + 1),
-                'label' => $year . '-' . ($year + 1) . ' (1 Periode)',
+                'value' => $periode1,
+                'label' => 'Periode ' . $periode1,
             ];
-        }
 
-          // 2-year span periods (e.g. 2025-2027)
-        for ($year = $endYear; $year >= $startYear; $year--) {
+            // Opsi 2 Tahun (Jika ada yang menjabat 2 periode)
+            $periode2 = $year . '/' . ($year + 2);
             $options[] = [
-                'value' => $year . '-' . ($year + 2),
-                'label' => $year . '-' . ($year + 2) . ' (2 Periode)',
+                'value' => $periode2,
+                'label' => 'Periode ' . $periode2 . ' (2 Tahun)',
             ];
         }
 
