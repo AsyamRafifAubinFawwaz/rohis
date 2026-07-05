@@ -27,11 +27,14 @@ class OrganizerController extends Controller
 
         $jabatanList = ['Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Media', 'Anggota'];
 
-          // Ambil semua periode unik dari database (termasuk yang terhapus)
+          // Ambil semua periode unik dari database dan normalkan formatnya
         $periodeList = organizer::withTrashed()
             ->distinct()
-            ->orderBy('periode', 'desc')
-            ->pluck('periode');
+            ->pluck('periode')
+            ->map(fn($p) => str_replace('-', '/', $p))
+            ->unique()
+            ->sortDesc()
+            ->values();
 
           // Pastikan default periode ada di list meskipun belum ada data
         if (! $periodeList->contains($defaultPeriode)) {
@@ -60,7 +63,11 @@ class OrganizerController extends Controller
                 return $query;
             })
             ->when($periode, function ($query, $periode) {
-                return $query->where('periode', $periode);
+                // Mendukung pencarian untuk data lama yang pakai '-' dan data baru yang pakai '/'
+                $alternatePeriode = str_replace('/', '-', $periode);
+                return $query->where(function($q) use ($periode, $alternatePeriode) {
+                    $q->where('periode', $periode)->orWhere('periode', $alternatePeriode);
+                });
             })
             ->orderByRaw("FIELD(jabatan, 'Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Media', 'Anggota')")
             ->orderBy('name')

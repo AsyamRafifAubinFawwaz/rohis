@@ -52,6 +52,10 @@
                     </label>
                     <select id="jabatan" name="jabatan"
                         data-hs-select='{
+                            "hasSearch": true,
+                            "searchPlaceholder": "Cari jabatan...",
+                            "searchWrapperClasses": "bg-white p-2 -mx-1 sticky top-0 dark:bg-neutral-900",
+                            "searchClasses": "block w-full text-sm border-gray-200 rounded-lg focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400",
                             "placeholder": "Semua Jabatan",
                             "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                             "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2.5 ps-4 pe-9 flex gap-x-2 flex-wrap text-nowrap w-full cursor-pointer bg-white border border-gray-200 text-gray-800 rounded-xl text-start text-sm hover:bg-gray-50 focus:outline-hidden shadow-sm dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800",
@@ -78,6 +82,10 @@
                     </label>
                     <select id="periode" name="periode"
                         data-hs-select='{
+                            "hasSearch": true,
+                            "searchPlaceholder": "Cari periode...",
+                            "searchWrapperClasses": "bg-white p-2 -mx-1 sticky top-0 dark:bg-neutral-900",
+                            "searchClasses": "block w-full text-sm border-gray-200 rounded-lg focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400",
                             "placeholder": "Pilih periode...",
                             "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                             "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2.5 ps-4 pe-9 flex gap-x-2 flex-wrap text-nowrap w-full cursor-pointer bg-white border border-gray-200 text-gray-800 rounded-xl text-start text-sm hover:bg-gray-50 focus:outline-hidden shadow-sm dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800",
