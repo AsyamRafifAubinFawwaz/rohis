@@ -112,20 +112,20 @@
                     <div
                         class="w-1/2 aspect-[3/5] sm:aspect-[3/4] lg:aspect-[3/5] rounded-[2rem] rounded-bl-none overflow-hidden shadow-md">
                         <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                            src="{{ asset('images/pengurus.jpeg') }}" alt="Pengurus Rohis">
+                            src="{{ asset('images/pengurus.jpeg') }}?v={{ filemtime(public_path('images/pengurus.jpeg')) }}" alt="Pengurus Rohis">
                     </div>
 
                     <div class="w-1/2 flex flex-col gap-4">
                         <div
                             class="w-full aspect-square sm:aspect-[4/3] lg:aspect-square rounded-[2rem] rounded-tr-[4rem] overflow-hidden shadow-md">
                             <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                                src="{{ asset('images/belajar.png') }}" alt="Kajian Mentoring Rohis">
+                                src="{{ asset('images/belajar.png') }}?v={{ filemtime(public_path('images/belajar.png')) }}" alt="Kajian Mentoring Rohis">
                         </div>
 
                         <div
                             class="w-full aspect-square sm:aspect-[4/3] lg:aspect-square rounded-[2rem] rounded-br-[4rem] overflow-hidden shadow-md">
                             <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                                src="{{ asset('images/IMG_2011.JPG') }}" alt="Aksi Sosial Rohis">
+                                src="{{ asset('images/IMG_2011.JPG') }}?v={{ filemtime(public_path('images/IMG_2011.JPG')) }}" alt="Aksi Sosial Rohis">
                         </div>
                     </div>
                 </div>
@@ -508,11 +508,11 @@
                                 <div class="aspect-[4/3] overflow-hidden bg-neutral-200">
                                     <img src="{{ asset('storage/' . $activity->poster) }}" alt="{{ $activity->title }}"
                                         class="w-full h-full object-cover transition-transform duration-500"
-                                        onerror="this.src='{{ asset('img/fallbacks/activity.svg') }}';this.onerror=null;">
+                                        onerror="this.src='{{ asset('img/fallbacks/activity.svg') }}?v={{ filemtime(public_path('img/fallbacks/activity.svg')) }}';this.onerror=null;">
                                 </div>
                             @else
                                 <div class="aspect-[4/3] overflow-hidden">
-                                    <img src="{{ asset('img/fallbacks/activity.svg') }}" alt="{{ $activity->title }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('img/fallbacks/activity.svg') }}?v={{ filemtime(public_path('img/fallbacks/activity.svg')) }}" alt="{{ $activity->title }}" class="w-full h-full object-cover">
                                 </div>
                             @endif
                             <div class="p-8 pt-5 space-y-4">
@@ -594,15 +594,15 @@
                             @if ($gal->image)
                                 onclick="openGalleryModal('{{ asset('storage/' . $gal->image) }}', '{{ addslashes($gal->title) }}')"
                             @else
-                                onclick="openGalleryModal('{{ asset('img/fallbacks/gallery.svg') }}', '{{ addslashes($gal->title) }}')"
+                                onclick="openGalleryModal('{{ asset('img/fallbacks/gallery.svg') }}?v={{ filemtime(public_path('img/fallbacks/gallery.svg')) }}', '{{ addslashes($gal->title) }}')"
                             @endif
                         >
                             @if ($gal->image)
                                 <img src="{{ asset('storage/' . $gal->image) }}" alt="{{ $gal->title }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                    onerror="this.src='{{ asset('img/fallbacks/gallery.svg') }}';this.onerror=null;">
+                                    onerror="this.src='{{ asset('img/fallbacks/gallery.svg') }}?v={{ filemtime(public_path('img/fallbacks/gallery.svg')) }}';this.onerror=null;">
                             @else
-                                <img src="{{ asset('img/fallbacks/gallery.svg') }}" alt="{{ $gal->title }}" class="w-full h-full object-cover">
+                                <img src="{{ asset('img/fallbacks/gallery.svg') }}?v={{ filemtime(public_path('img/fallbacks/gallery.svg')) }}" alt="{{ $gal->title }}" class="w-full h-full object-cover">
                             @endif
                             
                             <div class="absolute inset-0 bg-neutral-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

@@ -4,7 +4,7 @@
 @section('content')
 <!-- Hero Section -->
 <div class="relative w-full mt-16 sm:mt-20 py-16 sm:py-24 flex flex-col items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 bg-neutral-900 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('images/banner-artikel.jpg') }}');"></div>
+    <div class="absolute inset-0 bg-neutral-900 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('images/banner-artikel.jpg') }}?v={{ filemtime(public_path('images/banner-artikel.jpg')) }}');"></div>
     <div class="absolute inset-0 bg-emerald-800/80 dark:bg-emerald-900/90 mix-blend-multiply"></div>
     
     <div class="relative z-10 text-center px-4">
