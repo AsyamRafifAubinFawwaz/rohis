@@ -94,27 +94,31 @@
 
                     <div class="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4 group">
                         @if ($gallery->image)
-                            <img src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->title }}"
-                                class="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->title }}"
+                                onerror="this.src='{{ asset('img/fallbacks/gallery.svg') }}';this.onerror=null;">
+                            
                             <div
                                 class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                 <button type="button" data-hs-overlay="#lightbox-modal"
-                                    onclick="openLightbox('{{ asset('storage/' . $gallery->image) }}', '{{ $gallery->title }}')"
+                                    onclick="openLightbox('{{ asset('storage/' . $gallery->image) }}', {{ e(json_encode($gallery->title)) }})"
                                     class="py-2 px-4 inline-flex items-center gap-x-2 text-xs font-bold rounded-xl bg-white/90 backdrop-blur-sm text-gray-800 shadow-sm hover:bg-white transition-all">
                                     @include('_admin._layout.icons.eye')
                                     Lihat Foto
                                 </button>
                             </div>
                         @else
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="{{ asset('img/fallbacks/gallery.svg') }}" alt="{{ $gallery->title }}">
+                            
                             <div
-                                class="absolute inset-0 flex flex-col items-center justify-center bg-gray-50 dark:bg-neutral-800 text-gray-300">
-                                <svg class="size-10" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                                    <circle cx="9" cy="9" r="2" />
-                                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                                </svg>
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button type="button" data-hs-overlay="#lightbox-modal"
+                                    onclick="openLightbox('{{ asset('img/fallbacks/gallery.svg') }}', {{ e(json_encode($gallery->title)) }})"
+                                    class="py-2 px-4 inline-flex items-center gap-x-2 text-xs font-bold rounded-xl bg-white/90 backdrop-blur-sm text-gray-800 shadow-sm hover:bg-white transition-all">
+                                    @include('_admin._layout.icons.eye')
+                                    Lihat Foto
+                                </button>
                             </div>
                         @endif
                     </div>

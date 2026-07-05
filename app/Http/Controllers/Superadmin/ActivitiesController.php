@@ -20,11 +20,37 @@ class ActivitiesController extends Controller
 
         $activities = Activities::query()
             ->when($keywords, function ($query, $keywords) {
-                return $query->where('title', 'like', '%'.$keywords.'%')
-                    ->orWhere('location', 'like', '%'.$keywords.'%');
+                return $query->where(function ($q) use ($keywords) {
+                    $q->where('title', 'like', '%'.$keywords.'%')
+                      ->orWhere('location', 'like', '%'.$keywords.'%');
+                });
             })
             ->when($status, function ($query, $status) {
-                return $query->where('status', $status);
+                $now = \Carbon\Carbon::now();
+                if ($status === 'upcoming') {
+                    return $query->where(function ($q) use ($now) {
+                        $q->where('event_start', '>', $now)
+                          ->orWhereNull('event_start');
+                    });
+                } elseif ($status === 'ongoing') {
+                    return $query->where('event_start', '<=', $now)
+                                 ->where(function($q) use ($now) {
+                                     $q->where('event_end', '>=', $now)
+                                       ->orWhere(function($q2) use ($now) {
+                                           $q2->whereNull('event_end')
+                                              ->whereRaw('DATE_ADD(event_start, INTERVAL 1 DAY) >= ?', [$now]);
+                                       });
+                                 });
+                } elseif ($status === 'done') {
+                    return $query->where(function($q) use ($now) {
+                        $q->where('event_end', '<', $now)
+                          ->orWhere(function($q2) use ($now) {
+                              $q2->whereNull('event_end')
+                                 ->whereRaw('DATE_ADD(event_start, INTERVAL 1 DAY) < ?', [$now]);
+                          });
+                    });
+                }
+                return $query;
             })
             ->when($status_data, function ($query, $status_data) {
                 if ($status_data == 'aktif') {

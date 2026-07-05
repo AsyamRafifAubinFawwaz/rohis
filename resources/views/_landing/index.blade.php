@@ -592,9 +592,9 @@
                     @foreach ($galleries->take(4) as $gal)
                         <div class="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group shadow-sm border border-neutral-200 dark:border-neutral-800"
                             @if ($gal->image)
-                                onclick="openGalleryModal('{{ asset('storage/' . $gal->image) }}', '{{ addslashes($gal->title) }}')"
+                                onclick="openGalleryModal('{{ asset('storage/' . $gal->image) }}', {{ e(json_encode($gal->title)) }})"
                             @else
-                                onclick="openGalleryModal('{{ asset('img/fallbacks/gallery.svg') }}', '{{ addslashes($gal->title) }}')"
+                                onclick="openGalleryModal('{{ asset('img/fallbacks/gallery.svg') }}', {{ e(json_encode($gal->title)) }})"
                             @endif
                         >
                             @if ($gal->image)
@@ -662,6 +662,11 @@
                             </svg>
                             {{ \Carbon\Carbon::parse($announcement->created_at)->translatedFormat('d F Y') }}
                         </div>
+                        @if($announcement->image)
+                            <div class="mb-6">
+                                <img src="{{ asset('storage/' . $announcement->image) }}" alt="{{ $announcement->title }}" class="w-full h-auto rounded-xl shadow-sm object-cover max-h-96">
+                            </div>
+                        @endif
                         <div
                             class="prose dark:prose-invert max-w-none text-neutral-600 dark:text-neutral-300 text-sm sm:text-base leading-relaxed overflow-hidden">
                             {!! $announcement->content !!}

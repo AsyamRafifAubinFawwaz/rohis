@@ -222,17 +222,39 @@
     </x-admin.modal>
 
     <script>
-        function setEditData(id, name, slug) {
-            document.getElementById('edit-id').value = id;
-            document.getElementById('edit-name').value = name;
-            document.getElementById('edit-slug').value = slug;
-            document.getElementById('edit-form').action = '{{ url('superadmin/categories/update') }}/' + id;
-        }
+        window.setEditData = function(id, name, slug) {
+            let form = document.getElementById('edit-form');
+            let idInput = document.getElementById('edit-id');
+            let nameInput = document.getElementById('edit-name');
+            let slugInput = document.getElementById('edit-slug');
 
-        function setDeleteData(id, name) {
-            document.getElementById('delete-item-name').textContent = name;
-            document.getElementById('delete-form').action = '{{ url('superadmin/categories/delete') }}/' + id;
-        }
+            if (!form || !document.getElementById('main-content').contains(form)) {
+                const modal = document.getElementById('edit-modal') || document.querySelector('[aria-labelledby="edit-modal-title"]') || document.body;
+                form = modal.querySelector('#edit-form') || form;
+                idInput = modal.querySelector('#edit-id') || idInput;
+                nameInput = modal.querySelector('#edit-name') || nameInput;
+                slugInput = modal.querySelector('#edit-slug') || slugInput;
+            }
+
+            if (idInput) idInput.value = id;
+            if (nameInput) nameInput.value = name;
+            if (slugInput) slugInput.value = slug;
+            if (form) form.action = '{{ url('superadmin/categories/update') }}/' + id;
+        };
+
+        window.setDeleteData = function(id, name) {
+            let form = document.getElementById('delete-form');
+            let nameSpan = document.getElementById('delete-item-name');
+
+            if (!form || !document.getElementById('main-content').contains(form)) {
+                const modal = document.getElementById('delete-modal') || document.querySelector('[aria-labelledby="delete-modal-title"]') || document.body;
+                form = modal.querySelector('#delete-form') || form;
+                nameSpan = modal.querySelector('#delete-item-name') || nameSpan;
+            }
+
+            if (nameSpan) nameSpan.textContent = name;
+            if (form) form.action = '{{ url('superadmin/categories/delete') }}/' + id;
+        };
 
         function createSlug(text) {
             return text.toString().toLowerCase()

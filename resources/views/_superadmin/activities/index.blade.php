@@ -184,12 +184,10 @@
                             <!-- Action Inline -->
                             <div class="flex gap-1.5">
                                 @if ($activity->trashed())
-                                    <form action="{{ route('superadmin.activities.restore', $activity->id) }}" method="POST" navigate-form>
-                                        @csrf
-                                        <button type="submit" class="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-all active:scale-90" title="Pulihkan">
-                                            @include('_admin._layout.icons.reset')
-                                        </button>
-                                    </form>
+                                    <button type="button" class="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-all active:scale-90" 
+                                        data-hs-overlay="#restore-modal" onclick="setRestoreData('{{ $activity->id }}', '{{ addslashes($activity->title) }}')" title="Pulihkan">
+                                        @include('_admin._layout.icons.reset')
+                                    </button>
                                     <button type="button" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all active:scale-90" 
                                         data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $activity->id }}', '{{ $activity->title }}', true)" title="Hapus Permanen">
                                         @include('_admin._layout.icons.trash')
@@ -250,6 +248,42 @@
         </div>
     </div>
 
+    <!-- Restore Confirmation Modal -->
+    <div id="restore-modal"
+        class="hs-overlay hidden size-full fixed top-0 inset-s-0 z-80 overflow-x-hidden overflow-y-auto" role="dialog"
+        tabindex="-1">
+        <div
+            class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+            <div
+                class="relative flex flex-col bg-white border border-gray-200 shadow-sm rounded-2xl dark:bg-neutral-800 dark:border-neutral-700 overflow-hidden">
+                <div class="p-4 sm:p-10 text-center">
+                    <span
+                        class="mb-4 inline-flex justify-center items-center size-14 rounded-full border-4 border-emerald-50 bg-emerald-100 text-emerald-500 dark:bg-emerald-700/30 dark:border-emerald-600 dark:text-emerald-100">
+                        @include('_admin._layout.icons.reset')
+                    </span>
+                    <h3 id="restore-modal-title" class="mb-2 text-xl font-bold text-gray-800 dark:text-neutral-200">
+                        Pulihkan Kegiatan
+                    </h3>
+                    <p id="restore-modal-description" class="text-gray-500 dark:text-neutral-500 px-6">
+                        Apakah Anda yakin ingin memulihkan <span id="restore-activity-name" class="font-bold text-gray-800 dark:text-neutral-200"></span>?
+                    </p>
+                    <div class="mt-8 flex justify-center gap-x-3">
+                        <button type="button"
+                            class="py-2.5 px-6 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300"
+                            data-hs-overlay="#restore-modal">Batal</button>
+                        <form id="restore-form" method="POST" class="inline" navigate-form>
+                            @csrf
+                            <button type="submit"
+                                class="py-2.5 px-6 inline-flex items-center gap-x-2 text-sm font-semibold rounded-xl border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 cursor-pointer shadow-md shadow-emerald-500/20 transition-all active:scale-95">
+                                Ya, Pulihkan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Auto-submit saat pilih filter dari hs-select
         document.addEventListener('DOMContentLoaded', function () {
@@ -297,28 +331,57 @@
             }
         }
 
-        function setDeleteData(id, name, isPermanent) {
-            const form = document.getElementById('delete-form');
-            const title = document.getElementById('delete-modal-title');
-            const desc = document.getElementById('delete-modal-description');
-            const nameSpan = document.getElementById('delete-activity-name');
-            const submitBtn = form.querySelector('button[type="submit"]');
+        window.setDeleteData = function(id, name, isPermanent) {
+            let form = document.getElementById('delete-form');
+            let title = document.getElementById('delete-modal-title');
+            let desc = document.getElementById('delete-modal-description');
+            let nameSpan = document.getElementById('delete-activity-name');
+            
+            if (!form || !document.getElementById('main-content').contains(form)) {
+                const modal = document.getElementById('delete-modal') || document.querySelector('[aria-labelledby="delete-modal-title"]') || document.body;
+                form = modal.querySelector('#delete-form') || form;
+                title = modal.querySelector('#delete-modal-title') || title;
+                desc = modal.querySelector('#delete-modal-description') || desc;
+                nameSpan = modal.querySelector('#delete-activity-name') || nameSpan;
+            }
 
-            nameSpan.textContent = name;
+            let submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
+            if (nameSpan) nameSpan.textContent = name;
 
             if (isPermanent) {
-                form.action = `{{ url('superadmin/activities/force-delete') }}/${id}`;
-                title.textContent = 'Hapus Permanen Kegiatan';
-                desc.innerHTML = `Apakah Anda yakin ingin menghapus <b>${name}</b> secara permanen? Tindakan ini tidak dapat dibatalkan.`;
-                submitBtn.classList.replace('bg-red-600', 'bg-rose-600');
-                submitBtn.textContent = 'Ya, Hapus Permanen';
+                if (title) title.textContent = 'Hapus Permanen Kegiatan';
+                if (desc) desc.innerHTML = 'Kegiatan <b>' + name + '</b> akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
+                if (submitBtn) {
+                    submitBtn.textContent = 'Ya, Hapus Permanen';
+                    submitBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                    submitBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+                }
+                if (form) form.action = '{{ url('superadmin/activities/force-delete') }}/' + id;
             } else {
-                form.action = `{{ url('superadmin/activities/delete') }}/${id}`;
-                title.textContent = 'Hapus Kegiatan';
-                desc.innerHTML = `Apakah Anda yakin ingin memindahkan <b>${name}</b> ke sampah?`;
-                submitBtn.classList.replace('bg-rose-600', 'bg-red-600');
-                submitBtn.textContent = 'Ya, Hapus Data';
+                if (title) title.textContent = 'Hapus Kegiatan';
+                if (desc) desc.innerHTML = 'Apakah Anda yakin ingin menghapus kegiatan <b>' + name + '</b>?';
+                if (submitBtn) {
+                    submitBtn.textContent = 'Ya, Hapus Data';
+                    submitBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
+                    submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                }
+                if (form) form.action = '{{ url('superadmin/activities/delete') }}/' + id;
             }
-        }
+        };
+
+        window.setRestoreData = function(id, name) {
+            let form = document.getElementById('restore-form');
+            let nameSpan = document.getElementById('restore-activity-name');
+
+            if (!form || !document.getElementById('main-content').contains(form)) {
+                const modal = document.getElementById('restore-modal') || document.querySelector('[aria-labelledby="restore-modal-title"]') || document.body;
+                form = modal.querySelector('#restore-form') || form;
+                nameSpan = modal.querySelector('#restore-activity-name') || nameSpan;
+            }
+
+            if (nameSpan) nameSpan.textContent = name;
+            if (form) form.action = '{{ url('superadmin/activities/restore') }}/' + id;
+        };
     </script>
 @endsection

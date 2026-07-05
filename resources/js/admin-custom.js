@@ -112,8 +112,9 @@ $(document).ready(function () {
                     }
                 });
 
-                // Dispatch load event for scripts waiting on window.load
-                window.dispatchEvent(new Event("load"));
+                // NOTE: Do NOT dispatch 'load' event here - Preline listens on window.load
+                // and would trigger autoInit() again, causing double-rendered dropdowns.
+                // We call HSStaticMethods.autoInit() explicitly below instead.
             });
         } else {
             console.error("#main-content not found in response");
@@ -139,6 +140,12 @@ $(document).ready(function () {
 
         // Re-initialize plugins
         if (window.HSStaticMethods) {
+            // Clear Preline collections to prevent memory leaks and stale DOM references
+            if (typeof window.$hsOverlayCollection !== 'undefined') window.$hsOverlayCollection = [];
+            if (typeof window.$hsSelectCollection !== 'undefined') window.$hsSelectCollection = [];
+            if (typeof window.$hsDropdownCollection !== 'undefined') window.$hsDropdownCollection = [];
+            if (typeof window.$hsTooltipCollection !== 'undefined') window.$hsTooltipCollection = [];
+            
             window.HSStaticMethods.autoInit();
         }
 
@@ -196,11 +203,19 @@ $(document).ready(function () {
         $.ajax({
             url: url,
             success: function (data) {
+                // Cleanup any leftover overlay backdrops BEFORE SPA navigation
+                cleanupModalBackdrops();
+                // Also remove any page-specific modals Preline moved to body
+                // (these are no longer relevant when navigating to a new page)
+                $(".hs-overlay").not("#hs-application-sidebar").each(function () {
+                    if (!document.getElementById("main-content").contains(this)) {
+                        $(this).remove();
+                    }
+                });
+
                 if (!handleSpaResponse(data, url)) {
                     window.location.href = url;
                 }
-                // Cleanup any leftover overlay backdrops after SPA navigation
-                cleanupModalBackdrops();
                 NProgress.done();
             },
             error: function (xhr, status, error) {
@@ -298,7 +313,7 @@ $(document).ready(function () {
                                 document.body.appendChild(script);
                             } catch (e) {}
                         });
-                        window.dispatchEvent(new Event("load"));
+                        // NOTE: Do NOT dispatch 'load' event - autoInit() called below explicitly.
                     });
                 }
 
@@ -306,12 +321,21 @@ $(document).ready(function () {
                     $("#hs-application-sidebar").html(sidebarEl.innerHTML);
                 }
 
+                // Cleanup any leftover overlay backdrops BEFORE autoInit moves new modals
+                cleanupModalBackdrops();
+                // Remove page-specific modals from body (moved there by Preline from previous page)
+                $(".hs-overlay").not("#hs-application-sidebar").each(function () {
+                    if (!document.getElementById("main-content").contains(this)) {
+                        $(this).remove();
+                    }
+                });
+
                 if (window.HSStaticMethods) {
+                    if (typeof window.$hsOverlayCollection !== 'undefined') window.$hsOverlayCollection = [];
+                    if (typeof window.$hsSelectCollection !== 'undefined') window.$hsSelectCollection = [];
+                    if (typeof window.$hsDropdownCollection !== 'undefined') window.$hsDropdownCollection = [];
                     window.HSStaticMethods.autoInit();
                 }
-
-                // Cleanup any leftover overlay backdrops after popstate navigation
-                cleanupModalBackdrops();
 
                 NProgress.done();
                 spaNavigating = false;
@@ -325,20 +349,19 @@ $(document).ready(function () {
 
     // Helper to cleanup any leftover modal backdrops or body classes
     function cleanupModalBackdrops() {
-        // Remove Preline overlay backdrops (the black overlay)
+        // We no longer call Preline's .close() because it might run asynchronously 
+        // and accidentally modify the newly injected modal with the same ID.
+        // Instead, we just manually destroy the DOM elements and reset the body state.
+
+        // Remove ONLY backdrop elements (semi-transparent overlay behind modals)
         $(".hs-overlay-backdrop").remove();
         $("[data-hs-overlay-backdrop-template]").remove();
-        // Preline sets overflow-hidden on both body AND html — remove from both
-        $("body").removeClass("overflow-hidden");
+
+        // Remove body lock classes & styles Preline sets when modal is open
+        $("body").removeClass("overflow-hidden hs-overlay-body-open");
         $("html").removeClass("overflow-hidden");
-        // Also remove any inline overflow styles Preline may have set
         document.body.style.overflow = "";
         document.documentElement.style.overflow = "";
-        // Reset the sidebar's open state classes (mobile only)
-        var sidebar = $("#hs-application-sidebar");
-        if (sidebar.length) {
-            sidebar.removeClass("open opened");
-        }
     }
 
     // Handle page restored from bfcache (browser back-forward cache)
@@ -442,7 +465,8 @@ $(document).ready(function () {
         }
 
         NProgress.start();
-        var action = $form.attr("action");
+        // Coba baca attribute 'action', jika tidak ada, gunakan prop 'action'
+        var action = $form.attr("action") || $form.prop("action");
         var method = $form.attr("method") || "POST"; // Default to POST if not specified
         var nativeXhr;
         var ajaxData;
@@ -478,9 +502,18 @@ $(document).ready(function () {
                     (nativeXhr ? nativeXhr.responseURL : null) || action;
                 console.log("Form Success, Final URL:", finalUrl);
 
+                // Clean up old modals BEFORE injecting new content
+                cleanupModalBackdrops();
+                // Also remove any page-specific modals Preline moved to body
+                // (prevents duplicate modals with same ID from blocking the new modal)
+                $(".hs-overlay").not("#hs-application-sidebar").each(function () {
+                    if (!document.getElementById("main-content").contains(this)) {
+                        $(this).remove();
+                    }
+                });
+
                 if (handleSpaResponse(data, finalUrl)) {
                     console.log("Form SPA update success");
-                    cleanupModalBackdrops();
 
                     // Extract dynamic message from parsed response
                     var successMessage = $("#spa-flash-success").text();

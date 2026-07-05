@@ -263,33 +263,55 @@
             }
         }
 
-        function setRestoreData(id, name) {
-            document.getElementById('restore-item-name').textContent = name;
-            document.getElementById('restore-form').action = `{{ url('superadmin/announcements/restore') }}/${id}`;
-        }
+        window.setRestoreData = function(id, name) {
+            let form = document.getElementById('restore-form');
+            let nameSpan = document.getElementById('restore-item-name');
+            
+            if (!form || !document.getElementById('main-content').contains(form)) {
+                const modal = document.getElementById('restore-modal') || document.querySelector('[aria-labelledby="restore-modal-title"]') || document.body;
+                form = modal.querySelector('#restore-form') || form;
+                nameSpan = modal.querySelector('#restore-item-name') || nameSpan;
+            }
 
-        function setDeleteData(id, name, isPermanent = false) {
-            const form = document.getElementById('delete-form');
-            const nameSpan = document.getElementById('delete-item-name');
-            const title = document.getElementById('delete-modal-title');
-            const alertText = document.getElementById('delete-alert-text');
-            const submitBtn = document.getElementById('delete-submit-btn');
+            if (nameSpan) nameSpan.textContent = name;
+            if (form) form.action = `{{ url('superadmin/announcements/restore') }}/${id}`;
+        };
 
-            nameSpan.textContent = name;
+        window.setDeleteData = function(id, name, isPermanent = false) {
+            let form = document.getElementById('delete-form');
+            let nameSpan = document.getElementById('delete-item-name');
+            let title = document.getElementById('delete-modal-title');
+            let alertText = document.getElementById('delete-alert-text');
+            let submitBtn = document.getElementById('delete-submit-btn');
+
+            if (!form || !document.getElementById('main-content').contains(form)) {
+                const modal = document.getElementById('delete-modal') || document.querySelector('[aria-labelledby="delete-modal-title"]') || document.body;
+                form = modal.querySelector('#delete-form') || form;
+                nameSpan = modal.querySelector('#delete-item-name') || nameSpan;
+                title = modal.querySelector('#delete-modal-title') || title;
+                alertText = modal.querySelector('#delete-alert-text') || alertText;
+                submitBtn = modal.querySelector('#delete-submit-btn') || submitBtn;
+            }
+
+            if (nameSpan) nameSpan.textContent = name;
 
             if (isPermanent) {
-                form.action = `{{ url('superadmin/announcements/force-delete') }}/${id}`;
-                title.textContent = 'Hapus Permanen Pengumuman';
-                alertText.textContent = 'Pengumuman akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
-                submitBtn.classList.replace('bg-red-600', 'bg-rose-600');
-                submitBtn.textContent = 'Ya, Hapus Permanen';
+                if (form) form.action = `{{ url('superadmin/announcements/force-delete') }}/${id}`;
+                if (title) title.textContent = 'Hapus Permanen Pengumuman';
+                if (alertText) alertText.textContent = 'Pengumuman akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
+                if (submitBtn) {
+                    submitBtn.classList.replace('bg-red-600', 'bg-rose-600');
+                    submitBtn.textContent = 'Ya, Hapus Permanen';
+                }
             } else {
-                form.action = `{{ url('superadmin/announcements/delete') }}/${id}`;
-                title.textContent = 'Hapus Pengumuman';
-                alertText.textContent = 'Pengumuman akan dipindahkan ke tempat sampah.';
-                submitBtn.classList.replace('bg-rose-600', 'bg-red-600');
-                submitBtn.textContent = 'Ya, Hapus Pengumuman';
+                if (form) form.action = `{{ url('superadmin/announcements/delete') }}/${id}`;
+                if (title) title.textContent = 'Hapus Pengumuman';
+                if (alertText) alertText.textContent = 'Pengumuman akan dipindahkan ke tempat sampah.';
+                if (submitBtn) {
+                    submitBtn.classList.replace('bg-rose-600', 'bg-red-600');
+                    submitBtn.textContent = 'Ya, Hapus Pengumuman';
+                }
             }
-        }
+        };
     </script>
 @endsection

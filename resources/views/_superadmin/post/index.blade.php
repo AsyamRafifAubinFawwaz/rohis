@@ -343,7 +343,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Delete Confirmation Modal -->
     <div id="delete-modal" class="hs-overlay hidden size-full fixed top-0 start-0 z-80 overflow-x-hidden overflow-y-auto"
@@ -483,33 +482,75 @@
             }
         }
 
-        function setDeleteData(id, title, isForce = false) {
-            document.getElementById('delete-item-name').textContent = title;
-            const form = document.getElementById('delete-form');
-            const label = document.getElementById('delete-modal-label');
-            const submitBtn = form.querySelector('button[type="submit"]');
+        window.setDeleteData = function(id, name, isPermanent = false) {
+            let form = document.getElementById('delete-form');
+            let nameSpan = document.getElementById('delete-item-name');
+            let title = document.getElementById('delete-modal-title');
+            let alertText = document.getElementById('delete-alert-text');
+            let submitBtn = document.getElementById('delete-submit-btn');
 
-            if (isForce) {
-                label.textContent = 'Hapus Permanen';
-                submitBtn.textContent = 'Ya, Hapus Permanen';
-                submitBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
-                submitBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
-                form.action = '{{ url('superadmin/posts/force-delete') }}/' + id;
-            } else {
-                label.textContent = 'Hapus Postingan';
-                submitBtn.textContent = 'Ya, Pindahkan ke Sampah';
-                submitBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
-                submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
-                form.action = '{{ url('superadmin/posts/delete') }}/' + id;
+            if (!form || !document.body.contains(form)) {
+                const modal = document.getElementById('delete-modal') || document.querySelector('[aria-labelledby="delete-modal-title"]') || document.body;
+                form = modal.querySelector('#delete-form') || form;
+                nameSpan = modal.querySelector('#delete-item-name') || nameSpan;
+                title = modal.querySelector('#delete-modal-title') || title;
+                alertText = modal.querySelector('#delete-alert-text') || alertText;
+                submitBtn = modal.querySelector('#delete-submit-btn') || submitBtn;
             }
-        }
 
-        function setActionData(type, id, title) {
-            const form    = document.getElementById('action-confirm-form');
-            const label   = document.getElementById('action-confirm-label');
-            const desc    = document.getElementById('action-confirm-desc');
-            const btn     = document.getElementById('action-confirm-btn');
-            const icon    = document.getElementById('action-confirm-icon');
+            if (nameSpan) nameSpan.textContent = name;
+
+            if (isPermanent) {
+                if (title) title.textContent = 'Hapus Permanen Postingan';
+                if (alertText) alertText.textContent = 'Postingan akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
+                if (submitBtn) {
+                    submitBtn.textContent = 'Ya, Hapus Permanen';
+                    submitBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                    submitBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+                }
+                if (form) form.action = '{{ url('superadmin/posts/force-delete') }}/' + id;
+            } else {
+                if (title) title.textContent = 'Hapus Postingan';
+                if (alertText) alertText.textContent = 'Apakah Anda yakin ingin menghapus postingan ' + name + '? Tindakan ini tidak dapat dibatalkan.';
+                if (submitBtn) {
+                    submitBtn.textContent = 'Ya, Hapus Postingan';
+                    submitBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
+                    submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                }
+                if (form) form.action = '{{ url('superadmin/posts/delete') }}/' + id;
+            }
+        };
+
+        window.setActionData = function(type, id, title) {
+            // Coba cari elemen di seluruh dokumen
+            let form  = document.getElementById('action-confirm-form');
+            let label = document.getElementById('action-confirm-label');
+            let desc  = document.getElementById('action-confirm-desc');
+            let btn   = document.getElementById('action-confirm-btn');
+            let icon  = document.getElementById('action-confirm-icon');
+
+            // Fallback: Jika tidak ditemukan by ID, mungkin ada bug SPA/Preline, cari berdasarkan query selector fallback
+            if (!label) {
+                console.warn("action-confirm-label tidak ditemukan by ID! Mencari via selector fallback...");
+                const modal = document.querySelector('#action-confirm-modal') || document.querySelector('.hs-overlay[aria-labelledby="action-confirm-label"]');
+                if (modal) {
+                    form  = modal.querySelector('form');
+                    label = modal.querySelector('h3');
+                    desc  = modal.querySelector('p');
+                    btn   = modal.querySelector('button[type="submit"]');
+                    icon  = modal.querySelector('span');
+                } else {
+                    console.error("CRITICAL: action-confirm-modal benar-benar hilang dari DOM!");
+                    // Force reload as last resort
+                    window.location.reload();
+                    return;
+                }
+            }
+
+            if (!label) {
+                console.error("Gagal menemukan elemen modal yang dibutuhkan!");
+                return;
+            }
 
             const configs = {
                 approve: {

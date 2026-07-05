@@ -12,7 +12,7 @@
         @if($galleries->count() > 0)
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 @foreach($galleries as $gallery)
-                    <div class="relative aspect-square sm:aspect-[4/3] rounded-xl overflow-hidden cursor-pointer group bg-neutral-100 dark:bg-neutral-800" onclick="openGalleryModal('{{ isset($gallery->image) ? (Str::startsWith($gallery->image, ['http://', 'https://']) ? $gallery->image : asset('storage/' . $gallery->image)) : '' }}', '{{ addslashes($gallery->title) }}')">
+                    <div class="relative aspect-square sm:aspect-[4/3] rounded-xl overflow-hidden cursor-pointer group bg-neutral-100 dark:bg-neutral-800" onclick="openGalleryModal('{{ isset($gallery->image) ? (Str::startsWith($gallery->image, ['http://', 'https://']) ? $gallery->image : asset('storage/' . $gallery->image)) : '' }}', {{ e(json_encode($gallery->title)) }})">
                         @if(isset($gallery->image) && $gallery->image)
                             @php
                                 $imgUrl = Str::startsWith($gallery->image, ['http://', 'https://']) ? $gallery->image : asset('storage/' . $gallery->image);

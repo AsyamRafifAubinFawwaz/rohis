@@ -276,17 +276,42 @@
             document.getElementById('filter-form').requestSubmit();
         }
 
-        function setDeleteData(id, name) {
-            document.getElementById('delete-item-name').textContent = name;
-            document.getElementById('delete-form').action = '{{ url('superadmin/users/delete') }}/' + id;
-        }
+        window.setDeleteData = function(id, name) {
+            let form = document.getElementById('delete-form');
+            let nameSpan = document.getElementById('delete-item-name');
 
-        function setActionData(type, id, name) {
-            const form = document.getElementById('action-confirm-form');
-            const label = document.getElementById('action-confirm-label');
-            const desc = document.getElementById('action-confirm-desc');
-            const icon = document.getElementById('action-confirm-icon');
-            const btn = document.getElementById('action-confirm-btn');
+            if (!form || !document.getElementById('main-content').contains(form)) {
+                const modal = document.getElementById('delete-modal') || document.querySelector('[aria-labelledby="delete-modal-title"]') || document.body;
+                form = modal.querySelector('#delete-form') || form;
+                nameSpan = modal.querySelector('#delete-item-name') || nameSpan;
+            }
+
+            if (nameSpan) nameSpan.textContent = name;
+            if (form) form.action = '{{ url('superadmin/users/delete') }}/' + id;
+        };
+
+        window.setActionData = function(type, id, name) {
+            let form  = document.getElementById('action-confirm-form');
+            let label = document.getElementById('action-confirm-label');
+            let desc  = document.getElementById('action-confirm-desc');
+            let btn   = document.getElementById('action-confirm-btn');
+            let icon  = document.getElementById('action-confirm-icon');
+
+            if (!label) {
+                const modal = document.querySelector('#action-confirm-modal') || document.querySelector('.hs-overlay[aria-labelledby="action-confirm-label"]');
+                if (modal) {
+                    form  = modal.querySelector('form');
+                    label = modal.querySelector('h3');
+                    desc  = modal.querySelector('p');
+                    btn   = modal.querySelector('button[type="submit"]');
+                    icon  = modal.querySelector('span');
+                } else {
+                    window.location.reload();
+                    return;
+                }
+            }
+
+            if (!label) return;
 
             if (type === 'reset') {
                 label.textContent = 'Reset Password';

@@ -79,6 +79,11 @@
                         <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                         {{ \Carbon\Carbon::parse($announcement->created_at)->translatedFormat('d F Y') }}
                     </div>
+                    @if($announcement->image)
+                        <div class="mb-6">
+                            <img src="{{ asset('storage/' . $announcement->image) }}" alt="{{ $announcement->title }}" class="w-full h-auto rounded-xl shadow-sm object-cover max-h-96">
+                        </div>
+                    @endif
                     <div class="prose dark:prose-invert max-w-none text-neutral-600 dark:text-neutral-300 text-sm sm:text-base leading-relaxed overflow-hidden">
                         {!! $announcement->content !!}
                     </div>

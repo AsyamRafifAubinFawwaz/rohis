@@ -22,6 +22,11 @@
         </div>
 
         <div class="prose prose-lg prose-emerald dark:prose-invert max-w-none prose-img:rounded-2xl bg-neutral-50 dark:bg-neutral-900 p-8 sm:p-12 rounded-3xl border border-neutral-100 dark:border-neutral-800" data-aos="fade-up" data-aos-delay="100">
+            @if($announcement->image)
+                <div class="mb-8">
+                    <img src="{{ asset('storage/' . $announcement->image) }}" alt="{{ $announcement->title }}" class="w-full h-auto rounded-2xl shadow-md object-cover max-h-[500px]">
+                </div>
+            @endif
             {!! $announcement->content !!}
         </div>
 
