@@ -251,9 +251,10 @@
 
                                                     <!-- Permanent Delete -->
                                                     <button type="button"
-                                                        class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-red-100 text-red-800 hover:bg-red-200 focus:outline-none focus:bg-red-200 disabled:opacity-50 disabled:pointer-events-none dark:text-red-500 dark:bg-red-800/30 dark:hover:bg-red-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
-                                                        title="Hapus Permanen" data-hs-overlay="#delete-modal"
-                                                        onclick="setDeleteData('{{ $d->id }}', '{{ $d->title }}', true)">
+                                                        class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all active:scale-90 dark:bg-rose-900/30 dark:text-rose-600 dark:hover:bg-rose-100"
+                                                        title="Hapus Permanen"
+                                                        data-hs-overlay="#delete-modal"
+                                                        onclick="setDeleteData('{{ $d->id }}', '{{ addslashes($d->title) }}', true)">
                                                         @include('_admin._layout.icons.trash')
                                                     </button>
                                                 @else
@@ -311,10 +312,9 @@
 
                                                     <!-- Delete -->
                                                     <button type="button"
-                                                        class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-red-100 text-red-800 hover:bg-red-200 focus:outline-none focus:bg-red-200 disabled:opacity-50 disabled:pointer-events-none dark:text-red-500 dark:bg-red-800/30 dark:hover:bg-red-800/20 cursor-pointer transition-all active:scale-95 shadow-sm"
-                                                        title="Hapus (Pindahkan ke Sampah)"
+                                                        class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-all active:scale-90 dark:bg-red-900/30 dark:text-red-600 dark:hover:bg-red-100"
                                                         data-hs-overlay="#delete-modal"
-                                                        onclick="setDeleteData('{{ $d->id }}', '{{ $d->title }}', false)">
+                                                        onclick="setDeleteData('{{ $d->id }}', '{{ addslashes($d->title) }}', false)">
                                                         @include('_admin._layout.icons.trash')
                                                     </button>
                                                 @endif

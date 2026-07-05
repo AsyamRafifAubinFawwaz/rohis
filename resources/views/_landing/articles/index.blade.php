@@ -23,17 +23,23 @@
                 <!-- Search Bar -->
                 <div class="w-full md:flex-1 relative">
                     <input type="text" name="search" value="{{ request('search') }}"
-                        class="py-3.5 px-5 block w-full border border-neutral-200 rounded-2xl text-sm focus:border-emerald-500 focus:ring-emerald-500 bg-white dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 shadow-sm"
+                        class="py-3.5 pl-5 pr-5 block w-full border border-neutral-200 rounded-2xl text-sm focus:border-emerald-500 focus:ring-emerald-500 bg-white dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 shadow-sm"
                         placeholder="Cari Judul atau Isi Artikel...">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-5 pointer-events-none">
-                        <svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 1.65a7.5 7.5 0 010 15z"></path></svg>
-                    </div>
                 </div>
 
                 <!-- Category Dropdown -->
                 <div class="w-full md:w-56">
                     <select id="category" name="category"
-                        class="py-3.5 px-5 block w-full border border-neutral-200 rounded-2xl text-sm focus:border-emerald-500 focus:ring-emerald-500 bg-white dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300 shadow-sm cursor-pointer transition-colors">
+                        data-hs-select='{
+                            "placeholder": "Semua Kategori",
+                            "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                            "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3.5 ps-5 pe-9 flex gap-x-2 flex-wrap text-nowrap w-full cursor-pointer bg-white border border-neutral-200 text-neutral-800 rounded-2xl text-start text-sm focus:outline-hidden focus:border-emerald-500 focus:ring-emerald-500 shadow-sm dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-300",
+                            "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-neutral-200 rounded-xl shadow-xl overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-neutral-100 [&::-webkit-scrollbar-thumb]:bg-neutral-300 dark:bg-neutral-900 dark:border-neutral-700 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500",
+                            "optionClasses": "hs-selected:bg-emerald-600/10 dark:hs-selected:bg-emerald-600/20 hs-selected:text-emerald-700 dark:hs-selected:text-emerald-400 py-2.5 px-4 w-full text-sm text-neutral-800 dark:text-neutral-200 cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg focus:outline-hidden",
+                            "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-emerald-600 dark:text-emerald-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+                            "extraMarkup": "<div class=\"absolute top-1/2 end-4 -translate-y-1/2\"><svg class=\"shrink-0 size-4 text-neutral-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+                        }'
+                        class="hidden">
                         <option value="all">Semua Kategori</option>
                         @foreach ($categories as $cat)
                             <option value="{{ $cat->slug }}"
@@ -45,9 +51,15 @@
                 </div>
 
                 <input type="hidden" name="sort" id="sortInput" value="{{ request('sort', 'newest') }}">
-                <button type="submit" onclick="document.getElementById('sortInput').value = document.getElementById('sortInput').value === 'newest' ? 'oldest' : 'newest';" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 px-6 rounded-2xl text-sm font-medium transition-colors w-full md:w-auto justify-center shadow-sm">
-                    {{ request('sort') == 'oldest' ? 'Terlama' : 'Terbaru' }}
-                    <svg class="w-4 h-4 {{ request('sort') == 'oldest' ? 'rotate-180' : '' }} transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+                <button type="button" id="sortBtn" class="flex-none flex items-center gap-2 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-300 py-3.5 px-6 rounded-2xl text-sm font-medium transition-colors w-full md:w-auto justify-center shadow-sm">
+                    <span id="sortText">{{ request('sort') == 'oldest' ? 'Terlama' : 'Terbaru' }}</span>
+                    <svg id="sortIcon" class="w-4 h-4 {{ request('sort') == 'oldest' ? 'rotate-180' : '' }} transition-transform text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+                </button>
+
+                <!-- Search Button -->
+                <button type="submit" class="flex-none flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 px-6 rounded-2xl text-sm font-medium transition-colors w-full md:w-auto justify-center shadow-sm cursor-pointer" title="Cari Artikel">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 1.65a7.5 7.5 0 010 15z"></path></svg>
+                    <span class="hidden sm:inline">Cari</span>
                 </button>
             </form>
         </div>
@@ -86,13 +98,16 @@
             const fetchUrl = new URL(url, window.location.origin);
             fetchUrl.searchParams.set('partial', 'true');
 
-            fetch(fetchUrl, {
+            // Add a small artificial delay so the skeleton is visible
+            const minDelay = new Promise(resolve => setTimeout(resolve, 500));
+            const fetchPromise = fetch(fetchUrl, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
-            })
-            .then(response => response.text())
-            .then(html => {
+            }).then(response => response.text());
+
+            Promise.all([fetchPromise, minDelay])
+            .then(([html]) => {
                 container.innerHTML = html;
                 skeleton.style.display = 'none';
                 container.style.display = 'block';
@@ -116,16 +131,31 @@
             });
         }
 
-        // Handle category change
+        // Handle category change (No auto-submit, wait for Search button)
         if (catSelect) {
             catSelect.addEventListener('change', function () {
-                const url = new URL(filterForm.action);
-                url.searchParams.set('category', this.value);
-                url.searchParams.set('search', filterForm.querySelector('input[name="search"]').value);
-                url.searchParams.set('sort', sortInput.value);
+                // We just update the value, form submit will handle the rest
+            });
+        }
+
+        // Handle sort button click
+        const sortBtn = document.getElementById('sortBtn');
+        const sortText = document.getElementById('sortText');
+        const sortIcon = document.getElementById('sortIcon');
+        
+        if (sortBtn) {
+            sortBtn.addEventListener('click', function () {
+                const isNewest = sortInput.value === 'newest';
+                sortInput.value = isNewest ? 'oldest' : 'newest';
                 
-                window.history.pushState({}, '', url);
-                fetchArticles(url);
+                // Update UI text and icon instantly
+                sortText.textContent = isNewest ? 'Terlama' : 'Terbaru';
+                if (isNewest) {
+                    sortIcon.classList.add('rotate-180');
+                } else {
+                    sortIcon.classList.remove('rotate-180');
+                }
+                // No auto-submit here anymore, must press Search button
             });
         }
 

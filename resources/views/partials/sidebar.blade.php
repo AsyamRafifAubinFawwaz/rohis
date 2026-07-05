@@ -23,7 +23,7 @@
                     class="text-sm font-bold text-gray-800 dark:text-neutral-200 uppercase tracking-wider">ROHIS</span>
             </div>
             <button type="button" onclick="toggleSidebarMini()"
-                class="sidebar-toggle-btn p-1.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
+                class="sidebar-toggle-btn p-1.5 hidden lg:inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
                 <span class="sidebar-expand-icon">@include('partials.icons.sidebar.double_chevron_left')</span>
                 <span class="sidebar-collapse-icon hidden">@include('partials.icons.sidebar.double_chevron_right')</span>
             </button>

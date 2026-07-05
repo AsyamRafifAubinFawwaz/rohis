@@ -140,11 +140,23 @@ $(document).ready(function () {
 
         // Re-initialize plugins
         if (window.HSStaticMethods) {
-            // Clear Preline collections to prevent memory leaks and stale DOM references
-            if (typeof window.$hsOverlayCollection !== 'undefined') window.$hsOverlayCollection = [];
-            if (typeof window.$hsSelectCollection !== 'undefined') window.$hsSelectCollection = [];
-            if (typeof window.$hsDropdownCollection !== 'undefined') window.$hsDropdownCollection = [];
-            if (typeof window.$hsTooltipCollection !== 'undefined') window.$hsTooltipCollection = [];
+            // Smart cleanup: remove only elements no longer in DOM to prevent duplicate listeners on persistent elements
+            const cleanupPrelineCollection = function(collection) {
+                if (!collection || !Array.isArray(collection)) return collection;
+                return collection.filter(function(item) {
+                    var el = null;
+                    if (item.element && item.element.el) el = item.element.el;
+                    else if (item.element instanceof HTMLElement) el = item.element;
+                    else if (item.el instanceof HTMLElement) el = item.el;
+                    else if (item instanceof HTMLElement) el = item;
+                    return el ? document.body.contains(el) : true;
+                });
+            };
+
+            if (typeof window.$hsOverlayCollection !== 'undefined') window.$hsOverlayCollection = cleanupPrelineCollection(window.$hsOverlayCollection);
+            if (typeof window.$hsSelectCollection !== 'undefined') window.$hsSelectCollection = cleanupPrelineCollection(window.$hsSelectCollection);
+            if (typeof window.$hsDropdownCollection !== 'undefined') window.$hsDropdownCollection = cleanupPrelineCollection(window.$hsDropdownCollection);
+            if (typeof window.$hsTooltipCollection !== 'undefined') window.$hsTooltipCollection = cleanupPrelineCollection(window.$hsTooltipCollection);
             
             window.HSStaticMethods.autoInit();
         }
@@ -331,9 +343,23 @@ $(document).ready(function () {
                 });
 
                 if (window.HSStaticMethods) {
-                    if (typeof window.$hsOverlayCollection !== 'undefined') window.$hsOverlayCollection = [];
-                    if (typeof window.$hsSelectCollection !== 'undefined') window.$hsSelectCollection = [];
-                    if (typeof window.$hsDropdownCollection !== 'undefined') window.$hsDropdownCollection = [];
+                    const cleanupPrelineCollection = function(collection) {
+                        if (!collection || !Array.isArray(collection)) return collection;
+                        return collection.filter(function(item) {
+                            var el = null;
+                            if (item.element && item.element.el) el = item.element.el;
+                            else if (item.element instanceof HTMLElement) el = item.element;
+                            else if (item.el instanceof HTMLElement) el = item.el;
+                            else if (item instanceof HTMLElement) el = item;
+                            return el ? document.body.contains(el) : true;
+                        });
+                    };
+
+                    if (typeof window.$hsOverlayCollection !== 'undefined') window.$hsOverlayCollection = cleanupPrelineCollection(window.$hsOverlayCollection);
+                    if (typeof window.$hsSelectCollection !== 'undefined') window.$hsSelectCollection = cleanupPrelineCollection(window.$hsSelectCollection);
+                    if (typeof window.$hsDropdownCollection !== 'undefined') window.$hsDropdownCollection = cleanupPrelineCollection(window.$hsDropdownCollection);
+                    if (typeof window.$hsTooltipCollection !== 'undefined') window.$hsTooltipCollection = cleanupPrelineCollection(window.$hsTooltipCollection);
+                    
                     window.HSStaticMethods.autoInit();
                 }
 
@@ -363,6 +389,12 @@ $(document).ready(function () {
         document.body.style.overflow = "";
         document.documentElement.style.overflow = "";
     }
+
+    // Global fallback: if multiple backdrops were spawned (e.g., due to duplicate listeners),
+    // ensure ALL of them are destroyed when the user clicks one to close the overlay.
+    $(document).on('click', '.hs-overlay-backdrop, [data-hs-overlay-backdrop-template]', function() {
+        setTimeout(cleanupModalBackdrops, 400);
+    });
 
     // Handle page restored from bfcache (browser back-forward cache)
     window.addEventListener("pageshow", function (event) {

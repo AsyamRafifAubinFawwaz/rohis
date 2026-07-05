@@ -42,13 +42,16 @@
             const fetchUrl = new URL(url, window.location.origin);
             fetchUrl.searchParams.set('partial', 'true');
 
-            fetch(fetchUrl, {
+            // Add a small artificial delay so the skeleton is visible
+            const minDelay = new Promise(resolve => setTimeout(resolve, 500));
+            const fetchPromise = fetch(fetchUrl, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
-            })
-            .then(response => response.text())
-            .then(html => {
+            }).then(response => response.text());
+
+            Promise.all([fetchPromise, minDelay])
+            .then(([html]) => {
                 container.innerHTML = html;
                 skeleton.style.display = 'none';
                 container.style.display = 'block';
