@@ -14,8 +14,8 @@ class ActivitiesController extends Controller
 
     public function index(Request $request)
     {
-        $keywords = $request->keywords;
-        $status = $request->status;
+        $keywords    = $request->keywords;
+        $status      = $request->status;
         $status_data = $request->status_data ?? 'aktif';
 
         $activities = Activities::query()
@@ -63,12 +63,12 @@ class ActivitiesController extends Controller
             })
             ->with('creator')
             ->latest()
-            ->paginate(12); // Proportional to grid columns (3)
+            ->paginate(12);  // Proportional to grid columns (3)
 
         $statuses = [
             'upcoming' => 'Upcoming',
-            'ongoing' => 'Ongoing',
-            'done' => 'Done',
+            'ongoing'  => 'Ongoing',
+            'done'     => 'Done',
         ];
 
         $page = ['title' => 'Kegiatan'];
@@ -86,7 +86,7 @@ class ActivitiesController extends Controller
     public function detail($id)
     {
         $activity = Activities::withTrashed()->findOrFail($id);
-        $page = ['title' => 'Detail Kegiatan'];
+        $page     = ['title' => 'Detail Kegiatan'];
 
         return view('_superadmin.activities.detail', compact('activity', 'page'));
     }
@@ -94,17 +94,17 @@ class ActivitiesController extends Controller
     public function doCreate(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            'location' => 'nullable|string|max:255',
-            'start_date' => 'nullable|date_format:Y-m-d',
-            'start_time' => 'nullable|date_format:H:i',
-            'end_date' => 'nullable|date_format:Y-m-d',
-            'end_time' => 'nullable|date_format:H:i',
-            'poster' => 'nullable|image|max:5120',
+            'location'    => 'nullable|string|max:255',
+            'start_date'  => 'nullable|date_format:Y-m-d',
+            'start_time'  => 'nullable|date_format:H:i',
+            'end_date'    => 'nullable|date_format:Y-m-d',
+            'end_time'    => 'nullable|date_format:H:i',
+            'poster'      => 'nullable|image|max:5120',
         ], [
-            'poster.image' => 'File poster harus berupa gambar (JPG, PNG, GIF, WebP, atau SVG).',
-            'poster.max' => 'Ukuran poster tidak boleh lebih dari 5 MB.',
+            'poster.image'   => 'File poster harus berupa gambar (JPG, PNG, GIF, WebP, atau SVG).',
+            'poster.max'     => 'Ukuran poster tidak boleh lebih dari 5 MB.',
             'title.required' => 'Judul kegiatan wajib diisi.',
         ]);
 
@@ -132,7 +132,7 @@ class ActivitiesController extends Controller
     public function update($id)
     {
         $activity = Activities::findOrFail($id);
-        $page = ['title' => 'Kegiatan'];
+        $page     = ['title' => 'Kegiatan'];
 
         return view('_superadmin.activities.update', compact('activity', 'page'));
     }
@@ -140,31 +140,31 @@ class ActivitiesController extends Controller
     public function doUpdate(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title'       => 'required|string|max:255',
             'description' => 'required|string',
-            'location' => 'required|string|max:255',
-            'start_date' => 'required|date_format:Y-m-d',
-            'start_time' => 'required|date_format:H:i',
-            'end_date' => 'required|date_format:Y-m-d',
-            'end_time' => 'required|date_format:H:i',
-            'poster' => 'nullable|image|max:5120',
+            'location'    => 'required|string|max:255',
+            'start_date'  => 'required|date_format:Y-m-d',
+            'start_time'  => 'required|date_format:H:i',
+            'end_date'    => 'required|date_format:Y-m-d',
+            'end_time'    => 'required|date_format:H:i',
+            'poster'      => 'nullable|image|max:5120',
         ], [
-            'poster.image' => 'File poster harus berupa gambar (JPG, PNG, GIF, WebP, atau SVG).',
-            'poster.max' => 'Ukuran poster tidak boleh lebih dari 5 MB.',
-            'title.required' => 'Judul kegiatan wajib diisi.',
+            'poster.image'         => 'File poster harus berupa gambar (JPG, PNG, GIF, WebP, atau SVG).',
+            'poster.max'           => 'Ukuran poster tidak boleh lebih dari 5 MB.',
+            'title.required'       => 'Judul kegiatan wajib diisi.',
             'description.required' => 'Deskripsi kegiatan wajib diisi.',
-            'location.required' => 'Lokasi kegiatan wajib diisi.',
-            'start_date.required' => 'Tanggal mulai wajib diisi.',
-            'start_time.required' => 'Waktu mulai wajib diisi.',
-            'end_date.required' => 'Tanggal selesai wajib diisi.',
-            'end_time.required' => 'Waktu selesai wajib diisi.',
+            'location.required'    => 'Lokasi kegiatan wajib diisi.',
+            'start_date.required'  => 'Tanggal mulai wajib diisi.',
+            'start_time.required'  => 'Waktu mulai wajib diisi.',
+            'end_date.required'    => 'Tanggal selesai wajib diisi.',
+            'end_time.required'    => 'Waktu selesai wajib diisi.',
         ]);
 
         $activity = Activities::findOrFail($id);
 
-        $data = $request->only(['title', 'description', 'location']);
+        $data                = $request->only(['title', 'description', 'location']);
         $data['event_start'] = $request->start_date.' '.$request->start_time.':00';
-        $data['event_end'] = $request->end_date.' '.$request->end_time.':00';
+        $data['event_end']   = $request->end_date.' '.$request->end_time.':00';
 
         if ($request->hasFile('poster')) {
             $data['poster'] = $this->uploadAsWebp($request->file('poster'), 'posters');
