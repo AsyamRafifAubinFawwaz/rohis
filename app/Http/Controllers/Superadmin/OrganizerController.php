@@ -69,7 +69,18 @@ class OrganizerController extends Controller
                     $q->where('periode', $periode)->orWhere('periode', $alternatePeriode);
                 });
             })
-            ->orderByRaw("FIELD(jabatan, 'Pembina', 'Ketua', 'Wakil Ketua', 'Sekretaris 1', 'Sekretaris 2', 'Bendahara', 'Media', 'Anggota')")
+            ->orderByRaw("CASE 
+                WHEN jabatan = 'Pembina' THEN 1 
+                WHEN jabatan = 'Ketua' THEN 2 
+                WHEN jabatan = 'Wakil Ketua' THEN 3 
+                WHEN jabatan = 'Sekretaris 1' THEN 4 
+                WHEN jabatan = 'Sekretaris 2' THEN 5 
+                WHEN jabatan = 'Bendahara' THEN 6 
+                WHEN jabatan = 'Koordinator Bidang' THEN 7
+                WHEN jabatan = 'Media' THEN 8 
+                WHEN jabatan = 'Anggota' THEN 9 
+                ELSE 10 
+            END")
             ->orderBy('name')
             ->paginate(12);
 

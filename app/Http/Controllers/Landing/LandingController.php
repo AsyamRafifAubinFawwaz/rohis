@@ -221,14 +221,16 @@ class LandingController extends Controller
             });
         }
 
-        // Custom order by jabatan hierarchy
         $query->orderByRaw("CASE 
-            WHEN jabatan LIKE '%Pembina%' THEN 1 
-            WHEN jabatan LIKE '%Ketua%' THEN 2 
-            WHEN jabatan LIKE '%Wakil%' THEN 3 
-            WHEN jabatan LIKE '%Sekretaris%' THEN 4 
-            WHEN jabatan LIKE '%Bendahara%' THEN 5 
-            ELSE 6 
+            WHEN jabatan = 'Pembina' THEN 1 
+            WHEN jabatan = 'Ketua' THEN 2 
+            WHEN jabatan = 'Wakil Ketua' THEN 3 
+            WHEN jabatan = 'Sekretaris 1' THEN 4 
+            WHEN jabatan = 'Sekretaris 2' THEN 5 
+            WHEN jabatan = 'Bendahara' THEN 6 
+            WHEN jabatan = 'Media' THEN 7 
+            WHEN jabatan = 'Anggota' THEN 8 
+            ELSE 9 
         END");
 
         // Default sorting
