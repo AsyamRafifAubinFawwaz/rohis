@@ -132,7 +132,7 @@
                                             @include('_admin._layout.icons.reset')
                                         </button>
                                         <button type="button" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-900/20 dark:text-rose-500 transition-all active:scale-90" 
-                                            data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $announcement->id }}', '{{ $announcement->title }}', true)" title="Hapus Permanen">
+                                            data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $announcement->id }}', '{{addslashes($announcement->title)}}', true)" title="Hapus Permanen">
                                             @include('_admin._layout.icons.trash')
                                         </button>
                                     @else
@@ -141,7 +141,7 @@
                                             @include('_admin._layout.icons.pencil')
                                         </a>
                                         <button type="button" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-500 transition-all active:scale-90" 
-                                            data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $announcement->id }}', '{{ $announcement->title }}', false)" title="Hapus">
+                                            data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $announcement->id }}', '{{addslashes($announcement->title)}}', false)" title="Hapus">
                                             @include('_admin._layout.icons.trash')
                                         </button>
                                     @endif
@@ -264,53 +264,29 @@
         }
 
         window.setRestoreData = function(id, name) {
-            let form = document.getElementById('restore-form');
-            let nameSpan = document.getElementById('restore-item-name');
-            
-            if (!form || !document.getElementById('main-content').contains(form)) {
-                const modal = document.getElementById('restore-modal') || document.querySelector('[aria-labelledby="restore-modal-title"]') || document.body;
-                form = modal.querySelector('#restore-form') || form;
-                nameSpan = modal.querySelector('#restore-item-name') || nameSpan;
-            }
-
-            if (nameSpan) nameSpan.textContent = name;
-            if (form) form.setAttribute('action', `{{ url('superadmin/announcements/restore') }}/${id}`);
+            document.querySelectorAll('#restore-item-name').forEach(el => el.textContent = name);
+            document.querySelectorAll('#restore-form').forEach(form => form.setAttribute('action', `{{ url('superadmin/announcements/restore') }}/${id}`));
         };
 
         window.setDeleteData = function(id, name, isPermanent = false) {
-            let form = document.getElementById('delete-form');
-            let nameSpan = document.getElementById('delete-item-name');
-            let title = document.getElementById('delete-modal-title');
-            let alertText = document.getElementById('delete-alert-text');
-            let submitBtn = document.getElementById('delete-submit-btn');
-
-            if (!form || !document.getElementById('main-content').contains(form)) {
-                const modal = document.getElementById('delete-modal') || document.querySelector('[aria-labelledby="delete-modal-title"]') || document.body;
-                form = modal.querySelector('#delete-form') || form;
-                nameSpan = modal.querySelector('#delete-item-name') || nameSpan;
-                title = modal.querySelector('#delete-modal-title') || title;
-                alertText = modal.querySelector('#delete-alert-text') || alertText;
-                submitBtn = modal.querySelector('#delete-submit-btn') || submitBtn;
-            }
-
-            if (nameSpan) nameSpan.textContent = name;
+            document.querySelectorAll('#delete-item-name').forEach(el => el.textContent = name);
 
             if (isPermanent) {
-                if (form) form.setAttribute('action', `{{ url('superadmin/announcements/force-delete') }}/${id}`);
-                if (title) title.textContent = 'Hapus Permanen Pengumuman';
-                if (alertText) alertText.textContent = 'Pengumuman akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
-                if (submitBtn) {
-                    submitBtn.classList.replace('bg-red-600', 'bg-rose-600');
-                    submitBtn.textContent = 'Ya, Hapus Permanen';
-                }
+                document.querySelectorAll('#delete-form').forEach(form => form.setAttribute('action', `{{ url('superadmin/announcements/force-delete') }}/${id}`));
+                document.querySelectorAll('#delete-modal-title').forEach(el => el.textContent = 'Hapus Permanen Pengumuman');
+                document.querySelectorAll('#delete-alert-text').forEach(el => el.textContent = 'Pengumuman akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.');
+                document.querySelectorAll('#delete-submit-btn').forEach(btn => {
+                    btn.classList.replace('bg-red-600', 'bg-rose-600');
+                    btn.textContent = 'Ya, Hapus Permanen';
+                });
             } else {
-                if (form) form.setAttribute('action', `{{ url('superadmin/announcements/delete') }}/${id}`);
-                if (title) title.textContent = 'Hapus Pengumuman';
-                if (alertText) alertText.textContent = 'Pengumuman akan dipindahkan ke tempat sampah.';
-                if (submitBtn) {
-                    submitBtn.classList.replace('bg-rose-600', 'bg-red-600');
-                    submitBtn.textContent = 'Ya, Hapus Pengumuman';
-                }
+                document.querySelectorAll('#delete-form').forEach(form => form.setAttribute('action', `{{ url('superadmin/announcements/delete') }}/${id}`));
+                document.querySelectorAll('#delete-modal-title').forEach(el => el.textContent = 'Hapus Pengumuman');
+                document.querySelectorAll('#delete-alert-text').forEach(el => el.textContent = 'Pengumuman akan dipindahkan ke tempat sampah.');
+                document.querySelectorAll('#delete-submit-btn').forEach(btn => {
+                    btn.classList.replace('bg-rose-600', 'bg-red-600');
+                    btn.textContent = 'Ya, Hapus Pengumuman';
+                });
             }
         };
     </script>

@@ -142,7 +142,7 @@
                         </p>
                         <div class="flex flex-col gap-2">
                             <button type="button" 
-                                data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $announcement->id }}', '{{ $announcement->title }}', false)"
+                                data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $announcement->id }}', '{{ addslashes($announcement->title) }}', false)"
                                 class="w-full py-2.5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-bold rounded-xl border border-red-100 bg-red-50 text-red-600 hover:bg-red-100 transition-all active:scale-95">
                                 @include('_admin._layout.icons.trash')
                                 Pindah ke Sampah

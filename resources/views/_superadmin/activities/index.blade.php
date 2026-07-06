@@ -189,7 +189,7 @@
                                         @include('_admin._layout.icons.reset')
                                     </button>
                                     <button type="button" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all active:scale-90" 
-                                        data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $activity->id }}', '{{ addslashes($activity->title) }}', true)" title="Hapus Permanen">
+                                        data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $activity->id }}', '{{addslashes($activity->title)}}', true)" title="Hapus Permanen">
                                         @include('_admin._layout.icons.trash')
                                     </button>
                                 @else
@@ -198,7 +198,7 @@
                                         @include('_admin._layout.icons.pencil')
                                     </a>
                                     <button type="button" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-all active:scale-90 dark:text-red-400 dark:bg-red-50" 
-                                        data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $activity->id }}', '{{ addslashes($activity->title) }}', false)" title="Hapus">
+                                        data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $activity->id }}', '{{addslashes($activity->title)}}', false)" title="Hapus">
                                         @include('_admin._layout.icons.trash')
                                     </button>
                                 @endif

@@ -254,7 +254,7 @@
                                                         class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all active:scale-90 dark:bg-rose-900/30 dark:text-rose-600 dark:hover:bg-rose-100"
                                                         title="Hapus Permanen"
                                                         data-hs-overlay="#delete-modal"
-                                                        onclick="setDeleteData('{{ $d->id }}', '{{ addslashes($d->title) }}', true)">
+                                                        onclick="setDeleteData('{{ $d->id }}', '{{addslashes($d->title)}}', true)">
                                                         @include('_admin._layout.icons.trash')
                                                     </button>
                                                 @else
@@ -314,7 +314,7 @@
                                                     <button type="button"
                                                         class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-all active:scale-90 dark:bg-red-900/30 dark:text-red-600 dark:hover:bg-red-100"
                                                         data-hs-overlay="#delete-modal"
-                                                        onclick="setDeleteData('{{ $d->id }}', '{{ addslashes($d->title) }}', false)">
+                                                        onclick="setDeleteData('{{ $d->id }}', '{{addslashes($d->title)}}', false)">
                                                         @include('_admin._layout.icons.trash')
                                                     </button>
                                                 @endif

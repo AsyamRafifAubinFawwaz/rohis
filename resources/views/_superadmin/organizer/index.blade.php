@@ -242,7 +242,7 @@
                                             @include('_admin._layout.icons.reset')
                                         </button>
                                         <button type="button" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-900/20 dark:text-rose-500 transition-all active:scale-90"
-                                            data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $organizer->id }}', '{{ addslashes($organizer->name) }}', true)" title="Hapus Permanen">
+                                            data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $organizer->id }}', '{{addslashes($organizer->name)}}', true)" title="Hapus Permanen">
                                             @include('_admin._layout.icons.trash')
                                         </button>
                                     @else
@@ -251,7 +251,7 @@
                                             @include('_admin._layout.icons.pencil')
                                         </a>
                                         <button type="button" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-500 transition-all active:scale-90"
-                                            data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $organizer->id }}', '{{ addslashes($organizer->name) }}', false)" title="Hapus">
+                                            data-hs-overlay="#delete-modal" onclick="setDeleteData('{{ $organizer->id }}', '{{addslashes($organizer->name)}}', false)" title="Hapus">
                                             @include('_admin._layout.icons.trash')
                                         </button>
                                     @endif

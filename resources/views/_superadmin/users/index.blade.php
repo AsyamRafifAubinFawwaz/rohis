@@ -181,7 +181,7 @@
                                                 </button>
                                                 <button type="button"
                                                     class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-800/30 dark:text-red-400 shadow-sm transition-all active:scale-95"
-                                                    onclick="setDeleteData('{{ $u->id }}', '{{ $u->name }}')"
+                                                    onclick="setDeleteData('{{ $u->id }}', '{{ addslashes($u->name) }}')"
                                                     data-hs-overlay="#delete-modal">
                                                     @include('_superadmin._layout.icons.trash')
                                                 </button>

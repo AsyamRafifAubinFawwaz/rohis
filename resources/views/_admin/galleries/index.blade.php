@@ -164,7 +164,7 @@
                             <button type="button"
                                 class="py-2 px-3 inline-flex justify-center items-center rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all"
                                 data-hs-overlay="#delete-modal"
-                                onclick="setDeleteData('{{ $gallery->id }}', '{{ $gallery->title }}', true)"
+                                onclick="setDeleteData('{{ $gallery->id }}', '{{ addslashes($gallery->title) }}', true)"
                                 title="Hapus Permanen">
                                 @include('_admin._layout.icons.trash')
                             </button>
@@ -177,7 +177,7 @@
                             <button type="button"
                                 class="size-9 inline-flex items-center justify-center rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-all dark:bg-red-900/20 dark:text-red-400"
                                 data-hs-overlay="#delete-modal"
-                                onclick="setDeleteData('{{ $gallery->id }}', '{{ $gallery->title }}', false)"
+                                onclick="setDeleteData('{{ $gallery->id }}', '{{ addslashes($gallery->title) }}', false)"
                                 title="Hapus">
                                 @include('_admin._layout.icons.trash')
                             </button>
