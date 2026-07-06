@@ -508,7 +508,7 @@
                     submitBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
                     submitBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
                 }
-                if (form) form.action = '{{ url('superadmin/posts/force-delete') }}/' + id;
+                if (form) form.setAttribute('action', '{{ url('superadmin/posts/force-delete') }}/' + id);
             } else {
                 if (title) title.textContent = 'Hapus Postingan';
                 if (alertText) alertText.textContent = 'Apakah Anda yakin ingin menghapus postingan ' + name + '? Tindakan ini tidak dapat dibatalkan.';
@@ -517,7 +517,7 @@
                     submitBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
                     submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
                 }
-                if (form) form.action = '{{ url('superadmin/posts/delete') }}/' + id;
+                if (form) form.setAttribute('action', '{{ url('superadmin/posts/delete') }}/' + id);
             }
         };
 
@@ -593,7 +593,7 @@
             label.textContent    = cfg.label;
             desc.innerHTML       = cfg.desc;
             btn.textContent      = cfg.btnText;
-            form.action          = cfg.url;
+            form.setAttribute('action', cfg.url);
 
             // Reset & apply button classes
             btn.className = 'py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none cursor-pointer transition-all active:scale-95 shadow-md ' + cfg.btnClass.join(' ');

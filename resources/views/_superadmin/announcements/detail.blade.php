@@ -192,7 +192,7 @@
             const submitBtn = document.getElementById('delete-submit-btn');
 
             nameSpan.textContent = name;
-            form.action = `{{ url('superadmin/announcements/delete') }}/${id}`;
+            form.setAttribute('action', `{{ url('superadmin/announcements/delete') }}/${id}`);
         }
     </script>
 @endsection

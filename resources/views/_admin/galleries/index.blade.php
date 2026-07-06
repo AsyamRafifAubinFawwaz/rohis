@@ -337,12 +337,12 @@
             nameSpan.textContent = name;
 
             if (isPermanent) {
-                form.action = `{{ url('admin/galleries/force-delete') }}/${id}`;
+                form.setAttribute('action', `{{ url('admin/galleries/force-delete') }}/${id}`);
                 title.textContent = 'Hapus Permanen';
                 alertText.textContent = 'Foto akan dihapus permanen dari server. Tindakan ini tidak dapat dibatalkan.';
                 submitBtn.classList.replace('bg-red-600', 'bg-rose-600');
             } else {
-                form.action = `{{ url('admin/galleries/delete') }}/${id}`;
+                form.setAttribute('action', `{{ url('admin/galleries/delete') }}/${id}`);
                 title.textContent = 'Pindahkan ke Sampah';
                 alertText.textContent = 'Foto akan dipindahkan ke tempat sampah dan masih bisa dipulihkan.';
                 submitBtn.classList.replace('bg-rose-600', 'bg-red-600');

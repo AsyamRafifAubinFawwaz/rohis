@@ -357,7 +357,7 @@
                     submitBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
                     submitBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
                 }
-                if (form) form.action = '{{ url('superadmin/activities/force-delete') }}/' + id;
+                if (form) form.setAttribute('action', '{{ url('superadmin/activities/force-delete') }}/' + id);
             } else {
                 if (title) title.textContent = 'Hapus Kegiatan';
                 if (desc) desc.innerHTML = 'Apakah Anda yakin ingin menghapus kegiatan <b>' + name + '</b>?';
@@ -366,7 +366,7 @@
                     submitBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
                     submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
                 }
-                if (form) form.action = '{{ url('superadmin/activities/delete') }}/' + id;
+                if (form) form.setAttribute('action', '{{ url('superadmin/activities/delete') }}/' + id);
             }
         };
 
@@ -381,7 +381,7 @@
             }
 
             if (nameSpan) nameSpan.textContent = name;
-            if (form) form.action = '{{ url('superadmin/activities/restore') }}/' + id;
+            if (form) form.setAttribute('action', '{{ url('superadmin/activities/restore') }}/' + id);
         };
     </script>
 @endsection

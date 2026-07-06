@@ -387,7 +387,7 @@
             }
 
             if (nameSpan) nameSpan.textContent = name;
-            if (form) form.action = `{{ url('superadmin/organizer/restore') }}/${id}`;
+            if (form) form.setAttribute('action', `{{ url('superadmin/organizer/restore') }}/${id}`);
         };
 
         window.setDeleteData = function(id, name, isPermanent = false) {
@@ -409,7 +409,7 @@
             if (nameSpan) nameSpan.textContent = name;
 
             if (isPermanent) {
-                if (form) form.action = `{{ url('superadmin/organizer/force-delete') }}/${id}`;
+                if (form) form.setAttribute('action', `{{ url('superadmin/organizer/force-delete') }}/${id}`);
                 if (title) title.textContent = 'Hapus Permanen Anggota';
                 if (alertText) alertText.textContent = 'Data akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
                 if (submitBtn) {
@@ -417,7 +417,7 @@
                     submitBtn.textContent = 'Ya, Hapus Permanen';
                 }
             } else {
-                if (form) form.action = `{{ url('superadmin/organizer/delete') }}/${id}`;
+                if (form) form.setAttribute('action', `{{ url('superadmin/organizer/delete') }}/${id}`);
                 if (title) title.textContent = 'Hapus Anggota';
                 if (alertText) alertText.textContent = 'Data akan dipindahkan ke tempat sampah.';
                 if (submitBtn) {

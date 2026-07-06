@@ -239,7 +239,7 @@
             if (idInput) idInput.value = id;
             if (nameInput) nameInput.value = name;
             if (slugInput) slugInput.value = slug;
-            if (form) form.action = '{{ url('superadmin/categories/update') }}/' + id;
+            if (form) form.setAttribute('action', '{{ url('superadmin/categories/update') }}/' + id);
         };
 
         window.setDeleteData = function(id, name) {
@@ -253,7 +253,7 @@
             }
 
             if (nameSpan) nameSpan.textContent = name;
-            if (form) form.action = '{{ url('superadmin/categories/delete') }}/' + id;
+            if (form) form.setAttribute('action', '{{ url('superadmin/categories/delete') }}/' + id);
         };
 
         function createSlug(text) {

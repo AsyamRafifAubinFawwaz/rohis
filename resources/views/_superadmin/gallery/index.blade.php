@@ -304,7 +304,7 @@
             if (nameSpan) nameSpan.textContent = name;
 
             if (isPermanent) {
-                if (form) form.action = `{{ url('superadmin/galleries/force-delete') }}/${id}`;
+                if (form) form.setAttribute('action', `{{ url('superadmin/galleries/force-delete') }}/${id}`);
                 if (title) title.textContent = 'Hapus Permanen Foto';
                 if (alertText) alertText.textContent = 'Foto akan dihapus secara permanen dari server. Tindakan ini tidak dapat dibatalkan.';
                 if (submitBtn) {
@@ -312,7 +312,7 @@
                     submitBtn.textContent = 'Ya, Hapus Permanen';
                 }
             } else {
-                if (form) form.action = `{{ url('superadmin/galleries/delete') }}/${id}`;
+                if (form) form.setAttribute('action', `{{ url('superadmin/galleries/delete') }}/${id}`);
                 if (title) title.textContent = 'Hapus Foto';
                 if (alertText) alertText.textContent = 'Foto akan dipindahkan ke tempat sampah.';
                 if (submitBtn) {
@@ -333,7 +333,7 @@
             }
 
             if (nameSpan) nameSpan.textContent = name;
-            if (form) form.action = '{{ url('superadmin/galleries/restore') }}/' + id;
+            if (form) form.setAttribute('action', '{{ url('superadmin/galleries/restore') }}/' + id);
         };
     </script>
 @endsection

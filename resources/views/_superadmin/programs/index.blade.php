@@ -328,7 +328,7 @@
             }
 
             if (nameSpan) nameSpan.textContent = name;
-            if (form) form.action = `{{ url('superadmin/programs/restore') }}/${id}`;
+            if (form) form.setAttribute('action', `{{ url('superadmin/programs/restore') }}/${id}`);
         };
 
         window.setDeleteData = function(id, name, isPermanent = false) {
@@ -350,7 +350,7 @@
             if (nameSpan) nameSpan.textContent = name;
 
             if (isPermanent) {
-                if (form) form.action = `{{ url('superadmin/programs/force-delete') }}/${id}`;
+                if (form) form.setAttribute('action', `{{ url('superadmin/programs/force-delete') }}/${id}`);
                 if (title) title.textContent = 'Hapus Permanen Program';
                 if (alertText) alertText.textContent = 'Program akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
                 if (submitBtn) {
@@ -358,7 +358,7 @@
                     submitBtn.textContent = 'Ya, Hapus Permanen';
                 }
             } else {
-                if (form) form.action = `{{ url('superadmin/programs/delete') }}/${id}`;
+                if (form) form.setAttribute('action', `{{ url('superadmin/programs/delete') }}/${id}`);
                 if (title) title.textContent = 'Hapus Program Pekerjaan';
                 if (alertText) alertText.textContent = 'Program akan dipindahkan ke tempat sampah.';
                 if (submitBtn) {

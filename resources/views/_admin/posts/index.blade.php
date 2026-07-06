@@ -329,7 +329,7 @@
         function setDeleteData(id, title) {
             document.getElementById('delete-item-name').textContent = title;
             const form = document.getElementById('delete-form');
-            form.action = '{{ url('admin/posts/delete') }}/' + id;
+            form.setAttribute('action', '{{ url('admin/posts/delete') }}/' + id);
         }
     </script>
 @endsection

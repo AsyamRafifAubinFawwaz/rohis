@@ -287,7 +287,7 @@
             }
 
             if (nameSpan) nameSpan.textContent = name;
-            if (form) form.action = '{{ url('superadmin/users/delete') }}/' + id;
+            if (form) form.setAttribute('action', '{{ url('superadmin/users/delete') }}/' + id);
         };
 
         window.setActionData = function(type, id, name) {
@@ -316,13 +316,13 @@
             if (type === 'reset') {
                 label.textContent = 'Reset Password';
                 desc.innerHTML = `Apakah Anda yakin ingin mereset password pengguna <strong>${name}</strong>? Password akan diubah menjadi <em>password123</em>.`;
-                form.action = '{{ url('superadmin/users/reset-password') }}/' + id;
+                form.setAttribute('action', '{{ url('superadmin/users/reset-password') }}/' + id);
                 btn.className = 'py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg bg-orange-600 text-white hover:bg-orange-700 shadow-orange-500/20 shadow-md';
                 btn.textContent = 'Ya, Reset Password';
             } else if (type === 'restore') {
                 label.textContent = 'Pulihkan Akun';
                 desc.innerHTML = `Pulihkan kembali akun <strong>${name}</strong> agar dapat digunakan kembali?`;
-                form.action = '{{ url('superadmin/users/restore') }}/' + id; // Note: Need restore method in controller if using soft delete restore
+                form.setAttribute('action', '{{ url('superadmin/users/restore') }}/' + id); // Note: Need restore method in controller if using soft delete restore
                 btn.className = 'py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-emerald-500/20 shadow-md';
                 btn.textContent = 'Ya, Pulihkan';
             }
