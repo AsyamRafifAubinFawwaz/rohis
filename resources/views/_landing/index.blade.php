@@ -671,12 +671,12 @@
                         </div>
                         
                         <div class="mt-8 pt-6 border-t border-neutral-100 dark:border-neutral-800 flex justify-end">
-                            <a href="{{ route('landing.announcements.detail', $announcement->id) }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50 transition-colors text-sm font-bold gap-2">
+                            <button onclick="navigator.clipboard.writeText('{{ route('landing.announcements.detail', $announcement->slug ?? $announcement->id) }}'); alert('Link berhasil disalin!');" class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50 transition-colors text-sm font-bold gap-2">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                 </svg>
-                                Buka & Bagikan
-                            </a>
+                                Salin Link
+                            </button>
                         </div>
                     </div>
                 </div>

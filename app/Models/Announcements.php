@@ -11,11 +11,23 @@ class Announcements extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'image',
         'content',
         'expires_at',
         'created_by',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            if (empty($model->slug) || $model->isDirty('title')) {
+                $model->slug = \Illuminate\Support\Str::slug($model->title);
+            }
+        });
+    }
 
     public function creator()
     {

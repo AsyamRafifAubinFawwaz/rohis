@@ -89,7 +89,7 @@
                     </div>
                     
                     <div class="mt-8 pt-6 border-t border-neutral-100 dark:border-neutral-800 flex justify-end">
-                        @include('partials.share-buttons', ['title' => $announcement->title, 'url' => route('landing.announcements.detail', $announcement->id)])
+                        @include('partials.share-buttons', ['title' => $announcement->title, 'url' => route('landing.announcements.detail', $announcement->slug ?? $announcement->id)])
                     </div>
                 </div>
             </div>

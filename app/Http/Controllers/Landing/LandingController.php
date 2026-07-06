@@ -163,9 +163,9 @@ class LandingController extends Controller
         return view('_landing.announcements.index', compact('announcements'));
     }
 
-    public function announcementDetail($id)
+    public function announcementDetail($slug)
     {
-        $announcement = Announcements::findOrFail($id);
+        $announcement = Announcements::where('slug', $slug)->firstOrFail();
 
         return view('_landing.announcements.detail', compact('announcement'));
     }

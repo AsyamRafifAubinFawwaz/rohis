@@ -50,7 +50,7 @@ Route::name('landing.')->group(function () {
 
     Route::prefix('pengumuman')->name('announcements.')->group(function () {
         Route::get('/', [LandingController::class, 'announcements'])->name('index');
-        Route::get('/{id}', [LandingController::class, 'announcementDetail'])->name('detail');
+        Route::get('/{slug}', [LandingController::class, 'announcementDetail'])->name('detail');
     });
 
     Route::prefix('aktivitas')->name('activities.')->group(function () {
