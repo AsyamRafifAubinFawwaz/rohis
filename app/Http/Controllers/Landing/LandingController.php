@@ -187,9 +187,9 @@ class LandingController extends Controller
         return view('_landing.activities.index', compact('activities'));
     }
 
-    public function activityDetail($id)
+    public function activityDetail($slug)
     {
-        $activity = Activities::with('galleries')->findOrFail($id);
+        $activity = Activities::with('galleries')->where('slug', $slug)->firstOrFail();
 
         return view('_landing.activities.detail', compact('activity'));
     }

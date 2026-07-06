@@ -4,7 +4,7 @@
         @foreach($activities as $i => $activity)
             <div class="bg-white dark:bg-neutral-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-100 dark:border-neutral-800 flex flex-col h-full group relative pt-4 sm:pt-6 pr-4" data-aos="fade-up">
 
-                <a href="{{ route('landing.activities.detail', $activity->id) }}"
+                <a href="{{ route('landing.activities.detail', $activity->slug ?? $activity->id) }}"
                     class="cursor-pointer block relative aspect-[4/3] bg-neutral-100 dark:bg-neutral-800 rounded-t-xl sm:rounded-none overflow-hidden" style="aspect-ratio: 4/3;">
                     @if (isset($activity->poster) && $activity->poster)
                         @php
@@ -43,7 +43,7 @@
                         </span>
                     </div>
 
-                    <a href="{{ route('landing.activities.detail', $activity->id) }}"
+                    <a href="{{ route('landing.activities.detail', $activity->slug ?? $activity->id) }}"
                         class="cursor-pointer block group">
                         <h3
                             class="font-bold text-neutral-900 dark:text-white text-lg leading-snug line-clamp-2 mb-2 group-hover:text-emerald-600 transition-colors">

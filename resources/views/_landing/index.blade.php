@@ -536,7 +536,7 @@
                                         • {{ $status }}
                                     </span>
                                 </div>
-                                <a href="{{ route('landing.activities.detail', $activity->id) }}"
+                                <a href="{{ route('landing.activities.detail', $activity->slug ?? $activity->id) }}"
                                     class="cursor-pointer group block">
                                     <h3
                                         class="font-black text-neutral-900 dark:text-white group-hover:text-emerald-700 transition-colors text-lg tracking-tight line-clamp-2 leading-snug">

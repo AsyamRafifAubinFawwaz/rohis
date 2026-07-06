@@ -17,6 +17,7 @@ class Activities extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
         'location',
         'event_start',
@@ -24,6 +25,17 @@ class Activities extends Model
         'poster',
         'created_by',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($activity) {
+            if (empty($activity->slug)) {
+                $activity->slug = \Illuminate\Support\Str::slug($activity->title);
+            }
+        });
+    }
 
     protected function casts(): array
     {

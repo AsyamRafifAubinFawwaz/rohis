@@ -55,7 +55,7 @@ Route::name('landing.')->group(function () {
 
     Route::prefix('aktivitas')->name('activities.')->group(function () {
         Route::get('/', [LandingController::class, 'activities'])->name('index');
-        Route::get('/{id}', [LandingController::class, 'activityDetail'])->name('detail');
+        Route::get('/{slug}', [LandingController::class, 'activityDetail'])->name('detail');
     });
 
     Route::prefix('struktur-organisasi')->name('organizers.')->group(function () {

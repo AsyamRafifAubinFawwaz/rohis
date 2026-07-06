@@ -6,11 +6,7 @@
 @section('meta')
     <meta property="og:title" content="{{ $activity->title }}">
     <meta property="og:description" content="{{ Str::limit(strip_tags($activity->description), 150) }}">
-    @if($activity->poster)
-        <meta property="og:image" content="{{ asset('storage/' . $activity->poster) }}">
-    @else
-        <meta property="og:image" content="{{ asset('images/hero.png') }}">
-    @endif
+    <meta property="og:image" content="{{ asset('favicon/logo-rohis.webp') }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="article">
 @endsection
