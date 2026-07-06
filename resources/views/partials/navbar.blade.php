@@ -145,9 +145,9 @@
                         class="block px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-neutral-400 hover:text-emerald-700 hover:bg-emerald-50 dark:hover:text-emerald-400 dark:hover:bg-emerald-900/20">
                         Tentang Rohis
                     </a>
-                    <a href="#"
-                        class="block px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-neutral-400 hover:text-emerald-700 hover:bg-emerald-50 dark:hover:text-emerald-400 dark:hover:bg-emerald-900/20 opacity-60">
-                        Visi & Misi (Segera)
+                    <a href="{{ route('landing.profiles.vision-mission') }}"
+                        class="block px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-neutral-400 hover:text-emerald-700 hover:bg-emerald-50 dark:hover:text-emerald-400 dark:hover:bg-emerald-900/20">
+                        Visi & Misi
                     </a>
                     <a href="{{ route('landing.organizers.index') }}"
                         class="block px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-neutral-400 hover:text-emerald-700 hover:bg-emerald-50 dark:hover:text-emerald-400 dark:hover:bg-emerald-900/20">

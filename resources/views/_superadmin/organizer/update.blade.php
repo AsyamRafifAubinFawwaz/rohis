@@ -110,7 +110,7 @@
                     <div class="space-y-4">
                         <!-- Foto -->
                         <x-admin.file-upload name="image" id="image" label="Foto Pengurus"
-                            :preview="$organizer->image ? asset('storage/' . $organizer->image) : null" />
+                            :value="$organizer->image" />
                     </div>
                 </div>
 

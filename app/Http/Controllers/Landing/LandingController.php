@@ -208,10 +208,16 @@ class LandingController extends Controller
         $query = organizer::query();
 
         $latestPeriod = organizer::max('periode');
+        if ($latestPeriod) {
+            $latestPeriod = str_replace('/', '-', $latestPeriod);
+        }
         $selectedPeriode = $request->has('periode') ? $request->periode : $latestPeriod;
 
         if ($selectedPeriode && $selectedPeriode !== 'all') {
-            $query->where('periode', $selectedPeriode);
+            $alternatePeriode = str_replace('-', '/', $selectedPeriode);
+            $query->where(function ($q) use ($selectedPeriode, $alternatePeriode) {
+                $q->where('periode', $selectedPeriode)->orWhere('periode', $alternatePeriode);
+            });
         }
 
         if ($request->filled('search')) {
@@ -242,7 +248,7 @@ class LandingController extends Controller
 
         $organizers = $query->paginate(12)->withQueryString();
         
-        $periods = organizer::select('periode')->distinct()->whereNotNull('periode')->pluck('periode')->sortDesc();
+        $periods = organizer::select('periode')->distinct()->whereNotNull('periode')->pluck('periode')->map(fn($p) => str_replace('/', '-', $p))->unique()->sortDesc();
 
         return view('_landing.organizers.index', compact('organizers', 'periods', 'selectedPeriode'));
     }

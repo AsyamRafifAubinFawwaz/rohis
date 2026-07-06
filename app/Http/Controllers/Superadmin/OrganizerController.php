@@ -20,7 +20,7 @@ class OrganizerController extends Controller
         $keywords       = $request->keywords;
         $status_data    = $request->status_data ?? 'aktif';
         $currentYear    = (int) now()->year;
-        $defaultPeriode = $currentYear . '/' . ($currentYear + 1);
+        $defaultPeriode = $currentYear . '-' . ($currentYear + 1);
         $rawPeriode     = $request->has('periode') ? $request->periode : $defaultPeriode;
         $periode        = ($rawPeriode === 'semua') ? null : $rawPeriode;
         $jabatan        = $request->jabatan;
@@ -31,7 +31,7 @@ class OrganizerController extends Controller
         $periodeList = organizer::withTrashed()
             ->distinct()
             ->pluck('periode')
-            ->map(fn($p) => str_replace('-', '/', $p))
+            ->map(fn($p) => str_replace('/', '-', $p))
             ->unique()
             ->sortDesc()
             ->values();
@@ -63,8 +63,8 @@ class OrganizerController extends Controller
                 return $query;
             })
             ->when($periode, function ($query, $periode) {
-                // Mendukung pencarian untuk data lama yang pakai '-' dan data baru yang pakai '/'
-                $alternatePeriode = str_replace('/', '-', $periode);
+                // Mendukung pencarian untuk data lama yang pakai '/'
+                $alternatePeriode = str_replace('-', '/', $periode);
                 return $query->where(function($q) use ($periode, $alternatePeriode) {
                     $q->where('periode', $periode)->orWhere('periode', $alternatePeriode);
                 });
@@ -203,14 +203,14 @@ class OrganizerController extends Controller
 
         for ($year = $endYear; $year >= $startYear; $year--) {
             // Opsi 1 Tahun (Standar)
-            $periode1 = $year . '/' . ($year + 1);
+            $periode1 = $year . '-' . ($year + 1);
             $options[] = [
                 'value' => $periode1,
                 'label' => 'Periode ' . $periode1,
             ];
 
             // Opsi 2 Tahun (Jika ada yang menjabat 2 periode)
-            $periode2 = $year . '/' . ($year + 2);
+            $periode2 = $year . '-' . ($year + 2);
             $options[] = [
                 'value' => $periode2,
                 'label' => 'Periode ' . $periode2 . ' (2 Tahun)',
