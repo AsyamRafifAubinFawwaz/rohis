@@ -9,7 +9,7 @@
     @if($announcement->image)
         <meta property="og:image" content="{{ asset('storage/' . $announcement->image) }}">
     @else
-        <meta property="og:image" content="{{ asset('images/hero.png') }}">
+        <meta property="og:image" content="{{ asset('favicon/logo-rohis.webp') }}">
     @endif
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="article">
