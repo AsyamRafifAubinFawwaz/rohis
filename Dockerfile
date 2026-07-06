@@ -50,6 +50,9 @@ RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 # BIKIN SYMLINK PAS BUILD (Aman, tidak butuh koneksi DB)
 RUN php artisan storage:link
 
+# Tambahkan limit upload PHP CLI
+RUN echo "upload_max_filesize = 20M\npost_max_size = 20M" > /usr/local/etc/php/conf.d/uploads.ini
+
 # Buka port 8000
 EXPOSE 8000
 
