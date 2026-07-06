@@ -24,6 +24,14 @@ use Illuminate\Support\Facades\Route;
 
 // Landing Page Routes (Public)
 Route::name('landing.')->group(function () {
+    Route::get('storage/{path}', function ($path) {
+        $absolutePath = storage_path('app/public/' . $path);
+        if (!file_exists($absolutePath)) {
+            abort(404);
+        }
+        return response()->file($absolutePath);
+    })->where('path', '.*')->name('storage.fallback');
+
     Route::get('/', [LandingController::class, 'index'])->name('index');
 
     Route::prefix('artikel')->name('articles.')->group(function () {
