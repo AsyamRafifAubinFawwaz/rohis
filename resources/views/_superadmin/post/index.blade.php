@@ -182,10 +182,12 @@
                                     <tr class="hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors">
                                         <td class="size-px whitespace-nowrap">
                                             <div class="px-6 py-3">
-                                                <span
-                                                    class="block text-sm font-semibold text-gray-800 dark:text-neutral-200">{{ $d->title }}</span>
-                                                <span
-                                                    class="block text-xs text-gray-500 dark:text-neutral-500">{{ $d->slug }}</span>
+                                                <span class="block text-sm font-semibold text-gray-800 dark:text-neutral-200" title="{{ $d->title }}">
+                                                    {{ Str::limit($d->title, 40) }}
+                                                </span>
+                                                <span class="block text-xs text-gray-500 dark:text-neutral-500" title="{{ $d->slug }}">
+                                                    {{ Str::limit($d->slug, 40) }}
+                                                </span>
                                             </div>
                                         </td>
                                         <td class="size-px whitespace-nowrap">

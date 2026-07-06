@@ -73,7 +73,7 @@
                             <!-- Input Group: Activity -->
                             <div>
                                 <label for="activity_id" class="block text-xs font-black uppercase tracking-widest text-gray-400 dark:text-neutral-500 mb-3">
-                                    Tautkan ke Kegiatan <span class="text-red-500">*</span>
+                                    Tautkan ke Kegiatan (Opsional)
                                 </label>
                                 
                                 <select id="activity_id" name="activity_id" data-hs-select='{
@@ -81,7 +81,7 @@
                                     "searchPlaceholder": "Cari kegiatan...",
                                     "searchClasses": "block w-full text-sm bg-transparent border-gray-200 rounded-lg text-gray-800 placeholder:text-gray-400 focus:border-brand focus:ring-brand dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 py-2 px-3",
                                     "searchWrapperClasses": "bg-white dark:bg-neutral-800 p-2 sticky top-0 border-b border-gray-100 dark:border-neutral-700",
-                                    "placeholder": "Pilih Kegiatan...",
+                                    "placeholder": "Tidak Ditautkan",
                                     "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><span class=\"me-2\" data-icon></span><span class=\"text-gray-800 dark:text-neutral-200 font-bold\" data-title></span></button>",
                                     "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-4 ps-5 pe-9 flex text-nowrap w-full cursor-pointer bg-gray-50 dark:bg-neutral-900/50 border border-transparent text-gray-800 dark:text-neutral-200 rounded-2xl text-start text-sm hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:hover:bg-neutral-800 shadow-sm transition-all",
                                     "dropdownClasses": "mt-2 max-h-72 pb-1 px-1 space-y-0.5 z-20 w-full bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-2xl overflow-hidden overflow-y-auto",
@@ -89,7 +89,7 @@
                                     "optionTemplate": "<div><div class=\"flex items-center\"><div class=\"me-3\" data-icon></div><div class=\"text-gray-800 dark:text-neutral-200 font-bold\" data-title></div></div></div>",
                                     "extraMarkup": "<div class=\"absolute top-1/2 end-4 -translate-y-1/2\"><svg class=\"shrink-0 size-4 text-gray-400\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
                                 }' class="hidden">
-                                    <option value="">Pilih Kegiatan...</option>
+                                    <option value="">Tidak Ditautkan</option>
                                     @foreach ($activities as $activity)
                                         <option value="{{ $activity->id }}" 
                                             {{ old('activity_id', $gallery->activity_id) == $activity->id ? 'selected' : '' }}

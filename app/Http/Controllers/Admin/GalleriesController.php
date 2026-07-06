@@ -58,7 +58,7 @@ class GalleriesController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'image' => 'required|image|max:2048',
-            'activity_id' => 'required|exists:activities,id',
+            'activity_id' => 'nullable|exists:activities,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -85,7 +85,7 @@ class GalleriesController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'image' => 'nullable|image|max:2048',
-            'activity_id' => 'required|exists:activities,id',
+            'activity_id' => 'nullable|exists:activities,id',
         ]);
 
         $gallery = auth()->user()->galleries()->findOrFail($id);
