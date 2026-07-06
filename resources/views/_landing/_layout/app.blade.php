@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Website resmi Rohis - Organisasi Kerohanian Islam. Informasi kegiatan, program, artikel, dan galeri.">
+    <meta name="description" content="@yield('meta_description', 'Website resmi Rohis - Organisasi Kerohanian Islam. Informasi kegiatan, program, artikel, dan galeri.')">
+
+    {{-- Open Graph / Social Media Meta Tags --}}
+    @yield('meta')
 
     <title>{{ config('app.name', 'Rohis') }} - @yield('title', 'Beranda')</title>
 

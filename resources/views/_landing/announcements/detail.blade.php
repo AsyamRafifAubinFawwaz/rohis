@@ -1,6 +1,19 @@
 @extends('_landing._layout.app')
 @section('title', $announcement->title)
 
+@section('meta_description', Str::limit(strip_tags($announcement->content), 150))
+
+@section('meta')
+    <meta property="og:title" content="{{ $announcement->title }}">
+    <meta property="og:description" content="{{ Str::limit(strip_tags($announcement->content), 150) }}">
+    @if($announcement->image)
+        <meta property="og:image" content="{{ asset('storage/' . $announcement->image) }}">
+    @else
+        <meta property="og:image" content="{{ asset('images/hero.png') }}">
+    @endif
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="article">
+@endsection
 @section('content')
 <div class="pt-28 pb-20 bg-white dark:bg-neutral-950 min-h-screen">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
