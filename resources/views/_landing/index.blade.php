@@ -661,8 +661,8 @@
                             {{ \Carbon\Carbon::parse($announcement->created_at)->translatedFormat('d F Y') }}
                         </div>
                         @if($announcement->image)
-                            <div class="mb-6">
-                                <img src="{{ asset('storage/' . $announcement->image) }}" alt="{{ $announcement->title }}" class="w-full h-auto rounded-xl shadow-sm object-cover max-h-96">
+                            <div class="mb-6 group overflow-hidden rounded-xl shadow-sm cursor-pointer" onclick="openGalleryModal('{{ asset('storage/' . $announcement->image) }}', '{{ addslashes($announcement->title) }}')">
+                                <img src="{{ asset('storage/' . $announcement->image) }}" alt="{{ $announcement->title }}" class="w-full h-auto object-cover max-h-96 transition-transform duration-500 group-hover:scale-105">
                             </div>
                         @endif
                         <div
@@ -749,7 +749,11 @@
                 modal.classList.add('hidden');
                 document.getElementById('modalImage').src = '';
             }, 300);
-            document.body.style.overflow = '';
+            
+            const anyAnnouncementOpen = Array.from(document.querySelectorAll('[id^="modal-announcement-"]')).some(m => !m.classList.contains('hidden'));
+            if (!anyAnnouncementOpen) {
+                document.body.style.overflow = '';
+            }
         }
     </script>
 @endpush

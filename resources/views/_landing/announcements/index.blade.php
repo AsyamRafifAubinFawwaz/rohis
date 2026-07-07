@@ -80,8 +80,8 @@
                         {{ \Carbon\Carbon::parse($announcement->created_at)->translatedFormat('d F Y') }}
                     </div>
                     @if($announcement->image)
-                        <div class="mb-6">
-                            <img src="{{ asset('storage/' . $announcement->image) }}" alt="{{ $announcement->title }}" class="w-full h-auto rounded-xl shadow-sm object-cover max-h-96">
+                        <div class="mb-6 group overflow-hidden rounded-xl shadow-sm cursor-pointer" onclick="openGalleryModal('{{ asset('storage/' . $announcement->image) }}', '{{ addslashes($announcement->title) }}')">
+                            <img src="{{ asset('storage/' . $announcement->image) }}" alt="{{ $announcement->title }}" class="w-full h-auto object-cover max-h-96 transition-transform duration-500 group-hover:scale-105">
                         </div>
                     @endif
                     <div class="prose dark:prose-invert max-w-none text-neutral-600 dark:text-neutral-300 text-sm sm:text-base leading-relaxed overflow-hidden">
@@ -95,6 +95,17 @@
             </div>
         </div>
     @endforeach
+</div>
+
+<!-- Gallery Lightbox Modal -->
+<div id="galleryModal" class="fixed inset-0 z-[110] hidden bg-neutral-950/90 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeGalleryModal()">
+    <button class="absolute top-6 right-6 text-white/70 hover:text-white z-[120]" onclick="closeGalleryModal()">
+        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="max-w-5xl w-full flex flex-col items-center justify-center transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+        <img id="modalImage" src="" alt="" class="max-h-[80vh] w-auto max-w-full rounded-xl shadow-2xl mb-6">
+        <h3 id="modalTitle" class="text-white text-xl md:text-2xl font-bold text-center"></h3>
+    </div>
 </div>
 
 <script>
@@ -119,6 +130,33 @@ function closeAnnouncementModal(id) {
         modal.classList.add('hidden');
     }, 300);
     document.body.style.overflow = '';
+}
+
+// Gallery Lightbox Scripts
+function openGalleryModal(src, title) {
+    if (!src) return;
+    const modal = document.getElementById('galleryModal');
+    const modalImg = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    
+    modalImg.src = src;
+    modalTitle.textContent = title;
+    
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modal.children[1].classList.remove('scale-95');
+    }, 10);
+}
+
+function closeGalleryModal() {
+    const modal = document.getElementById('galleryModal');
+    modal.classList.add('opacity-0');
+    modal.children[1].classList.add('scale-95');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        document.getElementById('modalImage').src = '';
+    }, 300);
 }
 </script>
 @endpush
