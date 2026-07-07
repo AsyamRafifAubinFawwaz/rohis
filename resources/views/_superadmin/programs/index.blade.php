@@ -90,12 +90,9 @@
                         <th scope="col" class="px-6 py-3 text-start">
                             <span class="text-xs font-bold uppercase text-gray-500 dark:text-neutral-400">Program</span>
                         </th>
-                        <th scope="col" class="px-6 py-3 text-start">
-                            <span class="text-xs font-bold uppercase text-gray-500 dark:text-neutral-400">Pelaksanaan</span>
-                        </th>
 
                         <th scope="col" class="px-6 py-3 text-start">
-                            <span class="text-xs font-bold uppercase text-gray-500 dark:text-neutral-400">Kreator</span>
+                            <span class="text-xs font-bold uppercase text-gray-500 dark:text-neutral-400">Penuls</span>
                         </th>
                         <th scope="col" class="px-6 py-3 text-end">
                             <span class="text-xs font-bold uppercase text-gray-500 dark:text-neutral-400">Aksi</span>
@@ -109,12 +106,13 @@
                                 <div class="flex items-center gap-x-4">
                                     <div class="size-10 rounded-xl overflow-hidden bg-gray-100 dark:bg-neutral-700">
                                         @if ($program->image)
-                                        <img src="{{ asset('storage/' . $program->image) }}"
-                                            class="size-full object-cover" alt="{{ $program->name }}"
-                                            onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
-                                    @else
-                                        <img src="{{ asset('img/fallbacks/article.svg') }}" class="size-full object-cover" alt="{{ $program->name }}">
-                                    @endif
+                                            <img src="{{ asset('storage/' . $program->image) }}"
+                                                class="size-full object-cover" alt="{{ $program->name }}"
+                                                onerror="this.src='{{ asset('img/fallbacks/article.svg') }}';this.onerror=null;">
+                                        @else
+                                            <img src="{{ asset('img/fallbacks/article.svg') }}"
+                                                class="size-full object-cover" alt="{{ $program->name }}">
+                                        @endif
                                     </div>
                                     <div>
                                         <span
@@ -125,14 +123,6 @@
                                             {{ Str::limit($program->description, 50) }}
                                         </span>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="space-y-1">
-                                    <span class="block text-xs font-medium text-gray-600 dark:text-neutral-400">
-                                        {{ \Carbon\Carbon::parse($program->start_date)->format('d M') }} -
-                                        {{ \Carbon\Carbon::parse($program->end_date)->format('d M, Y') }}
-                                    </span>
                                 </div>
                             </td>
 
@@ -165,7 +155,7 @@
                                         <button type="button"
                                             class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-900/20 dark:text-rose-500 transition-all active:scale-90"
                                             data-hs-overlay="#delete-modal"
-                                            onclick="setDeleteData('{{ $program->id }}', '{{addslashes($program->name)}}', true)"
+                                            onclick="setDeleteData('{{ $program->id }}', '{{ addslashes($program->name) }}', true)"
                                             title="Hapus Permanen">
                                             @include('_admin._layout.icons.trash')
                                         </button>
@@ -178,7 +168,7 @@
                                         <button type="button"
                                             class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-500 transition-all active:scale-90"
                                             data-hs-overlay="#delete-modal"
-                                            onclick="setDeleteData('{{ $program->id }}', '{{addslashes($program->name)}}', false)"
+                                            onclick="setDeleteData('{{ $program->id }}', '{{ addslashes($program->name) }}', false)"
                                             title="Hapus (Pindah ke Sampah)">
                                             @include('_admin._layout.icons.trash')
                                         </button>
@@ -287,15 +277,17 @@
 
     <script>
         function setStatusData(status) {
-            const input   = document.getElementById('status_data_input');
+            const input = document.getElementById('status_data_input');
             if (input.value === status) return;
 
             input.value = status;
 
-            const aktifBtn  = document.getElementById('status_data_aktif');
+            const aktifBtn = document.getElementById('status_data_aktif');
             const sampahBtn = document.getElementById('status_data_nonaktif');
-            const brandOn   = ['bg-brand', 'text-white', 'shadow-sm'];
-            const brandOff  = ['text-gray-500', 'hover:text-gray-700', 'dark:text-neutral-400', 'dark:hover:text-neutral-300'];
+            const brandOn = ['bg-brand', 'text-white', 'shadow-sm'];
+            const brandOff = ['text-gray-500', 'hover:text-gray-700', 'dark:text-neutral-400',
+                'dark:hover:text-neutral-300'
+            ];
 
             if (status === 'aktif') {
                 aktifBtn.classList.add(...brandOn);
@@ -313,16 +305,20 @@
             if (typeof form.requestSubmit === 'function') {
                 form.requestSubmit();
             } else {
-                form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                form.dispatchEvent(new Event('submit', {
+                    cancelable: true,
+                    bubbles: true
+                }));
             }
         }
 
         window.setRestoreData = function(id, name) {
             let form = document.getElementById('restore-form');
             let nameSpan = document.getElementById('restore-item-name');
-            
+
             if (!form || !document.getElementById('main-content').contains(form)) {
-                const modal = document.getElementById('restore-modal') || document.querySelector('[aria-labelledby="restore-modal-title"]') || document.body;
+                const modal = document.getElementById('restore-modal') || document.querySelector(
+                    '[aria-labelledby="restore-modal-title"]') || document.body;
                 form = modal.querySelector('#restore-form') || form;
                 nameSpan = modal.querySelector('#restore-item-name') || nameSpan;
             }
@@ -339,7 +335,8 @@
             let submitBtn = document.getElementById('delete-submit-btn');
 
             if (!form || !document.getElementById('main-content').contains(form)) {
-                const modal = document.getElementById('delete-modal') || document.querySelector('[aria-labelledby="delete-modal-title"]') || document.body;
+                const modal = document.getElementById('delete-modal') || document.querySelector(
+                    '[aria-labelledby="delete-modal-title"]') || document.body;
                 form = modal.querySelector('#delete-form') || form;
                 nameSpan = modal.querySelector('#delete-item-name') || nameSpan;
                 title = modal.querySelector('#delete-modal-title') || title;
@@ -352,7 +349,8 @@
             if (isPermanent) {
                 if (form) form.setAttribute('action', `{{ url('superadmin/programs/force-delete') }}/${id}`);
                 if (title) title.textContent = 'Hapus Permanen Program';
-                if (alertText) alertText.textContent = 'Program akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
+                if (alertText) alertText.textContent =
+                    'Program akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.';
                 if (submitBtn) {
                     submitBtn.classList.replace('bg-red-600', 'bg-rose-600');
                     submitBtn.textContent = 'Ya, Hapus Permanen';

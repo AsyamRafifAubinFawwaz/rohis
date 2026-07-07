@@ -141,7 +141,7 @@
                         <span class="text-emerald-600 dark:text-emerald-400">Ekstrakurikuler Rohis</span>
                     </h2>
 
-                    <p class="text-[12px] text-gray-600 dark:text-neutral-400 leading-relaxed mb-6">
+                    <p class="text-[18px] text-gray-600 dark:text-neutral-400 leading-relaxed mb-6">
                         @if ($about)
                             {{ strip_tags($about->content) }}
                         @else
