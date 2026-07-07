@@ -4,12 +4,33 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="@yield('meta_description', 'Website resmi Rohis - Organisasi Kerohanian Islam. Informasi kegiatan, program, artikel, dan galeri.')">
+    <meta name="description" content="@yield('meta_description', 'Website resmi Rohis Eskalaber (SMKN 8 Jember). Temukan profil, program unggulan, artikel islami, galeri kegiatan, dan info terbaru seputar Rohis.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'rohis, rohis eskalaber, rohiskalaber, rohis smkn 8 jember, ekstrakurikuler islam, kerohanian islam, dakwah sekolah, remaja masjid')">
+    <meta name="author" content="Rohis Eskalaber">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="2Gf-MPX3iu-N60mZPQh_re5jjKsieAwnox-c_jAbWNk" />
 
-    {{-- Open Graph / Social Media Meta Tags --}}
-    @yield('meta')
+    {{-- Canonical URL --}}
+    <link rel="canonical" href="@yield('canonical_url', url()->current())" />
 
-    <title>{{ config('app.name', 'Rohis') }} - @yield('title', 'Beranda')</title>
+    {{-- Default Open Graph / Social Media Meta Tags --}}
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        <meta property="og:title" content="{{ config('app.name', 'Rohiskalaber') }} - @yield('title', 'Beranda')">
+        <meta property="og:description" content="Website resmi Rohis Eskalaber (SMKN 8 Jember). Temukan profil, program unggulan, artikel islami, galeri kegiatan, dan info terbaru seputar Rohis.">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Rohiskalaber">
+        <meta property="og:image" content="{{ asset('favicon/logo-rohis.webp') }}">
+        
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ config('app.name', 'Rohiskalaber') }} - @yield('title', 'Beranda')">
+        <meta name="twitter:description" content="Website resmi Rohis Eskalaber (SMKN 8 Jember). Temukan profil, program unggulan, artikel islami, galeri kegiatan, dan info terbaru seputar Rohis.">
+        <meta name="twitter:image" content="{{ asset('favicon/logo-rohis.webp') }}">
+    @endif
+
+    <title>{{ config('app.name', 'Rohiskalaber') }} - @yield('title', 'Beranda')</title>
 
     {{-- Favicon --}}
     @include('_admin._layout.favicon')
